@@ -14,6 +14,16 @@ function openDiv(event, ingredient) {
     event.currentTarget.className += " active";
 }
 
+function confirmCancel() {
+    var choice = confirm("Are you sure you want to discard this order?");
+    if( choice == true ) {
+        //delete orderlist from the db
+        window.location.replace("/POS");
+        return true;
+    }
+    
+}
+
 // $(document).ready(function () { 
 //     console.log("pasok");
 //     $(".save-qty").click(function () { 

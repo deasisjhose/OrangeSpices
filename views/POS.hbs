@@ -237,8 +237,8 @@
                                       <td colspan="2" class="bigto total text-right pr-2">₱ 00.00</td>
                                     </tr>
                                     <tr>
-                                        <td colspan="2" class="cancel font-weight-bold"><a href="/POS">Cancel</a></td>
-                                        <td colspan="2" class="checkout font-weight-bold"><a href="/checkout">Checkout</a></td>
+                                        <td colspan="2"><button class="cancel font-weight-bold left-diz" onclick="confirmCancel()">Cancel</button></td>
+                                        <td colspan="2" class="checkout font-weight-bold text-right pr-2"><a href="/checkout">Checkout</a></td>
                                     </tr>
                                 </tfoot>
                               </table>
@@ -265,6 +265,23 @@
                         <button type="submit" class="btn btn-primary save-qty" style="background-color: #80C376 !important; color: #ffffff !important; border: 2px solid #80C376 !important;">Save</button>
                         </form>
                         <button type="button" class="btn btn-primary" style="background-color: #c64327 !important; color: #ffffff !important; border: 2px solid #c64327 !important;" data-dismiss="modal">Cancel</button>
+                    </div>
+              </div>
+            </div>
+        </div>
+        <div id="cancelOrder" class="modal" role="dialog" style="margin-top: 90px;">
+            <div class="modal-dialog" style="width: 350px;">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title font-weight-bold" style="color: #f47639 !important;">Delete Order</h5>
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete all orders from the billing?</p>
+                </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" style="background-color: #6d6d6d !important; color: #ffffff !important; border: 2px solid #6d6d6d !important;" data-dismiss="modal">Cancel</button>
+                        <button type="submit" id="deleteOrders" class="btn btn-primary" style="background-color: #c64327 !important; color: #ffffff !important; border: 2px solid #c64327 !important;">Delete</button>
                     </div>
               </div>
             </div>

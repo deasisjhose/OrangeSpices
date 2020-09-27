@@ -40,28 +40,6 @@
     margin: 0px 1px;
 }
 
-.cancel{
-    font-size: 18px !important;
-    text-align: left !important;
-    padding-top: 18px !important;
-    padding-left: 13px !important;
-}
-
-.cancel a{
-    color: #c64327 !important;
-}
-
-.checkout a{
-    color: #80C376 !important;
-}
-
-.checkout{
-    font-size: 18px !important;
-    text-align: right !important;
-    padding-top: 18px !important;
-    padding-right: 13px !important;
-}
-
 .bg-gradient-primary {
   background-color: #ffffff !important;
   background-image: linear-gradient(180deg,#ffffff 50%,#ffffff) !important;
@@ -192,12 +170,14 @@ footer{
 .cancel{
     font-size: 18px !important;
     text-align: left !important;
-    padding-top: 18px !important;
-    padding-left: 18px !important;
+    background-color: #ffffff;
+    border: #ffffff;
+    color: #c64327 !important;
+    width: 100%;
 }
 
-.cancel a{
-    color: #c64327 !important;
+.cancel:focus {
+    outline: 0px dotted !important;
 }
 
 .checkout a{
@@ -208,5 +188,4 @@ footer{
     font-size: 18px !important;
     text-align: right !important;
     padding-top: 18px !important;
-    padding-right: 18px !important;
 }
