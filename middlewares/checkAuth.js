@@ -6,12 +6,3 @@ exports.loggedIn = (req, res, next) => {
     res.redirect('/login');
   }
 };
-
-exports.loggedOut = (req, res, next) => {
-  // If authenticated, go to home page
-  if (req.session.user) {
-    res.redirect('/');
-  } else {
-    return next();
-  }
-}

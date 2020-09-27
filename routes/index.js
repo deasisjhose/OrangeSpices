@@ -11,16 +11,19 @@ const expenseController = require('../controllers/expenseController');
 const expenseDetailsController = require('../controllers/expenseDetailsController');
 const { loginValidation, addProductValidation, addSupplyValidation, addIngredientValidation, 
         addPurchaseValidation, purchaseOrderValidation, addExpenseValidation, addExpenseDetailsValidation } = require('../validators.js');
-const { loggedIn, loggedOut } = require('../middlewares/checkAuth');
+const { loggedIn } = require('../middlewares/checkAuth');
 
 router.get('/', (req, res) => {
   res.redirect('/login');
 });
 
 // Get login page
-router.get('/login', loggedOut, (req, res) => {
-  console.log("Read login successful!");
-  res.render('login');
+router.get('/login', (req, res) => {
+  if (req.session.user) res.redirect('/POS');
+  else {
+    console.log("Read login successful!");
+    res.render('login');
+  }
 });
 
 // Get POS [landing] page
@@ -469,7 +472,7 @@ router.get('/getExpense', (req, res) => {
 router.get('/logout', loggedIn, userController.logoutUser);
 
 // POST methods for form submissions
-router.post('/login', loggedOut, loginValidation, userController.loginUser);
+router.post('/login', loginValidation, userController.loginUser);
 router.post('/products/add', loggedIn, addProductValidation, productController.addProduct);
 router.post('/supplies/add', loggedIn, addSupplyValidation, supplyController.addSupply);
 router.post('/ingredients/add', loggedIn, addIngredientValidation, ingredientController.addIngredient);
