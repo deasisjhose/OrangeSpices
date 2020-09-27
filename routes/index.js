@@ -481,7 +481,6 @@ router.post('/purchase/order', loggedIn, purchaseOrderValidation);
 router.post('/expense/add', loggedIn, addExpenseValidation, expenseController.addExpense);
 router.post('/expenseDetails/add', loggedIn, addExpenseDetailsValidation, expenseDetailsController.addExpenseDetails);
 router.post('/supplies/check', loggedIn, discrepancyController.checkDiscrepancy);
-router.post('/billing', loggedIn, billingController.addOrder);
 router.post('/checkout', loggedIn, billingController.checkout);
 router.post('/cancel', loggedIn, billingController.cancel);
 

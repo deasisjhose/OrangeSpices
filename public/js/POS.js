@@ -23,26 +23,43 @@ function confirmCancel() {
     }
     
 }
+var orderArray = [];
+function saveOrder(id, qty, price) {
+    orderArray.push({id: id, qty: Number.parseInt(qty), price: Number.parseFloat(price)});
+}
 
-// $(document).ready(function () { 
-//     console.log("pasok");
-//     $(".save-qty").click(function () { 
-//         markup = "<tr><td class='leftdiz'>Ala Carte"  
-//             + "</td>" + "<td class='text-right' style='padding-right: 32px;'>4</td>" 
-//             + "<td class='text-right' style='padding-right: 35px;'>₱ 00.00</td>" 
-//             + "<td class='text-right pr-2'>₱ 00.00</td></tr>"; 
-//         tableBody = $("table tbody"); 
-//         tableBody.append(markup); 
-//         $("#myModal").modal('hide');
-//     }); 
-// }); 
-
-$(document).ready(function(){
+$(document).ready(function () { 
+    console.log("pasok");
+    var id, prodName, price;
+    var totalAmount = 0;
     $("button.prod-btn").click(function(){
-        var id = $(this).attr('data-id');
-        console.log(id);
+        id = $(this).attr('data-id');
+        prodName = $(this).attr('data-name');
+        price = $(this).attr('data-price');
         var input = document.querySelector('input[name=id]');
         input.setAttribute('value', id);
-        console.log(input);
+        console.log(id);
     })
-})
+
+    $(".save-qty").click(function () { 
+        var qty = document.getElementById("qty").value;
+        console.log(id);
+        console.log(qty);
+        console.log(price);
+        saveOrder(prodName, qty, price);
+        markup = "<tr><td class='leftdiz'>" + prodName  
+            + "</td>" + "<td class='text-right' style='padding-right: 32px;'>" + qty + "</td>" 
+            + "<td class='text-right' style='padding-right: 35px;'>₱ " + price + "</td>" 
+            + "<td class='text-right pr-2'>₱ " + qty * price + "</td></tr>"; 
+        tableBody = $("table tbody"); 
+        tableBody.append(markup); 
+        // var check = orderArray.reduce((accumulator, e) => accumulator + e.qty * e.price, 0);
+        totalAmount += price * qty;
+        // console.log("check");
+        // console.log(check);
+        console.log("orderarray");
+        console.log(orderArray);
+        $('#amt').html("₱" + totalAmount);
+        $("#myModal").modal('hide');
+    }); 
+}); 

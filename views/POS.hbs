@@ -72,7 +72,7 @@
                                 <div class="prod-row">
                                     {{#each ALL}}
                                         <div class="col-4">
-                                            <button type="button" data-id="{{this._id}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
+                                            <button type="button" data-id="{{this._id}}" data-price="{{this.prodPrice}}" data-name="{{this.prodName}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
                                         </div>
                                     {{/each}}
                                 </div>
@@ -90,7 +90,7 @@
                                 <div class="prod-row">
                                     {{#each alaCarte}}
                                         <div class="col-4">
-                                            <button type="button" data-id="{{this._id}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
+                                            <button type="button" data-id="{{this._id}}" data-price="{{this.prodPrice}}" data-name="{{this.prodName}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
                                         </div>
                                     {{/each}}
                                 </div>
@@ -108,8 +108,7 @@
                                 <div class="prod-row">
                                     {{#each CRM}}
                                         <div class="col-4">
-                                            
-                                            <button type="button" data-id="{{this._id}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
+                                            <button type="button" data-id="{{this._id}}" data-price="{{this.prodPrice}}" data-name="{{this.prodName}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
                                         </div>
                                     {{/each}}
                                 </div>
@@ -127,8 +126,7 @@
                                 <div class="prod-row">
                                     {{#each PRM}}
                                         <div class="col-4">
-                                            
-                                            <button type="button" data-id="{{this._id}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
+                                            <button type="button" data-id="{{this._id}}" data-price="{{this.prodPrice}}" data-name="{{this.prodName}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
                                         </div>
                                     {{/each}}
                                 </div>
@@ -146,8 +144,7 @@
                                 <div class="prod-row">
                                     {{#each BRM}}
                                         <div class="col-4">
-                                            
-                                            <button type="button" data-id="{{this._id}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
+                                            <button type="button" data-id="{{this._id}}" data-price="{{this.prodPrice}}" data-name="{{this.prodName}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
                                         </div>
                                     {{/each}}
                                 </div>
@@ -165,8 +162,7 @@
                                 <div class="prod-row">
                                     {{#each ADB}}
                                         <div class="col-4">
-                                            
-                                            <button type="button" data-id="{{this._id}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
+                                            <button type="button" data-id="{{this._id}}" data-price="{{this.prodPrice}}" data-name="{{this.prodName}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
                                         </div>
                                     {{/each}}
                                 </div>
@@ -184,8 +180,7 @@
                                 <div class="prod-row">                                 
                                     {{#each BSPAG}}
                                         <div class="col-4">
-                                            
-                                            <button type="button" data-id="{{this._id}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
+                                            <button type="button" data-id="{{this._id}}" data-price="{{this.prodPrice}}" data-name="{{this.prodName}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
                                         </div>
                                     {{/each}}
                                 </div>
@@ -203,8 +198,7 @@
                                 <div class="prod-row">
                                     {{#each BSUSH}}
                                         <div class="col-4">
-                                            
-                                            <button type="button" data-id="{{this._id}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
+                                            <button type="button" data-id="{{this._id}}" data-price="{{this.prodPrice}}" data-name="{{this.prodName}}" class="btn btn-primary btn-sm prod-btn" data-toggle="modal" data-target="#myModal">{{prodName}}</button>
                                         </div>
                                     {{/each}}
                                 </div>
@@ -234,7 +228,7 @@
                                 <tfoot>
                                     <tr>
                                       <td colspan="2" class="bigto total leftdiz">Total</td>
-                                      <td colspan="2" class="bigto total text-right pr-2">₱ 00.00</td>
+                                      <td colspan="2" class="bigto total text-right pr-2" id="amt">₱ 0.00</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><button class="cancel font-weight-bold left-diz" onclick="confirmCancel()">Cancel</button></td>
@@ -255,15 +249,15 @@
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <form action="/billing" method="POST">
+                    {{!-- <form action="/bi" method="POST"> --}}
                     <input name="id" type="hidden">
                     <div class="form-group mx-sm-3 mb-2">
-                        <input type="number" class="form-control" name="quantity" placeholder="Enter quantity" min="1">
+                        <input type="number" class="form-control" name="quantity" id="qty" placeholder="Enter quantity" min="1">
                     </div>
                 </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary save-qty" style="background-color: #80C376 !important; color: #ffffff !important; border: 2px solid #80C376 !important;">Save</button>
-                        </form>
+                        {{!-- </form> --}}
                         <button type="button" class="btn btn-primary" style="background-color: #c64327 !important; color: #ffffff !important; border: 2px solid #c64327 !important;" data-dismiss="modal">Cancel</button>
                     </div>
               </div>
