@@ -50,8 +50,8 @@ $(document).ready(function () {
         console.log(price);
         saveOrder(prodName, qty, price);
         markup = "<tr><td class='leftdiz'>" + prodName  
-            + "</td>" + "<td class='text-right' style='padding-right: 32px;'>" + qty + "</td>" 
-            + "<td class='text-right' style='padding-right: 35px;'>₱ " + price + "</td>" 
+            + "</td>" + "<td class='text-right' style='padding-right: 42px;'>" + qty + "</td>" 
+            + "<td class='text-right' style='padding-right: 55px;'>₱ " + price + "</td>" 
             + "<td class='text-right pr-2'>₱ " + qty * price + "</td></tr>"; 
         tableBody = $("table tbody"); 
         tableBody.append(markup); 
