@@ -30,10 +30,12 @@ function saveOrder(id, qty, price) {
 
 $(document).ready(function () { 
     console.log("pasok");
+    var idList = [];
     var id, prodName, price;
     var totalAmount = 0;
     $("button.prod-btn").click(function(){
         id = $(this).attr('data-id');
+        idList.push(id);
         prodName = $(this).attr('data-name');
         price = $(this).attr('data-price');
         var input = document.querySelector('input[name=id]');
@@ -62,4 +64,17 @@ $(document).ready(function () {
         $('#amt').html("₱" + totalAmount);
         $("#myModal").modal('hide');
     }); 
+
+    $("button.checkout").click(function(){
+        $.ajax({
+            url: '/checkout',
+            method: 'POST',
+            data: {
+                id: idList,
+                totalAmount: totalAmount
+            },
+            error: () => callback(),
+            success: a => callback(a)
+        });
+    })
 }); 

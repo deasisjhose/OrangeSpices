@@ -2,7 +2,7 @@ const mongoose = require('./connection');
 
 const orderListSchema = new mongoose.Schema({
   orderDate: { type: Date, required: true},
-  totalAmount: { type: Number, required: false}, //set to true afterwards!!
+  totalAmount: { type: Number, required: true} 
 });
 
 const OrderList = mongoose.model('orderList', orderListSchema);

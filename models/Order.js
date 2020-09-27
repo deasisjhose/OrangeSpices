@@ -4,7 +4,7 @@ const orderSchema = new mongoose.Schema({
   productID: { type: mongoose.Schema.Types.ObjectId, ref: 'product', required: true },
   orderListID: { type: mongoose.Schema.Types.ObjectId, ref: 'orderList', required: true },
   orderQuantity: { type: Number, required: true },
-  subTotal: { type: Number, required: true },
+  subTotal: { type: Number, required: true }
 });
 
 // Declaring productID and ingredientID as pk's
