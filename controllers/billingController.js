@@ -21,10 +21,50 @@ exports.getAllOrders = (param, callback) => {
 exports.checkout = (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-        console.log("req.body.id in controller");
-        console.log(req.body.id);
-        console.log("total amount in controller");
-        console.log(req.body.totalAmount);
+        var i;
+        var idList = req.body.id;
+        var prodList = req.body.productName;
+        var qtyList = req.body.orderQuantity;
+        var priceList = req.body.productPrice;
+        var subList = req.body.subTotal;
+        var totalAmount = req.body.totalAmount;
+        
+        var orderList = {
+            orderDate: Date.now(),
+            totalAmount: totalAmount
+        }
+
+        orderListModel.add(orderList, function(err, result) {
+            if (err) {
+                console.log(err);
+                req.flash('error_msg', 'Could not add order list.');
+                res.redirect('/POS');
+            } else {
+                listID = result._id;
+
+                for(i = 0; i < idList.length; i++){
+                    var order = {
+                        productID: idList[i],
+                        orderListID: result._id, 
+                        productName: prodList[i],
+                        orderQuantity: qtyList[i],
+                        productPrice: priceList[i],
+                        subTotal: subList[i]
+                    }
+
+                    orderModel.add(order, function(err, result){
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(result);
+                        }
+                    })
+                }
+                req.flash('success_msg', "Order saved!");
+                res.redirect('/POS');
+                console.log("Order saved!");
+            }
+        })
     } else {
         const messages = errors.array().map((item) => item.msg);
         req.flash('error_msg', messages.join(' '));

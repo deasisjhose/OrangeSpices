@@ -40,5 +40,4 @@ exports.checkDiscrepancy = (req, res) => {
             res.redirect('/supplies');
         }
     }
-    //res.redirect('/supplies');
 };

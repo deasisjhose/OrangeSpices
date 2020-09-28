@@ -38,38 +38,34 @@ router.get('/POS', loggedIn, (req, res) => {
               productController.getBakedSpaghetti(req, BSPAG => {
                 productController.getBakedSushi(req, BSUSH => {
                   productController.getAllProducts (req, ALL => {
-                    billingController.getAllOrders(req, orders => {
-                      if(req.session.username == "admin"){
-                        res.render('POS', {
-                          isAdmin: true,
-                          username: req.session.username,
-                          alaCarte: alaCarte,
-                          CRM: CRM,
-                          PRM: PRM,
-                          BRM: BRM,
-                          ADB: ADB,
-                          BSPAG: BSPAG,
-                          BSUSH: BSUSH,
-                          ALL: ALL,
-                          order: orders
-                        })
-                      }
-                      else {
-                        res.render('POS', { 
-                          isAdmin: false, 
-                          username: req.session.username,
-                          alaCarte: alaCarte,
-                          CRM: CRM,
-                          PRM: PRM,
-                          BRM: BRM,
-                          ADB: ADB,
-                          BSPAG: BSPAG,
-                          BSUSH: BSUSH,
-                          ALL: ALL,
-                          order: orders
-                        })
-                      }
-                    })
+                    if(req.session.username == "admin"){
+                      res.render('POS', {
+                        isAdmin: true,
+                        username: req.session.username,
+                        alaCarte: alaCarte,
+                        CRM: CRM,
+                        PRM: PRM,
+                        BRM: BRM,
+                        ADB: ADB,
+                        BSPAG: BSPAG,
+                        BSUSH: BSUSH,
+                        ALL: ALL
+                      })
+                    }
+                    else {
+                      res.render('POS', { 
+                        isAdmin: false, 
+                        username: req.session.username,
+                        alaCarte: alaCarte,
+                        CRM: CRM,
+                        PRM: PRM,
+                        BRM: BRM,
+                        ADB: ADB,
+                        BSPAG: BSPAG,
+                        BSUSH: BSUSH,
+                        ALL: ALL
+                      })
+                    }
                   })
                 })
               })

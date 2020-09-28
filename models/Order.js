@@ -3,7 +3,9 @@ const mongoose = require('./connection');
 const orderSchema = new mongoose.Schema({
   productID: { type: mongoose.Schema.Types.ObjectId, ref: 'product', required: true },
   orderListID: { type: mongoose.Schema.Types.ObjectId, ref: 'orderList', required: true },
+  productName: { type: String, required: true },
   orderQuantity: { type: Number, required: true },
+  productPrice: { type: Number, required: true },
   subTotal: { type: Number, required: true }
 });
 
