@@ -34,33 +34,34 @@
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Profitability Report</span></div>
                     <div class="mr-2 font-weight-bold"><label for="salRepMonth" class="col-form-label">Month</label></div>
                     <div class="col-2">
-                        <select class="form-control" name="salRepMonth">
-                            <option id="1">January</option>
-                            <option id="2">February</option>
-                            <option id="3">March</option>
-                            <option id="4">April</option>
-                            <option id="5">May</option>
-                            <option id="6">June</option>
-                            <option id="7">July</option>
-                            <option id="8">August</option>
-                            <option id="9">September</option>
-                            <option id="10">October</option>
-                            <option id="11">November</option>
-                            <option id="12">December</option>
+                        <select class="form-control" name="salRepMonth" id="isMonth">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
                         </select>
                     </div>
                     <div class="mr-3 ml-3 font-weight-bold"><label for="salRepYear" class="col-form-label">Year</label></div>
-                    <div class="col-xs-2 date-report"><input type="number" class="form-control" placeholder="yyyy" name="salRepYear"></div>
+                    <div class="col-xs-2 date-report"><input type="number" class="form-control" placeholder="yyyy" name="salRepYear" id="isYear"></div>
+                    <div><button type="submit" class="btn btn-primary btn-sm add-btn ml-3 generate">Generate</button></div>
                 </div>
             </nav>
             <div class="container-fluid">
                 <div style="display: flex; justify-content: center;">
-                    <div class="card shadow is-card">
+                    <div class="card shadow is-card" style="margin-bottom: 25px;">
                         <div class="card-header py-3 text-center mb-2">
-                            <p class="ts0 m-0 font-weight-bold">Orange & Spices</p>
+                            <p class="ts0 m-0 font-weight-bold">Orange &amp; Spices</p>
                             <p class="ts1 m-0 font-weight-bold">Income Statement</p>
-                            <p class="ts2 m-0 font-weight-bold">For the Month Ended January 31, 2020</p>
-                            <p class="text-muted m-0">Date Generated: 9/18/2020 4:39 pm</p>
+                            <p class="ts2 m-0 font-weight-bold" id="reportTitle">For the Month Ended January 31, 2020</p>
+                            <p class="text-muted m-0" id="datetime">Date Generated: 2020-09-18 4:39 pm</p>
                         </div>
                         <table class="table text-center table-borderless profit">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
@@ -123,3 +124,50 @@
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/profitability#page-top"><i class="fas fa-angle-up"></i></a></div>
 </body>
+
+<script>
+    function getDaysInMonth(m, y) {
+        return m===2 ? y & 3 || !(y%25) && y & 15 ? 28 : 29 : 30 + (m+(m>>3)&1);
+    }
+    //date range
+    $(document).ready(function () { 
+        $(".generate").click(function () {
+            var months = new Array();
+                months[0] = "January";
+                months[1] = "February";
+                months[2] = "March";
+                months[3] = "April";
+                months[4] = "May";
+                months[5] = "June";
+                months[6] = "July";
+                months[7] = "August";
+                months[8] = "September";
+                months[9] = "October";
+                months[10] = "November";
+                months[11] = "December";
+                
+            var month = document.getElementById("isMonth").value;
+            var year = document.getElementById("isYear").value;
+            //var day = getDaysInMonth(month, year);
+            var date = new Date(year, month, 0);
+            var day = date.getDate();
+            var monthName = months[date.getMonth()];
+
+            console.log(month);
+            console.log(year);
+            console.log(day);
+            document.getElementById("reportTitle").innerHTML = "For the Month Ended " + monthName + " " + day + ", " + year;
+
+            //date generated
+            var dt = new Date();
+            y = dt.getFullYear();
+            m = dt.getMonth() + 1;
+            d = dt.getDate();
+
+            if(m >= "9")
+                document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + "0" + m + "-" + d + " " + dt.toLocaleTimeString();
+            else
+                document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + m + "-" + d + " " + dt.toLocaleTimeString();
+        })
+    });
+</script>
