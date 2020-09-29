@@ -25,7 +25,16 @@ exports.add = function(obj, next) {
   });
 };
 
-// Get all orders
-exports.getAll = (id, next) => {
-  Order.find().populate({path: 'productID', populate: {path: 'orderListID'}}).exec((err, orders) => next(err, orders));
+// Get all order 
+exports.getAll = (param, next) => {
+  Order.find({}, (err, orders) => {
+    next(err, orders);
+  });
+};
+
+// Get order by ID
+exports.getByID = function(id, next) {
+  Order.findById(id, function(err, orders) {
+    next(err, orders);
+  });
 };

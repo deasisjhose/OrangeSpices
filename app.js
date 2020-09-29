@@ -45,7 +45,7 @@ app.engine('hbs', exphbs.create({
     formattingDate: function(string){
       let date = new Date(string)
       return (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear();
-    } 
+    }
   },
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, '/views/layouts'), 

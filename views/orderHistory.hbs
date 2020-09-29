@@ -49,26 +49,30 @@
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
                             <thead>
                               <tr class="border-left border-right"> 
-                                <th scope="col">#</th>
+                                <th scope="col">List ID</th>
                                 <th scope="col">Product</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Price</th>
+                                <th scope="col">Subtotal</th>
                                 <th scope="col">Total</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td rowspan="2" class="font-weight-bold">1</td>
-                                <td class="text-left pl-4">Cajun Chicken Tenders</td>
-                                <td>1</td>
-                                <td>₱ 105.00</td>
-                                <td rowspan="2" class="font-weight-bold">₱ 225.00</td>
-                              </tr>
-                              <tr>
-                                <td class="text-left pl-4">Pork Sisig w/ Egg</td>
-                                <td>1</td>
-                                <td>₱ 120.00</td>
-                              </tr>
+                                {{#each orderList}}
+                                    <tr>
+                                        <td rowspan="1" class="font-weight-bold">{{_id}}</td>
+                                        {{#each orders}}
+                                        <tr>
+                                            <td class="text-left pl-4">{{productName}}<br></td>
+                                            <td>{{orderQuantity}}</td>
+                                            <td>₱ {{productPrice}}</td>
+                                            <td>₱ {{subTotal}}</td>
+                                        </tr>
+                                            
+                                        {{/each}}
+                                        <td rowspan="1" class="font-weight-bold">₱ {{totalAmount}}</td>
+                                    </tr>
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>

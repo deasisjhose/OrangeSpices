@@ -9,6 +9,7 @@ const ingredientController = require('../controllers/ingredientController');
 const purchaseController = require('../controllers/purchaseController');
 const expenseController = require('../controllers/expenseController');
 const expenseDetailsController = require('../controllers/expenseDetailsController');
+const reportsController = require('../controllers/reportsController');
 const { loginValidation, addProductValidation, addSupplyValidation, addIngredientValidation, 
         addPurchaseValidation, purchaseOrderValidation, addExpenseValidation, addExpenseDetailsValidation } = require('../validators.js');
 const { loggedIn } = require('../middlewares/checkAuth');
@@ -362,42 +363,43 @@ router.get('/expense/add', (req, res) => {
 // Get order history report page
 router.get('/order_history', (req, res) => {
   console.log("Read order history successful!");
-  //expenseController.getExpenseName(req, expense => {
-    //userController.getID(req.session.user, user => {
+  reportsController.orderHistory(req, orderHistory => {
+    userController.getID(req.session.user, user => {
       if(req.session.username == "admin"){
         res.render('orderHistory', { 
           isAdmin: true,
-          //expenseName: expense
+          orderList: orderHistory
         })
       }
       else {
         res.render('orderHistory', { 
-          isAdmin: false,
-          //expenseName: expense
+          isAdmin: false
         })
       }
-    //})
-  //})
+    })
+  })
 });
 
 // Get sales report page
 router.get('/sales_report', (req, res) => {
   console.log("Read sales report successful!");
-  //expenseController.getExpenseName(req, expense => {
-    //userController.getID(req.session.user, user => {
-      if(req.session.username == "admin"){
-        res.render('salesReport', { 
-          isAdmin: true,
-          //expenseName: expense
-        })
-      }
-      else {
-        res.render('salesReport', { 
-          isAdmin: false,
-          //expenseName: expense
-        })
-      }
-    //})
+  //productController.getAllProducts(req, products => {
+    userController.getID(req.session.user, user => {
+      //reportsController.orderHistory(req, order => {
+        if(req.session.username == "admin"){
+          res.render('salesReport', { 
+            isAdmin: true,
+            //sales: products
+          })
+        }
+        else {
+          res.render('salesReport', { 
+            isAdmin: false,
+            //sales: sales
+          })
+        }
+      //})
+    })
   //})
 });
 

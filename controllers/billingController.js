@@ -1,22 +1,6 @@
-const productModel = require('../models/Product');
 const orderModel = require('../models/Order');
 const orderListModel = require('../models/OrderList');
 const { validationResult } = require('express-validator');
-
-//Getting all orders
-exports.getAllOrders = (param, callback) => {
-    orderModel.getAll(param, (err, order) => {
-        if (err) throw err;
-
-        const ordersObjects = [];
-
-        order.forEach(function(doc) {
-            ordersObjects.push(doc.toObject());
-        });
-
-        callback(ordersObjects);
-    });
-};
 
 exports.checkout = (req, res) => {
     const errors = validationResult(req);
@@ -40,8 +24,6 @@ exports.checkout = (req, res) => {
                 req.flash('error_msg', 'Could not add order list.');
                 res.redirect('/POS');
             } else {
-                listID = result._id;
-
                 for(i = 0; i < idList.length; i++){
                     var order = {
                         productID: idList[i],
@@ -60,8 +42,6 @@ exports.checkout = (req, res) => {
                         }
                     })
                 }
-                req.flash('success_msg', "Order saved!");
-                res.redirect('/POS');
                 console.log("Order saved!");
             }
         })

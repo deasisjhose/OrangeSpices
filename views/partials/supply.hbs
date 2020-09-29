@@ -1,10 +1,10 @@
 {{#each supply}}
     <tr style="font-size: 13px;">
         <td class="text-left pl-3">{{brandName}}</td>
-        <td>{{totalSupply}}</td>
         <td>{{ingredientID.ingredientName}}</td>
         <td>{{unitQuantity}}</td>
         <td>{{ingredientID.unitID.unitName}}</td> 
+        <td>{{totalSupply}}</td>
         <td style="width: 70px !important;">
             <form action="/supplies/check" method="POST">
             <input name="id" type="hidden" value="{{this._id}}">
