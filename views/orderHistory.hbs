@@ -32,7 +32,7 @@
             <div id="content">
                 <div class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Order History</span></div>
-                    <form action="/order_history" method="POST" style="display: flex; flex-direction: row;">
+                    <form action="/order_history/filter" method="GET" style="display: flex; flex-direction: row;">
                         <div class="mr-3 col-xs-4 font-weight-bold"><label for="ordfromDate" class="col-form-label">From</label></div>
                         <div class="col-xs-3 date-report"><input type="date" class="form-control" name="ordfromDate" id="fromDate"></div>
                         <div class="mr-3 ml-4 col-xs-4 font-weight-bold"><label for="ordToDate" class="col-form-label">To</label></div>
@@ -45,8 +45,12 @@
                 <div class="col-12">
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
+                            {{#if filterDate}}
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Order History from {{formattingDate startDate}} to {{formattingDate endDate}}</p>
+                            <p class="text-muted m-0" id="datetime">Date Generated: {{timestamp}}</p>
+                            {{else}}
                             <p class="text-primary m-0 font-weight-bold" id="reportTitle">Order History</p>
-                            <p class="text-muted m-0" id="datetime"></p>
+                            {{/if}}
                         </div>
                         <table class="table text-center table-bordered">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
@@ -69,13 +73,13 @@
                                     <td class="text-left pl-4" style="border-right: 2px solid #e3e6f0;">{{productName}}<br></td>
                                     <td>{{orderQuantity}}</td>
                                     <td>₱ {{productPrice}}</td>
-                                    <td >₱ {{subTotal}}</td>                                   
+                                    <td style="text-align: right;">₱ {{subTotal}}</td>                                   
                                 </tr>
                                 {{/each}}
                                 <thead style="border-top: 2px solid #e3e6f0; background-color: #f47639 !important; color: #ffffff !important;">
                                     <tr>
-                                        <th scope="col" style="border-right: 2px solid #e3e6f0; ">Total</th>
-                                        <th colspan="3" class="font-weight-bold">₱ {{totalAmount}}</th>
+                                        <th scope="col" style="border-right: 2px solid #e3e6f0;">Total</th>
+                                        <th colspan="3" class="font-weight-bold" style="text-align: right;">₱ {{totalAmount}}</th>
                                     </tr>    
                                 </thead>
                             </tbody>
@@ -93,7 +97,7 @@
     </div><a class="border rounded d-inline scroll-to-top" href="/order_history#page-top"><i class="fas fa-angle-up"></i></a></div>
 </body>
 
-<script>
+{{!-- <script>
     //date range
     function formatDate(string) {
         let date = new Date(string)
@@ -105,12 +109,6 @@
         $(".generate").click(function () {
             var fromDate = document.getElementById("fromDate").value;
             var toDate = document.getElementById("toDate").value;
-            
-            fromDate.toString(); 
-            toDate.toString();
-
-            console.log(fromDate);
-            console.log(toDate);
 
             document.getElementById("reportTitle").innerHTML = "Order History from " + formatDate(fromDate) + " to " + formatDate(toDate);
 
@@ -126,4 +124,4 @@
                 document.getElementById("datetime").innerHTML = "Date Generated: " + m + "/" + d + "/" + y + " " + dt.toLocaleTimeString();
         })
     });
-</script>
+</script> --}}

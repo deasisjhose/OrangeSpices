@@ -361,8 +361,33 @@ router.get('/order_history', (req, res) => {
       if(req.session.username == "admin"){
         res.render('orderHistory', { 
           isAdmin: true,
+          orderList: orderHistory
+        })
+      }
+      else {
+        res.render('orderHistory', { 
+          isAdmin: false
+        })
+      }
+    })
+  })
+});
+
+// Get order history report page
+router.get('/order_history/filter', (req, res) => {
+  console.log("Read order history filter successful!");
+  reportsController.orderHistory(req, orderHistory  => {
+    userController.getID(req.session.user, user => {
+      var startDate = req.query.ordfromDate;
+      var endDate = req.query.ordToDate;
+      if(req.session.username == "admin"){
+        res.render('orderHistory', { 
+          isAdmin: true,
           orderList: orderHistory,
-          length: orderHistory.length
+          filterDate: true,
+          startDate: startDate,
+          endDate: endDate,
+          timestamp: new Date()
         })
       }
       else {
@@ -471,6 +496,5 @@ router.post('/expense/add', loggedIn, addExpenseValidation, expenseController.ad
 router.post('/expenseDetails/add', loggedIn, addExpenseDetailsValidation, expenseDetailsController.addExpenseDetails);
 router.post('/supplies/check', loggedIn, discrepancyController.checkDiscrepancy);
 router.post('/checkout', loggedIn, billingController.checkout);
-router.post('/order_history', loggedIn, reportsController.orderHistory);
 
 module.exports = router;
