@@ -91,8 +91,7 @@ router.get('/products', loggedIn, (req, res) => {
       }
       else {
         res.render('products', { 
-          isAdmin: false,
-          product: products,
+          isAdmin: false
         })
       }
     })
@@ -114,9 +113,7 @@ router.get('/products/add', loggedIn, (req, res) => {
         }
         else {
           res.render('addProduct', { 
-            isAdmin: false,
-            unit: units,
-            ingName: ingredients,
+            isAdmin: false
           })
         }
       })
@@ -221,8 +218,7 @@ router.get('/procurement', loggedIn, (req, res) => {
       }
       else {
         res.render('procurement', { 
-          isAdmin: false, 
-          purchase: purchase
+          isAdmin: false
         })
       }
     })
@@ -288,8 +284,7 @@ router.get('/expenseDetails', loggedIn, (req, res) => {
       }
       else {
         res.render('expenseDetails', { 
-          isAdmin: false, 
-          expenseDetails: details,
+          isAdmin: false
         })
       }
     })
@@ -331,8 +326,7 @@ router.get('/expense', loggedIn, (req, res) => {
       }
       else {
         res.render('expense', { 
-          isAdmin: false, 
-          expense: expense
+          isAdmin: false
         })
       }
     })
@@ -352,8 +346,7 @@ router.get('/expense/add', (req, res) => {
       }
       else {
         res.render('addExpense', { 
-          isAdmin: false,
-          expenseName: expense
+          isAdmin: false
         })
       }
     })
@@ -363,12 +356,13 @@ router.get('/expense/add', (req, res) => {
 // Get order history report page
 router.get('/order_history', (req, res) => {
   console.log("Read order history successful!");
-  reportsController.orderHistory(req, orderHistory => {
+  reportsController.orderHistory(req, orderHistory  => {
     userController.getID(req.session.user, user => {
       if(req.session.username == "admin"){
         res.render('orderHistory', { 
           isAdmin: true,
-          orderList: orderHistory
+          orderList: orderHistory,
+          length: orderHistory.length
         })
       }
       else {
@@ -383,24 +377,21 @@ router.get('/order_history', (req, res) => {
 // Get sales report page
 router.get('/sales_report', (req, res) => {
   console.log("Read sales report successful!");
-  //productController.getAllProducts(req, products => {
+  reportsController.getSales(req, sales => {
     userController.getID(req.session.user, user => {
-      //reportsController.orderHistory(req, order => {
-        if(req.session.username == "admin"){
-          res.render('salesReport', { 
-            isAdmin: true,
-            //sales: products
-          })
-        }
-        else {
-          res.render('salesReport', { 
-            isAdmin: false,
-            //sales: sales
-          })
-        }
-      //})
+      if(req.session.username == "admin"){
+        res.render('salesReport', { 
+          isAdmin: true,
+          products: sales
+        })
+      }
+      else {
+        res.render('salesReport', { 
+          isAdmin: false
+        })
+      }
     })
-  //})
+  })
 });
 
 // Get inventory report page
@@ -480,5 +471,6 @@ router.post('/expense/add', loggedIn, addExpenseValidation, expenseController.ad
 router.post('/expenseDetails/add', loggedIn, addExpenseDetailsValidation, expenseDetailsController.addExpenseDetails);
 router.post('/supplies/check', loggedIn, discrepancyController.checkDiscrepancy);
 router.post('/checkout', loggedIn, billingController.checkout);
+router.post('/order_history', loggedIn, reportsController.orderHistory);
 
 module.exports = router;

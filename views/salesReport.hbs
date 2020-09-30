@@ -57,7 +57,16 @@
                               </tr>
                             </thead>
                             <tbody class="border-bottom">
-                              {{>sales}}
+                                {{#each products}}
+                                <tr>
+                                    <td class="text-left pl-4">{{prodName}}</td>
+                                    {{#each orders}}
+                                        <td>{{orderQuantity}}</td>
+                                    {{/each}}
+                                    <td>₱ {{prodPrice}}</td>
+                                    <td class="font-weight-bold">₱ </td>
+                                </tr>
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>

@@ -4,83 +4,85 @@ const orderListModel = require('../models/OrderList');
 const { validationResult } = require('express-validator');
 
 exports.getSales = (req, res) => {
-    var i, j;
-    var quantity = [], total = 0;
-
-    productModel.getAll(req, (err, product) => {
-        var products = [];
-        product.forEach(function(doc) {
-            products.push(doc.toObject());
-        });
-        //productID = result._id;
-        // console.log("product");
-        // console.log(productID);
-
-        orderModel.getAll(req, (err, order) => {
-            var orders = [];
-            order.forEach(function(doc) {
-                orders.push(doc.toObject());
-            });
-            //orderID = result._id;
-            // console.log("order");
-            // console.log(orderID);
+    var i;
+    productModel.getAllProducts(req, (err, products) => {
+        const productsObjects = [];
+    
+        if(err){
+            req.flash('error_msg', 'Could not get products.');
+            res.redirect('/sales_report');
+        } else {
+            // console.log("products");
+            // console.log(products);
+            // console.log("products[2].orders.length");
+            // console.log(products[2].orders.length);
             
-            // console.log("products[4]._id");
-            // console.log(products[4]._id);
-            // console.log("products[4].prodName");
-            // console.log(products[4].prodName);
-
-            // console.log("orders[0].productName._id");
-            // console.log(orders[0].productID._id);
-            // console.log("orders[0].productName");
-            // console.log(orders[0].productName);
-            
-            
-
-            for(i = 0; i < products.length; i++){
-                for(j = 0; j < orders.length; j++){
-                    // console.log("products[i]._id");
-                    // console.log(products[i]);
-                    // console.log("orders[j].productID");
-                    //console.log(orders[j].productID);
-                    if(products[i]._id == orders[j].productID){
-                        console.log("dapat merong pasok dito");
-                        // console.log("products[i]._id");
-                        // console.log(products[i]._id);
-                        // console.log("orders[j].productID._id");
-                        // console.log(orders[j].productID._id);
-                        // quantity[i] = quantity[i] + orders[j].productID.orderQuantity;
-                        // console.log(quantity[i]);
+            orderModel.getAll(req, (err, orders) => {
+                for(i = 0; i < products.length; i++){
+                    if(products[i].orders.length != 0){
+                        console.log("products[i].orders");
+                        console.log(products[i].orders);
+                        for(j = 0; j < orders.length;)
+                        if(products[i].orders)
+                        products[i].forEach(function(doc) {
+                            productsObjects.push(doc);
+                        });
                     }
                 }
-            }
-        })
+                // productsObjects.forEach(function(doc){
+
+                // })
+                res(productsObjects);
+            })
+            
+        }
     })
 };
 
 exports.orderHistory = (req, res) => {
-    //if(){ // if statement for the date range
+    var startDate = req.body.ordfromDate;
+    var endDate = req.body.ordToDate;
+    var i;
+
+    console.log("start date in controller");
+    console.log(startDate);
+    console.log("end date in controller");
+    console.log(endDate);
+    
+    if(startDate == undefined && endDate == undefined){
+        console.log("pasok sa if undefined");
         orderListModel.getAll(req, (err, list) => {
             if(err){
-                req.flash('error_msg', 'Could not get order lsit.');
+                req.flash('error_msg', 'Could not get order list.');
                 res.redirect('/order_history');
             } else {
-                console.log("list");
-                console.log(list);
-                for (var i= 0; i < list.length; i++){
-                    
-                    // console.log("list[0]");
-                    // console.log(list[0]);
-                    console.log("list[i].orders");
-                    console.log(list[i].orders);
-                    // console.log("list[0].orders[0]");
-                    // console.log(list[0].orders[0]);
-                    // console.log("list[0].orders[0].productName");
-                    // console.log(list[0].orders[0].productName);
-                }
-                
+                // console.log("list");
+                // console.log(list);
                 res(list);
             }
         })
-    //}
+    } else {
+        console.log("start date with value in controller");
+        console.log(startDate);
+        console.log("end date with value in controller");
+        console.log(endDate);
+        // orderListModel.getAll(req, (err, list) => {
+        //     if(err){
+        //         req.flash('error_msg', 'Could not get order list.');
+        //         res.redirect('/order_history');
+        //     } else {
+        //         var listObjects = [];
+        //         for(i = 0; i < list.length; i++){
+        //             if(list[i].orderDate >= startDate && list[i].orderDate <= endDate){
+        //                 list.forEach(function(doc) {
+        //                     listObjects.push(doc.toObject());
+        //                 });
+        //             }
+        //         }
+        //         console.log("list");
+        //         console.log(list);
+        //         res(listObjects);
+        //     }
+        // })
+    }
 };

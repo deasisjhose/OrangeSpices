@@ -86,3 +86,17 @@ exports.getBSUSH = function(req, next) {
     next(err, product); 
   });
 };
+
+// Get all orderList
+exports.getAllProducts = (param, next) => {
+  Product.aggregate(
+    [{'$lookup': 
+      {
+        'from': 'orders',
+        'localField': '_id',
+        'foreignField': 'productID',
+        'as': 'orders'
+      }
+    }
+  ]).exec((err, orders) => next(err, orders));
+};
