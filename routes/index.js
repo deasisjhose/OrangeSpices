@@ -513,9 +513,9 @@ router.get('/logout', loggedIn, userController.logoutUser);
 
 // POST methods for form submissions
 router.post('/login', loginValidation, userController.loginUser);
-router.post('/products/add', loggedIn, addProductValidation, productController.addProduct);
-router.post('/supplies/add', loggedIn, addSupplyValidation, supplyController.addSupply);
-router.post('/ingredients/add', loggedIn, addIngredientValidation, ingredientController.addIngredient);
+router.post('/products/add', loggedIn, productController.addProduct);
+router.post('/supplies/add', loggedIn, supplyController.addSupply);
+router.post('/ingredients/add', loggedIn, ingredientController.addIngredient);
 router.post('/purchase/add', loggedIn, addPurchaseValidation, purchaseController.addPurchase);
 router.post('/purchase/order', loggedIn, purchaseOrderValidation);
 router.post('/expense/add', loggedIn, addExpenseValidation, expenseController.addExpense);

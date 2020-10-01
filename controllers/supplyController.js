@@ -21,7 +21,9 @@ exports.addSupply = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
   {
-    const { supplyBrand, ingredientName, unitQty } = req.body;
+    const supplyBrand =req.body.supplyBrand;
+    const ingredientName = req.body.ingredientName;
+    const unitQty = req.body.unitQty;
     supplyModel.getOne({ brandName: {$regex: supplyBrand, $options:'i'}}, (err, result) => {
       if (result) {
 				req.flash('error_msg', 'Already have that supply. Try again.');
@@ -44,8 +46,7 @@ exports.addSupply = (req, res) => {
           }
           else {
             console.log("Supply added!");
-            req.flash('success_msg', 'Supply added!');
-            res.redirect('/supplies');
+            res.status(200).send();
           }
         })
       }

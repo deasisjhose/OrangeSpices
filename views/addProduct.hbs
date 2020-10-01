@@ -27,9 +27,8 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Add Product</span></div>
-                    <form action="/products/add" method="POST">
                     <div class="buttons">
-                        <button type="submit" class="btn btn-primary btn-sm save-btn">Save</button>
+                        <button type="button" class="btn btn-primary btn-sm save-btn">Save</button>
                         <a href="/products"><button type="button" class="btn btn-primary btn-sm can-btn">Cancel</button></a>
                     </div>            
                 </nav>
@@ -39,12 +38,12 @@
                     <div class="form-container" style="padding: 20px;">
                         <div class="col-4">
                             <label for="prodName" style="font-weight: bold;">Name</label>
-                            <input type="text" class="form-control" placeholder="Enter product name..." name="prodName" maxlength="45">
+                            <input type="text" class="form-control" placeholder="Enter product name..." name="prodName" id="product" maxlength="45">
                             <p id="prodNameError" class="error"></p>
                         </div>
                         <div class="col-4">
                             <label for="category" style="font-weight: bold;">Category</label>
-                            <select class="form-control" name="category">
+                            <select class="form-control" name="category" id="category">
                                 <option value="Ala Carte">Ala Carte</option>
                                 <option value="Beef Rice Meals">Beef Rice Meals</option>
                                 <option value="Pork Rice Meals">Pork Rice Meals</option>
@@ -57,10 +56,9 @@
                         </div>
                         <div class="col-4">
                             <label for="prodPrice" style="font-weight: bold;">Price</label>
-                            <input type="number" class="form-control" placeholder="Enter product price..." name="prodPrice" min="1" step="0.01">
+                            <input type="number" class="form-control" placeholder="Enter product price..." name="prodPrice" id="prodPrice" min="1" step="0.01">
                             <p id="prodPriceError" class="error"></p>
                         </div>
-                        </form>
                         <div class="col-12">
                             <p style="font-weight: bold;">Ingredients</p>
                             <div class="table-responsive">  
@@ -83,7 +81,7 @@
                                         <td>
                                             <div class="form-group">
                                                 <select id="unit" class="form-control" style="width:150px; height: 40px;">
-                                                    <option>Unit</option>
+                                                    <option disabled="disabled">Unit</option>
                                                     {{>units}}
                                                 </select>
                                             </div>

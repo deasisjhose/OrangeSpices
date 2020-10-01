@@ -34,9 +34,9 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Add Supply</span></div>
-                    <form action="/supplies/add" method="POST">
+                    {{!-- <form action="/supplies/add" method="POST"> --}}
                     <div class="buttons">
-                        <button type="submit" class="btn btn-primary btn-sm save-btn">Save</button>
+                        <button type="button" class="btn btn-primary btn-sm save-btn">Save</button>
                         <a href="/supplies"><button type="button" class="btn btn-primary btn-sm can-btn">Cancel</button></a>
                     </div>            
                 </nav>    
@@ -46,12 +46,12 @@
                     <div class="form-container" style="padding: 20px;">
                         <div class="col-4">
                             <label for="supplyBrand" style="font-weight: bold;">Brand</label>
-                            <input type="text" class="form-control" placeholder="Ex: Alaska Powdered Milk 80g" name="supplyBrand" maxlength="45">
+                            <input type="text" class="form-control" placeholder="Ex: Alaska Powdered Milk 80g" id="supplyBrand" maxlength="45">
                             <p id="supplyBrandError" class="error"></p>
                         </div>
                         <div class="col-4">
                             <label for="ingName" style="font-weight: bold;">Name (Ingredient)</label>
-                            <select id="select-ingredient" name="ingredientName" placeholder="Select ingredient">
+                            <select id="select-ingredient" name="ingredientName" placeholder="Select ingredient" class="form-control">
                                 <option selected="true" disabled="disabled">Select ingredient</option>
                                 {{>ingredientName}}
                             </select>
@@ -59,12 +59,11 @@
                         </div>
                         <div class="col-4">
                             <label for="unitQty" style="font-weight: bold;">Unit Quantity</label>
-                            <input type="number" class="form-control" placeholder="Ex. 80" name="unitQty" min="1">
+                            <input type="number" class="form-control" placeholder="Ex. 80" id="unitQty" min="1">
                             <p id="prodPriceError" class="error"></p>
                             <label for="unit" style="font-weight: bold;">Unit</label>
                             <input type="number" class="form-control" disabled="disabled" min="1" style="background: #dddddd;" name="unit">
                         </div>
-                        </form>                       
                     </div>
                 </div>
             </div>
@@ -75,4 +74,5 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/addSupply#page-top"><i class="fas fa-angle-up"></i></a></div>
+    <script src="/public/js/supply.js"></script>
 </body>

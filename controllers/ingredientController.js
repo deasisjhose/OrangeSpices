@@ -21,19 +21,22 @@ exports.addIngredient = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
   {
-    const { ingredientName, unit } = req.body;
+    var ingredientName = req.body.ingredientName;
+    var unitID = req.body.unitID;
+
+    console.log('ingredientName in ingredient controller');
+    console.log(ingredientName);
+    console.log('unit in ingredient controller');
+    console.log(unitID);
  
     ingredientModel.getOne({ ingredientName: {$regex: ingredientName, $options:'i'}}, (err, result) => {
       if (result) {
 				req.flash('error_msg', 'Already have that ingredient. Try again.');
 				res.redirect('/ingredients/add');
-      } else if (unit == "Select unit..."){
-        req.flash('error_msg', 'Please select unit.');
-        res.redirect('/ingredients/add');
       } else {
         var ingredient = {
           ingredientName: ingredientName,
-          unitID: unit,
+          unitID: unitID,
         }
 
         ingredientModel.add(ingredient, function(err, result){

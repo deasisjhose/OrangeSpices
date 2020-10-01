@@ -27,9 +27,8 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Add Purchase</span></div>
-                    <form action="/purchase/add" method="POST">
                     <div class="buttons">
-                        <button type="submit" class="btn btn-primary btn-sm save-btn">Save</button>
+                        <button type="button" class="btn btn-primary btn-sm save-btn">Save</button>
                         <a href="/procurement"><button type="button" class="btn btn-primary btn-sm can-btn">Cancel</button></a>
                     </div>            
                 </nav>    
@@ -39,7 +38,7 @@
                     <div class="form-container" style="padding: 20px;">
                         <div class="col-4">
                             <label for="suppName" style="font-weight: bold;">Supply Name</label>
-                            <select id="selectSupply" name="supplyName">
+                            <select id="supplyName" class="form-control">
                                 <option selected="true" disabled="disabled">Select supply</option>
                                 {{>supplyName}}
                             </select>
@@ -47,26 +46,24 @@
                         </div>
                         <div class="col-4">
                             <label for="purchDate" style="font-weight: bold;">Purchase Date</label>
-                            <input type="date" class="form-control" name="purchDate">
+                            <input type="date" class="form-control" id="purchDate">
                             <p id="purchDateError" class="error"></p>
                         </div>
                         <div class="col-4">
                             <label for="expDate" style="font-weight: bold;">Expiry Date</label>
-                            <input type="date" class="form-control" name="expDate">
+                            <input type="date" class="form-control" id="expDate">
                             <p id="expDateError" class="error"></p>
                         </div>
                         <div class="col-4">
                             <label for="numItems" style="font-weight: bold;">No. of Items</label>
-                            <input type="number" class="form-control" placeholder="Enter number of items" name="numItems" min="1">
+                            <input type="number" class="form-control" placeholder="Enter number of items" id="numItems" min="1">
                             <p id="numItemsError" class="error"></p>
                         </div>
                         <div class="col-4">
                             <label for="purchPrice" style="font-weight: bold;">Price</label>
-                            <input type="number" class="form-control" placeholder="Price per item" name="purchPrice" min="1" step="0.01">
+                            <input type="number" class="form-control" placeholder="Price per item" id="purchPrice" min="1" step="0.01">
                             <p id="purchPriceError" class="error"></p>
-                        </div>
-                        
-                        </form>              
+                        </div>            
                     </div>
                 </div>
             </div>
@@ -77,4 +74,5 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/addPurchase#page-top"><i class="fas fa-angle-up"></i></a></div>
+    <script src="/public/js/purchase.js"></script>
 </body>

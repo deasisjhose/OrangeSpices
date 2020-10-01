@@ -23,7 +23,11 @@ exports.getAllPurchase = (param, callback) => {
 exports.addPurchase = (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-        const { purchDate, supplyName, numItems, expDate, purchPrice } = req.body;
+        const purchDate = req.body.purchDate;
+        const supplyName = req.body.supplyName;
+        const numItems = req.body.numItems;
+        const expDate = req.body.expDate;
+        const purchPrice = req.body.purchPrice;
 
         if (supplyName == "Select supply name...") {
             req.flash('error_msg', 'Please select supply name.');
@@ -97,8 +101,8 @@ exports.addPurchase = (req, res) => {
                                                     req.flash('error_msg', 'Could not update ingredient.');
                                                     res.redirect('/supplies');
                                                 } else {
-                                                    req.flash('success_msg', 'Purchase added!');
-                                                    res.redirect('/procurement');
+                                                    console.log("Purchase added!");
+                                                    res.status(200).send();
                                                 }
                                             })
                                         }

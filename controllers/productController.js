@@ -24,25 +24,20 @@ exports.addProduct = (req, res) => {
   const errors = validationResult(req);
     if (errors.isEmpty()) {
         var i;
-        var idList = req.body.idIngList;
         var prodName = req.body.prodName;
         var category = req.body.category;
         var prodPrice = req.body.prodPrice;
 
+        var idList = req.body.idIngList;
         var ingName = req.body.ingName;
         var qtyList = req.body.qtyList;
         var unitList = req.body.unitList; 
-                
+
         var ingredientList = {
           prodName: prodName,
           prodPrice: prodPrice,
           category: category
         }
-
-        console.log(idList);
-        console.log(ingName);
-        console.log(qtyList); 
-        console.log(unitList);
 
         productModel.add(ingredientList, function(err, result) {
             if (err) {
@@ -52,12 +47,10 @@ exports.addProduct = (req, res) => {
             } else {
                 for(i = 0; i < idList.length; i++){
                     var ingredients = {
-                      
                       productID: result._id, 
                       ingredientID: idList[i],
-                      quantityNeeded: qtyList,
-                      unitID: unitList
-                     
+                      quantityNeeded: qtyList[i],
+                      unitID: unitList[i]
                     }
 
                     ingredientModel.add(ingredients, function(err, result){
@@ -69,6 +62,7 @@ exports.addProduct = (req, res) => {
                     })
                 }
                 console.log("Product saved!");
+                res.status(200).send();
             }
         })
     } else {
