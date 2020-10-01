@@ -181,12 +181,15 @@ div .low-stock{
   #error {
     color: #c64327; 
     text-align: center;
-    font-size: 18px;
+    font-size: 15px;
+    margin-bottom: 5px;
   }
 
   #success {
-      color: #80C376;
-      text-align: center;
+    color: #80C376;
+    text-align: center;
+    font-size: 15px;
+    margin-bottom: 5px;
   }
 
   #order_added {
