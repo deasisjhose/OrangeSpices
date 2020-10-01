@@ -90,12 +90,37 @@ exports.getBSUSH = function(req, next) {
 // Get all orderList
 exports.getAllProducts = (param, next) => {
   Product.aggregate(
-    [{'$lookup': 
-      {
+  [
+    {'$lookup': {
         'from': 'orders',
         'localField': '_id',
         'foreignField': 'productID',
         'as': 'orders'
+      }
+    },
+    { '$unwind':'$orders'},
+    { '$group': 
+      {
+        _id: '$orders.productID',
+        prodName: { "$first": "$orders.productName"},
+        totalQuantity:
+          { '$sum': 
+            '$orders.orderQuantity'
+          },
+        prodPrice: { "$first": "$orders.productPrice"},
+      }
+    },
+    {
+      '$project':
+      {
+        prodName: 1,
+        totalQuantity: 1,
+        prodPrice: 1,
+        totalAmount: 
+        {
+          '$multiply':
+          [ '$prodPrice', '$totalQuantity' ]
+        }
       }
     }
   ]).exec((err, orders) => next(err, orders));

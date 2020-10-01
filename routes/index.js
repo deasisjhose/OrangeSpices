@@ -373,7 +373,7 @@ router.get('/order_history', (req, res) => {
   })
 });
 
-// Get order history report page
+// Get order history filter report page
 router.get('/order_history/filter', (req, res) => {
   console.log("Read order history filter successful!");
   reportsController.orderHistory(req, orderHistory  => {
@@ -402,12 +402,38 @@ router.get('/order_history/filter', (req, res) => {
 // Get sales report page
 router.get('/sales_report', (req, res) => {
   console.log("Read sales report successful!");
-  reportsController.getSales(req, sales => {
+  reportsController.salesReport(req, sales => {
     userController.getID(req.session.user, user => {
       if(req.session.username == "admin"){
         res.render('salesReport', { 
           isAdmin: true,
           products: sales
+        })
+      }
+      else {
+        res.render('salesReport', { 
+          isAdmin: false
+        })
+      }
+    })
+  })
+});
+
+// Get sales report page
+router.get('/sales_report/filter', (req, res) => {
+  console.log("Read sales report filter successful!");
+  reportsController.getSales(req, sales => {
+    userController.getID(req.session.user, user => {
+      var startDate = req.query.salfromDate;
+      var endDate = req.query.salToDate;
+      if(req.session.username == "admin"){
+        res.render('salesReport', { 
+          isAdmin: true,
+          products: sales,
+          filterDate: true,
+          startDate: startDate,
+          endDate: endDate,
+          timestamp: new Date()
         })
       }
       else {
