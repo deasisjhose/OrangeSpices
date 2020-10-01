@@ -20,7 +20,10 @@ exports.getAllDetails = (param, callback) => {
 exports.addExpenseDetails = (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()){
-      const { expenseDate, expenseName, expenseDesc, expenseAmt } = req.body;
+      const expenseDate = req.body.expenseDate;
+      const expenseName = req.body.expenseName;
+      const expenseDesc = req.body.expenseDesc;
+      const expenseAmt = req.body.expenseAmt;
 
       if (expenseName == "Select expense name...") {
         req.flash('error_msg', 'Please select expense name.');
@@ -39,9 +42,8 @@ exports.addExpenseDetails = (req, res) => {
               req.flash('error_msg', 'Could not add expense details.');
               res.redirect('/expenseDetails/add');
             } else {
-              req.flash('success_msg', 'Expense details added!');
-              console.log(result);
-              res.redirect('/expenseDetails');
+              console.log("Expense details added!");
+              res.status(200).send();
             }
         })
     }

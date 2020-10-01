@@ -29,9 +29,8 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Add Expense Details</span></div>
-                    <form action="/expenseDetails/add" method="POST">
                     <div class="buttons">
-                        <button type="submit" class="btn btn-primary btn-sm save-btn">Save</button>
+                        <button type="button" class="btn btn-primary btn-sm save-btn">Save</button>
                         <a href="/expenseDetails"><button type="button" class="btn btn-primary btn-sm can-btn">Cancel</button></a>
                     </div>            
                 </nav>    
@@ -42,13 +41,13 @@
                         <div class="row">
                             <div class="col-4">
                                 <label for="expenseDate" style="font-weight: bold;">Date</label>
-                                <input type="date" class="form-control" name="expenseDate">
+                                <input type="date" class="form-control" id="expenseDate">
                                 <p id="expenseDateError" class="error"></p>
                             </div>
                         </div>
                         <div class="col-4">
                             <label for="expenseName" style="font-weight: bold;">Expense Name</label>
-                            <select id="selectExpense" name="expenseName">
+                            <select class="form-control" id="expenseName">
                                 <option selected="true" disabled="disabled">Select expense</option>
                                 {{>expenseName}}
                             </select>
@@ -56,15 +55,14 @@
                         </div>
                         <div class="col-4">
                             <label for="expenseDesc" style="font-weight: bold;">Description</label>
-                            <input type="text" class="form-control" placeholder="Enter short description of expense..." name="expenseDesc" maxlength="45"> 
+                            <input type="text" class="form-control" placeholder="Enter short description of expense..." id="expenseDesc" maxlength="45"> 
                             <p id="expenseDescError" class="error"></p>
                         </div> 
                         <div class="col-4">
                             <label for="expenseAmt" style="font-weight: bold;">Amount</label>
-                            <input type="number" class="form-control" placeholder="Enter expense amount..." name="expenseAmt" min="1" step="0.01">
+                            <input type="number" class="form-control" placeholder="Enter expense amount..." id="expenseAmt" min="1" step="0.01">
                             <p id="expenseAmtError" class="error"></p>
-                        </div>   
-                        </form> 
+                        </div>    
                     </div>
                 </div>
             </div>
@@ -75,4 +73,5 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/addExpenseDetail#page-top"><i class="fas fa-angle-up"></i></a></div>
+    <script src="/public/js/expense.js"></script>
 </body>
