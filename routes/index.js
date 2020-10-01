@@ -517,7 +517,7 @@ router.post('/products/add', loggedIn, productController.addProduct);
 router.post('/supplies/add', loggedIn, supplyController.addSupply);
 router.post('/ingredients/add', loggedIn, ingredientController.addIngredient);
 router.post('/purchase/add', loggedIn, addPurchaseValidation, purchaseController.addPurchase);
-router.post('/purchase/order', loggedIn, purchaseOrderValidation);
+router.post('/purchase/order', loggedIn, purchaseController.sendEmail);
 router.post('/expense/add', loggedIn, addExpenseValidation, expenseController.addExpense);
 router.post('/expenseDetails/add', loggedIn, addExpenseDetailsValidation, expenseDetailsController.addExpenseDetails);
 router.post('/supplies/check', loggedIn, discrepancyController.checkDiscrepancy);

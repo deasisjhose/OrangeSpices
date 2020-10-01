@@ -1,8 +1,35 @@
+const nodemailer = require('nodemailer');
 const purchaseModel = require('../models/PurchaseSupplies');
 const ingredientModel = require('../models/Ingredients');
 const supplyModel = require('../models/Supplies');
 
 const { validationResult } = require('express-validator');
+
+//Sending Purchase Order via email
+exports.sendEmail = (req, res) => {
+    var supplierName = req.body.supplierName;
+    var supplierEmail = req.body.supplierEmail;
+
+    var smtpTransport = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'orangeandspices.system@gmail.com',
+            pass: 'p4$sw0rD'
+        }
+    });
+    var mailOptions = {
+        from: 'orangeandspices.system@gmail.com',
+        to: supplierEmail,
+        subject: 'Order Request!',
+        text: 'Hi, ' + supplierName + '! This is Krissha. Paorder kami ng. Thank you!'
+    };
+    smtpTransport.sendMail(mailOptions, function(error) {
+        if (error) console.log(error);
+        smtpTransport.close();
+    });
+    res.status(200).send();
+};
+
 
 //Getting all purchase
 exports.getAllPurchase = (param, callback) => {

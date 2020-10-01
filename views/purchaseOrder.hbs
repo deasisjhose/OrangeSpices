@@ -29,7 +29,7 @@
                     <div class="title" style="width: 78%;"><span class="text-primary m-0 font-weight-bold">Purchase Order</span></div>
                     <form action="/purchase/order" method="POST">
                     <div class="buttons">
-                        <button type="submit" class="btn btn-primary btn-sm save-btn" style="height: 34px; width: 100px">Send Order</button>
+                        <button type="button" class="btn btn-primary btn-sm save-btn" style="height: 34px; width: 100px">Send Order</button>
                         <a href="/procurement"><button type="button" class="btn btn-primary btn-sm can-btn">Cancel</button></a>
                     </div>            
                 </nav>
@@ -39,41 +39,53 @@
                     <div class="form-container" style="padding: 20px;">
                         <div class="col-4">
                             <label for="supplierName" style="font-weight: bold;">Supplier Name</label>
-                            <input type="text" class="form-control" placeholder="Enter supplier name..." name="supplierName" maxlength="80">
+                            <input type="text" class="form-control" placeholder="Enter supplier name..." id="supplierName" maxlength="80">
                             <p id="supplierNameError" class="error"></p>
                         </div>
                         <div class="col-4">
                             <label for="supplierEmail" style="font-weight: bold;">Supplier Email</label>
-                            <input type="text" class="form-control" placeholder="Enter supplier email..." name="supplierEmail" maxlength="80">
+                            <input type="text" class="form-control" placeholder="Enter supplier email..." id="supplierEmail" maxlength="80">
                             <p id="supplierEmailError" class="error"></p>
                         </div>
                         <div class="col-12">
                             <p style="font-weight: bold;">Items</p>
-                            <div class="row">
-                            <form class="form-inline" id="itemList">
-                                <div class="form-group">
-                                    <select id="selectItem" name="itemName" style="width:215px;">
-                                        <option selected="true" disabled="disabled">Select item</option>
-                                        {{>ingredientName}}
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="numItems" class="sr-only">No. of Items</label>
-                                    <input type="number" class="form-control" style="width:130px; margin-right: 20px; margin-left: 20px; height: 40px;" placeholder="No. of Items" id="quantity" name="numItems" min="1">
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantity" class="sr-only">Quantity</label>
-                                    <input type="number" class="form-control" style="width:120px; margin-right: 20px; height: 40px;" id="quantity" placeholder="Quantity" name="quantity" min="1">
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control" style="width:100px; height: 40px;">
-                                        <option id="unit">Unit</option>
-                                        {{>units}}
-                                    </select>
-                                </div>
-                                <button style="margin-left: 25px; height: 40px;" type="button" id="addItem" class="btn btn-primary add-btn">+ Add</button>
-                            </form>
-                            </div>
+                            <div class="table-responsive">  
+                                <table class="table table-bordered" id="dynamic_field">  
+                                    <tr>
+                                        <td>
+                                            <div class="form-group">
+                                                <select id="selectIng" class="form-control" style="width:215px;">
+                                                    <option selected="true" disabled="disabled">Select item</option>
+                                                    {{>ingredientName}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label for="numItems" class="sr-only">No. of Items</label>
+                                                <input type="number" class="form-control" style="width:130px; margin-right: 20px; margin-left: 20px; height: 40px;" placeholder="No. of Items" id="numItems" min="1">
+                                            </div>
+                                        </td>    
+                                        <td>
+                                            <div class="form-group">
+                                                <label for="quantity" class="sr-only">Quantity</label>
+                                                <input type="number" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" placeholder="Quantity" min="1">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <select id="unit" class="form-control" style="width:150px; height: 40px;">
+                                                    <option disabled="disabled">Unit</option>
+                                                    {{>units}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button style="margin-left: 25px; height: 40px;" type="button" id="addIngredient" class="btn btn-primary add-btn">+</button>
+                                        </td>      
+                                    </tr>
+                                </table>  
+                            </div>  
                         </div>                               
                     </div>
                 </div>
@@ -85,4 +97,5 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/purchaseOrder#page-top"><i class="fas fa-angle-up"></i></a></div>
+<script src="/public/js/appendOrder.js"></script>
 </body>
