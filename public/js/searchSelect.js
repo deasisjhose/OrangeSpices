@@ -1,4 +1,5 @@
 $(function() {
+    /*
     $('#select-ingredient').selectize({
         options: [],
         labelField: 'ingredientName',
@@ -135,4 +136,5 @@ $(function() {
             });
         }
     });
+    */
 });

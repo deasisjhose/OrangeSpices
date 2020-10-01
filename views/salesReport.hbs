@@ -33,7 +33,7 @@
             <div id="content">
                 <div class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Sales Report</span></div>
-                    <form <!--action="/order_history" method="POST" --> style="display: flex; flex-direction: row;">
+                    <form action="/sales_report/filter" method="GET" style="display: flex; flex-direction: row;">
                         <div class="mr-3 col-xs-4 font-weight-bold"><label for="ordfromDate" class="col-form-label">From</label></div>
                         <div class="col-xs-3 date-report"><input type="date" class="form-control" name="salfromDate" id="fromDate"></div>
                         <div class="mr-3 ml-4 col-xs-4 font-weight-bold"><label for="ordToDate" class="col-form-label">To</label></div>
@@ -46,8 +46,12 @@
                 <div class="col-12">
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Sales Report from 2020-09-11 to 2020-09-18</p>
-                            <p class="text-muted m-0" id="datetime">Date Generated: 2020-09-18 4:39 pm</p>
+                            {{#if filterDate}}
+                                <p class="text-primary m-0 font-weight-bold" id="reportTitle">Sales Report from {{formattingDate startDate}} to {{formattingDate endDate}}</p>
+                                <p class="text-muted m-0" id="datetime">Date Generated: {{timestamp}}</p>
+                            {{else}}
+                                <p class="text-primary m-0 font-weight-bold" id="reportTitle">Sales Report</p>
+                            {{/if}}
                         </div>
                         <table class="table text-center table-bordered">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
@@ -63,11 +67,9 @@
                                 {{#each products}}
                                 <tr>
                                     <td class="text-left pl-4">{{prodName}}</td>
-                                    {{#each orders}}
-                                        <td>{{orderQuantity}}</td>
-                                    {{/each}}
-                                    <td>₱ {{prodPrice}}</td>
-                                    <td class="font-weight-bold">₱ </td>
+                                    <td>{{totalQuantity}}</td>
+                                    <td>₱{{prodPrice}}</td>
+                                    <td class="font-weight-bold">₱{{totalAmount}}</td>
                                 </tr>
                                 {{/each}}
                             </tbody>
@@ -82,10 +84,6 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="sales_report#page-top"><i class="fas fa-angle-up"></i></a></div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-    <script src="assets/js/theme.js"></script>
 </body>
 
 <script>
