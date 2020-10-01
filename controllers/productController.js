@@ -1,4 +1,5 @@
 const productModel = require('../models/Product');
+const ingredientModel = require('../models/productIngredients');
 const { validationResult } = require('express-validator');
 
 //Getting all products
@@ -18,48 +19,65 @@ exports.getAllProducts = (param, callback) =>{
 
 // Adding product
 exports.addProduct = (req, res) => {
+
+  //const { prodName, category, prodPrice, productID, ingredientID, quantityNeeded, unitID } = req.body;
   const errors = validationResult(req);
-  if (errors.isEmpty())
-  {
-    const { prodName, category, prodPrice, ingredientName } = req.body;
-    productModel.getOne({ prodName: {$regex: prodName, $options:'i'}}, (err, result) => {
-      if (result) {
-				req.flash('error_msg', 'Already have that product. Try again.');
-				res.redirect('/products/add');
-      } 
-      else {
-          var product = {
-            prodName: prodName,
-            category: category,
-            prodPrice: prodPrice
+    if (errors.isEmpty()) {
+        var i;
+        var idList = req.body.idIngList;
+        var prodName = req.body.prodName;
+        var category = req.body.category;
+        var prodPrice = req.body.prodPrice;
 
-           //ingredientID: ingredient,
-            //quantityNeeded: quantity
-           // unitID: unit
-
+        var ingName = req.body.ingName;
+        var qtyList = req.body.qtyList;
+        var unitList = req.body.unitList; 
+                
+        var ingredientList = {
+          prodName: prodName,
+          prodPrice: prodPrice,
+          category: category
         }
 
-        productModel.add(product, function(err, result){
-          if(err){
-            console.log(err);
-            req.flash('error_msg', 'Could not add product. Please try again.');
-            res.redirect('/products/add');
-          }
-          else {
-            console.log("Product added!");
-            req.flash('success_msg', 'Product added!'); 
-            res.redirect('/products');
-            console.log(result);
-          }
+        console.log(idList);
+        console.log(ingName);
+        console.log(qtyList); 
+        console.log(unitList);
+
+        productModel.add(ingredientList, function(err, result) {
+            if (err) {
+                console.log(err);
+                req.flash('error_msg', 'Could not add product list.');
+                res.redirect('/products/add');
+            } else {
+                for(i = 0; i < idList.length; i++){
+                    var ingredients = {
+                      
+                      productID: result._id, 
+                      ingredientID: idList[i],
+                      quantityNeeded: qtyList,
+                      unitID: unitList
+                     
+                    }
+
+                    ingredientModel.add(ingredients, function(err, result){
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(result);
+                        }
+                    })
+                }
+                console.log("Product saved!");
+            }
         })
-      }
-    });
-  } else {
-    const messages = errors.array().map((item) => item.msg);
-    req.flash('error_msg', messages.join(' ')); 
-    res.redirect('/products/add');
-  }
+    } else {
+        const messages = errors.array().map((item) => item.msg);
+        req.flash('error_msg', messages.join(' '));
+        res.redirect('/products/add');
+    }
 }; 
+
 
 exports.getAlaCarte = (req, res) => {
   const errors = validationResult(req);

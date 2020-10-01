@@ -14,3 +14,12 @@ productIngredientSchema.index({
 }, { unique: true });
 
 const ProductIngredient = mongoose.model('productIng', productIngredientSchema);
+
+// Add Ingredient
+exports.add = function(obj, next) {
+  const ingredient = new ProductIngredient(obj);
+
+  ingredient.save(function(err, prod) {
+    next(err, prod);
+  });
+};
