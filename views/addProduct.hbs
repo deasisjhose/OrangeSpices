@@ -63,25 +63,37 @@
                         </form>
                         <div class="col-12">
                             <p style="font-weight: bold;">Ingredients</p>
-                            <div class="row">
-                                <div class="form-group" style="height: 40px;">
-                                    <select id="selectIng" name="ingredientName" style="width:215px;">
-                                        <option selected="true" disabled="disabled">Select ingredient</option>
-                                        {{>ingredientName}}
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="quantity" class="sr-only">Quantity</label>
-                                    <input type="number" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" placeholder="Quantity" min="1">
-                                </div>
-                                <div class="form-group">
-                                    <select id="unit" class="form-control" style="width:100px; height: 40px;">
-                                        <option>Unit</option>
-                                        {{>units}}
-                                    </select>
-                                </div>
-                                <button style="margin-left: 25px; height: 40px;" type="button" id="addIngredient" class="btn btn-primary add-btn">+ Add</button>
-                            </div>
+                            <div class="table-responsive">  
+                               <table class="table table-bordered" id="dynamic_field">  
+                                    <tr>
+                                        <td>
+                                            <div class="form-group" style="height: 40px;">
+                                                <select id="selectIng" class="form-control" name="ingredientName" style="width:215px;">
+                                                    <option selected="true" disabled="disabled">Select ingredient</option>
+                                                    {{>ingredientName}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label for="quantity" class="sr-only">Quantity</label>
+                                                <input type="number" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" placeholder="Quantity" min="1">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <select id="unit" class="form-control" style="width:150px; height: 40px;">
+                                                    <option>Unit</option>
+                                                    {{>units}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button style="margin-left: 25px; height: 40px;" type="button" id="add" class="btn btn-primary add-btn">+ Add</button>
+                                        </td>      
+                                    </tr>
+                               </table>  
+                          </div>  
                         </div>                       
                     </div>
                 </div>
