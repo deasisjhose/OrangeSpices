@@ -1,6 +1,7 @@
 const productModel = require('../models/Product');
 const orderModel = require('../models/Order');
 const orderListModel = require('../models/OrderList');
+const purchaseModel = require('../models/PurchaseSupplies');
 const { validationResult } = require('express-validator');
 
 exports.orderHistory = (req, res) => {
@@ -63,5 +64,41 @@ exports.salesReport = (req, res) => {
         var startDate = new Date(sDate);
         var endDate = new Date(eDate);
 
+    }
+};
+
+exports.purchaseReport = (req, res) => {
+    var sDate = req.query.ordfromDate;
+    var eDate = req.query.ordToDate;
+    
+    if(sDate == undefined && eDate == undefined){
+        purchaseModel.getAllPurchase(req,(err, purchase) => {
+            if(err){
+                req.flash('error_msg', 'Could not get purchases.');
+                res.redirect('/purchase_report');
+            } else {
+                console.log("purchase");
+                console.log(purchase);
+                res(purchase);
+            }
+        })
+    } else {
+        var startDate = new Date(sDate);
+        var endDate = new Date(eDate);
+
+        purchaseModel.getAllPurchase(req, (err, purchase) => {
+            if(err){
+                req.flash('error_msg', 'Could not get purchase list.');
+                res.redirect('/purchase_report');
+            } else {
+                endDate.setDate(endDate.getDate());
+                var purchaseList = purchase.filter(e => e.purchaseDate >= startDate && e.purchaseDate <= endDate);
+
+                console.log("purchaseList");
+                console.log(purchaseList);
+                        
+                res(purchaseList);
+            }
+        })
     }
 };

@@ -9,10 +9,6 @@ const { validationResult } = require('express-validator');
 exports.sendEmail = (req, res) => {
     var supplierName = req.body.supplierName;
     var supplierEmail = req.body.supplierEmail;
-    // var ingredientName = req.body.ingName;
-    // var numItem = req.body.numItemsList;
-    // var qtyList = req.body.qtyList;
-    // var unitList = req.body.unitList;
     var orders = req.body.orders;
 
     var smtpTransport = nodemailer.createTransport({

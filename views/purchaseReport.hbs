@@ -33,19 +33,25 @@
             <div id="content">
                 <div class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Purchase Report</span></div>
-                    <div class="mr-3 col-xs-4 font-weight-bold"><label for="ordfromDate" class="col-form-label">From</label></div>
-                    <div class="col-xs-3 date-report"><input type="date" class="form-control" name="ordfromDate" id="fromDate"></div>
-                    <div class="mr-3 ml-4 col-xs-4 font-weight-bold"><label for="ordToDate" class="col-form-label">To</label></div>
-                    <div class="col-xs-3 date-report"><input type="date" class="form-control" name="ordToDate" id="toDate"></div>
-                    <div><button type="submit" class="btn btn-primary btn-sm add-btn ml-3 generate">Generate</button></div>
+                    <form action="/purchase_report/filter" method="GET" style="display: flex; flex-direction: row;">
+                        <div class="mr-3 col-xs-4 font-weight-bold"><label for="ordfromDate" class="col-form-label">From</label></div>
+                        <div class="col-xs-3 date-report"><input type="date" class="form-control" name="ordfromDate" id="fromDate"></div>
+                        <div class="mr-3 ml-4 col-xs-4 font-weight-bold"><label for="ordToDate" class="col-form-label">To</label></div>
+                        <div class="col-xs-3 date-report"><input type="date" class="form-control" name="ordToDate" id="toDate"></div>
+                        <div><button type="submit" class="btn btn-primary btn-sm add-btn ml-3 generate">Generate</button></div>
+                    </form>
                 </div>
             </nav>
             <div class="container-fluid" style="margin-left: 225px;width: 82%;">
                 <div class="col-12">
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Purchase Report from 2020-09-11 to 2020-09-18</p>
-                            <p class="text-muted m-0" id="datetime">Date Generated: 2020-09-18 4:39 pm</p>
+                            {{#if filterDate}}
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Purchase Report from {{formattingDate startDate}} to {{formattingDate endDate}}</p>
+                            <p class="text-muted m-0" id="datetime">Date Generated: {{timestamp}}</p>
+                            {{else}}
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Purchase Report</p>
+                            {{/if}}
                         </div>
                         <table class="table text-center table-bordered">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
@@ -58,6 +64,14 @@
                               </tr>
                             </thead>
                             <tbody class="border-bottom">
+                                {{#each purchase}}
+                                    <tr>
+                                        <td>{{supplyName}}</td>
+                                        <td>{{totalQuantity}}</td>
+                                        <td>₱{{price}}</td>
+                                        <td>₱{{totalAmount}}</td>
+                                    </tr>
+                                {{/each}}
                             </tbody>
                         </table>
                     </div>
@@ -70,32 +84,4 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="purchase_report#page-top"><i class="fas fa-angle-up"></i></a></div>
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
-    <script src="assets/js/theme.js"></script>
 </body>
-<script>
-    //date range
-    $(document).ready(function () { 
-        $(".generate").click(function () {
-            var fromDate = document.getElementById("fromDate").value;
-            var toDate = document.getElementById("toDate").value;
-            console.log(fromDate);
-            console.log(toDate);
-            document.getElementById("reportTitle").innerHTML = "Purchase Report from " + fromDate + " to " + toDate;
-
-            //date generated
-            var dt = new Date();
-            y = dt.getFullYear();
-            m = dt.getMonth() + 1;
-            d = dt.getDate();
-
-            if(m >= "9")
-                document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + "0" + m + "-" + d + " " + dt.toLocaleTimeString();
-            else
-                document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + m + "-" + d + " " + dt.toLocaleTimeString();
-        })
-    });
-
-</script>

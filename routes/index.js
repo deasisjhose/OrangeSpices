@@ -422,7 +422,7 @@ router.get('/sales_report', (req, res) => {
 // Get sales report page
 router.get('/sales_report/filter', (req, res) => {
   console.log("Read sales report filter successful!");
-  reportsController.getSales(req, sales => {
+  reportsController.salesReport(req, sales => {
     userController.getID(req.session.user, user => {
       var startDate = req.query.salfromDate;
       var endDate = req.query.salToDate;
@@ -466,14 +466,16 @@ router.get('/inventory_report', (req, res) => {
   //})
 });
 
+
 // Get purchase report page
 router.get('/purchase_report', (req, res) => {
   console.log("Read purchase report successful!");
-  //expenseController.getExpenseName(req, expense => {
-    //userController.getID(req.session.user, user => {
+  reportsController.purchaseReport(req, purchase => {
+    userController.getID(req.session.user, user => {
       if(req.session.username == "admin"){
         res.render('purchaseReport', { 
           isAdmin: true,
+          purchase: purchase
         })
       }
       else {
@@ -481,8 +483,34 @@ router.get('/purchase_report', (req, res) => {
           isAdmin: false,
         })
       }
-    //})
-  //})
+    })
+  })
+});
+
+// Get purchase report page
+router.get('/purchase_report/filter', (req, res) => {
+  console.log("Read purchase report filter successful!");
+  reportsController.purchaseReport(req, purchase => {
+    userController.getID(req.session.user, user => {
+      var startDate = req.query.ordfromDate;
+      var endDate = req.query.ordToDate;
+      if(req.session.username == "admin"){
+        res.render('purchaseReport', { 
+          isAdmin: true,
+          purchase: purchase,
+          filterDate: true,
+          startDate: startDate,
+          endDate: endDate,
+          timestamp: new Date()
+        })
+      }
+      else {
+        res.render('purchaseReport', { 
+          isAdmin: false
+        })
+      }
+    })
+  })
 });
 
 // Get  profitability page
