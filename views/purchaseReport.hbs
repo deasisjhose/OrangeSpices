@@ -1,10 +1,10 @@
-<title>Inventory Report</title>
+<title>Purchase Report</title>
 
 <body id="page-top">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 shadow">
             <div class="container-fluid d-flex flex-column p-0">
-                <a class="navbar-brand d-flex justify-content-center align-items-center m-0" href="/inventory_report#page-top">
+                <a class="navbar-brand d-flex justify-content-center align-items-center m-0" href="/purchase_report#page-top">
                     <div class="sidebar-brand-icon"><img src="public/img/logo.png" width="75"></i></div>
                 </a>
                 <hr class="sidebar-divider my-0">
@@ -21,9 +21,9 @@
                     <li class="nav-item" role="presentation"><a class="nav-link" 
                         style="padding-left: 50px !important; height: 36px !important;" href="/sales_report">Sales Report</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" 
-                        style="background-color: #f47639 !important; color: #ffffff !important; padding-left: 50px !important; height: 36px !important;" href="/inventory_report">Inventory Report</a></li>
+                        style="padding-left: 50px !important; height: 36px !important;" href="/inventory_report">Inventory Report</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" 
-                        style="padding-left: 50px !important; height: 36px !important;" href="/purchase_report">Purchase Report</a></li>
+                        style="background-color: #f47639 !important; color: #ffffff !important; padding-left: 50px !important; height: 36px !important;" href="/purchase_report">Purchase Report</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" 
                         style="padding-left: 50px !important; height: 36px !important;" href="/profitability">Profitability Report</a></li>
                 </ul>
@@ -32,7 +32,7 @@
         <div class="d-flex flex-column" id="content-wrapper">
             <div id="content">
                 <div class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
-                    <div class="title"><span class="text-primary m-0 font-weight-bold">Inventory Report</span></div>
+                    <div class="title"><span class="text-primary m-0 font-weight-bold">Purchase Report</span></div>
                     <div class="mr-3 col-xs-4 font-weight-bold"><label for="ordfromDate" class="col-form-label">From</label></div>
                     <div class="col-xs-3 date-report"><input type="date" class="form-control" name="ordfromDate" id="fromDate"></div>
                     <div class="mr-3 ml-4 col-xs-4 font-weight-bold"><label for="ordToDate" class="col-form-label">To</label></div>
@@ -44,25 +44,21 @@
                 <div class="col-12">
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Inventory Report from 2020-09-11 to 2020-09-18</p>
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Purchase Report from 2020-09-11 to 2020-09-18</p>
                             <p class="text-muted m-0" id="datetime">Date Generated: 2020-09-18 4:39 pm</p>
                         </div>
                         <table class="table text-center table-bordered">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
                             <thead class="border-bottom" style="background-color: #c64327 !important; color: #ffffff !important;">
-                                <tr>
-                                  <th scope="col">Brand</th>
-                                  <th scope="col">Ingredient</th>
-                                  <th scope="col">Quantity Used</th>
-                                </tr>
-                              </thead>
-                              <tbody class="border-bottom">
-                                <tr>
-                                  <td class="text-left pl-4">Dari Creme (500g)</td>
-                                  <td>Butter</td>
-                                  <td>14</td>
-                                </tr>
-                              </tbody>
+                              <tr>
+                                <th scope="col">Supply</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody class="border-bottom">
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -73,9 +69,12 @@
                 <div class="text-center my-auto copyright"><span>Copyright © Orange &amp; Spices 2020</span></div>
             </div>
         </footer>
-    </div><a class="border rounded d-inline scroll-to-top" href="/inventory_report#page-top"><i class="fas fa-angle-up"></i></a></div>
+    </div><a class="border rounded d-inline scroll-to-top" href="purchase_report#page-top"><i class="fas fa-angle-up"></i></a></div>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.js"></script>
+    <script src="assets/js/theme.js"></script>
 </body>
-
 <script>
     //date range
     $(document).ready(function () { 
@@ -84,7 +83,7 @@
             var toDate = document.getElementById("toDate").value;
             console.log(fromDate);
             console.log(toDate);
-            document.getElementById("reportTitle").innerHTML = "Inventory Report from " + fromDate + " to " + toDate;
+            document.getElementById("reportTitle").innerHTML = "Purchase Report from " + fromDate + " to " + toDate;
 
             //date generated
             var dt = new Date();
@@ -98,4 +97,5 @@
                 document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + m + "-" + d + " " + dt.toLocaleTimeString();
         })
     });
+
 </script>

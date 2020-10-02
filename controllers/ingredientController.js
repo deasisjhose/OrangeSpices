@@ -32,7 +32,8 @@ exports.addIngredient = (req, res) => {
     ingredientModel.getOne({ ingredientName: {$regex: ingredientName, $options:'i'}}, (err, result) => {
       if (result) {
 				req.flash('error_msg', 'Already have that ingredient. Try again.');
-				res.redirect('/ingredients/add');
+        res.redirect('/ingredients/add');
+        res.status(400).send();
       } else {
         var ingredient = {
           ingredientName: ingredientName,
@@ -47,9 +48,7 @@ exports.addIngredient = (req, res) => {
           }
           else {
             console.log("Ingredient added!");
-            req.flash('success_msg', 'Ingredient added!');
-            res.redirect('/ingredients');
-            console.log(result);
+            res.status(200).send();
           }
         })
       }

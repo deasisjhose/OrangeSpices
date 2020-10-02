@@ -466,6 +466,25 @@ router.get('/inventory_report', (req, res) => {
   //})
 });
 
+// Get purchase report page
+router.get('/purchase_report', (req, res) => {
+  console.log("Read purchase report successful!");
+  //expenseController.getExpenseName(req, expense => {
+    //userController.getID(req.session.user, user => {
+      if(req.session.username == "admin"){
+        res.render('purchaseReport', { 
+          isAdmin: true,
+        })
+      }
+      else {
+        res.render('purchaseReport', { 
+          isAdmin: false,
+        })
+      }
+    //})
+  //})
+});
+
 // Get  profitability page
 router.get('/profitability', (req, res) => {
   console.log("Read profitability report successful!");
