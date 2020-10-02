@@ -4,6 +4,12 @@ $(document).ready(function(){
     var idIngList = [], ingName = [], numItemsList = [], qtyList = [], unitList = [];
     var supplierName, supplierEmail;
 
+    var orderArray = [];
+
+  function addOrder(selectedValue, numItems, qty, unitID) {
+    orderArray.push({selectedValue: selectedValue, numItems: Number.parseInt(numItems), qty: Number.parseInt(qty), unitID: unitID});
+  }
+
   $('#addIngredient').click(function(){  
 
     console.log("adding...");
@@ -14,14 +20,15 @@ $(document).ready(function(){
     var qty = document.getElementById("quantity").value;
     var unitName = document.getElementById("unit").value;
     var unit = document.getElementById("unit");
-    var unitID = unit.options[unit.selectedIndex].getAttribute("data-id");
+    var unitID = unit.options[unit.selectedIndex].getAttribute("value");
 
     idIngList.push(selectedVal);
     ingName.push(selectedValue);
     numItemsList.push(numItems);
     qtyList.push(qty);
     unitList.push(unitID);
-    
+    addOrder(selectedValue, numItems, qty, unitID);
+
     console.log("unitList");
     console.log(unitList);
 
@@ -67,7 +74,8 @@ $(document).ready(function(){
         ingName: ingName,
         numItemsList: numItemsList,
         qtyList: qtyList,
-        unitList: unitList
+        unitList: unitList,
+        orders: orderArray
       },
       error: function(){
         alert("May error");

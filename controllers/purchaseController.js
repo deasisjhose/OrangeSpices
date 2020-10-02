@@ -9,6 +9,11 @@ const { validationResult } = require('express-validator');
 exports.sendEmail = (req, res) => {
     var supplierName = req.body.supplierName;
     var supplierEmail = req.body.supplierEmail;
+    // var ingredientName = req.body.ingName;
+    // var numItem = req.body.numItemsList;
+    // var qtyList = req.body.qtyList;
+    // var unitList = req.body.unitList;
+    var orders = req.body.orders;
 
     var smtpTransport = nodemailer.createTransport({
         service: 'Gmail',
@@ -17,11 +22,21 @@ exports.sendEmail = (req, res) => {
             pass: 'p4$sw0rD'
         }
     });
+
+    var content = 
+    '<p>Hi, '+ supplierName + '!</p><p>This is the owner of Orange & Spices. We would like to order the following: </p><br>'
+    + '<div><table style="width: 60%; margin-bottom: 1rem; text-align: center!important; font-size: 12px !important;"><thead><tr><th>Item</th><th>No. of Items</th><th>Quantity</th><th>Unit</th></tr></thead><tbody>';
+    orders.forEach((orders) => {
+        content += '<tr><td>' + orders.selectedValue +'</td><td>' + orders.numItems + '</td><td>' + orders.qty
+        + '</td><td>' + orders.unitID + '</td></tr>'
+    });
+    content += '</tbody></table></div>';
+    
     var mailOptions = {
         from: 'orangeandspices.system@gmail.com',
         to: supplierEmail,
         subject: 'Order Request!',
-        text: 'Hi, ' + supplierName + '! This is Krissha. Paorder kami ng. Thank you!'
+        html: content
     };
     smtpTransport.sendMail(mailOptions, function(error) {
         if (error) console.log(error);
