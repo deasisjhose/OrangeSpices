@@ -129,3 +129,21 @@ exports.profitExpReport = (req, res) => {
         }
     })
 };
+
+exports.getNetIncome = (req, res) => {
+    expenseModel.getTotalExpenses(req,(err, expenses) => {
+        productModel.getTotalSales(req,(err, total) => {
+            var totalSales, totalExpenses, netIncome;
+            if(err){
+                req.flash('error_msg', 'Could not get purchases.');
+                res.redirect('/profitability');
+            } else {
+                totalSales = total[0].totalSales;
+                totalExpenses = expenses[0].totalExpenses;
+                netIncome = totalSales - totalExpenses;
+                console.log(netIncome);
+                res(netIncome);
+            }
+        })
+    })
+};
