@@ -7,6 +7,8 @@ $(document).ready(function() {
         var supplyName = document.getElementById("supplyName");
         var supplyID = supplyName.options[supplyName.selectedIndex].getAttribute("data-id");
 
+        var today = new Date();
+
         if (purchDate == "" || expDate == "" || numItems == "" || purchPrice == "" || supplyName == "Select Supply") {
             alert("Incomplete data");
         } else if (numItems < 0 || purchPrice < 0) {
