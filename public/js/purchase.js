@@ -11,6 +11,8 @@ $(document).ready(function() {
             alert("Incomplete data");
         } else if (numItems < 0 || purchPrice < 0) {
             alert("Negative number of items and purchase price is invalid")
+        } else if (purchDate > Date.now() || expDate < purchDate) {
+            alert("Invalid dates");
         } else {
             $.ajax({
                 url: '/purchase/add',
