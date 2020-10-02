@@ -11,11 +11,16 @@ $(document).ready(function() {
 
         if (purchDate == "" || expDate == "" || numItems == "" || purchPrice == "" || supplyName == "Select Supply") {
             alert("Incomplete data");
-        } else if (numItems < 0 || purchPrice < 0) {
-            alert("Negative number of items and purchase price is invalid")
-        } else if (purchDate.getTime() > today.getTime() || expDate.getTime() < purchDate.getTime()) {
+        } else if (numItems <= 0 || purchPrice <= 0) {
+            alert("You cannot enter a zero or negative value!");
+        }
+        else if(qty % 1 != 0){
+            alert("Invalid value! Enter intger for quantity.");
+        }
+        else if (purchDate.getTime() > today.getTime() || expDate.getTime() < purchDate.getTime()) {
             alert("Invalid dates");
-        } else {
+        }    
+        else {
             $.ajax({
                 url: '/purchase/add',
                 method: 'POST',
