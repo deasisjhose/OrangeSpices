@@ -125,3 +125,48 @@ exports.getAllProducts = (param, next) => {
     }
   ]).exec((err, orders) => next(err, orders));
 };
+
+// Get total sales
+exports.getTotalSales = (param, next) => {
+  Product.aggregate(
+  [
+    {'$lookup': {
+        'from': 'orders',
+        'localField': '_id',
+        'foreignField': 'productID',
+        'as': 'orders'
+      }
+    },
+    { '$unwind':'$orders'},
+    { '$group': 
+      {
+        _id: '$orders.productID',
+        totalQuantity:
+          { '$sum': 
+            '$orders.orderQuantity'
+          },
+        prodPrice: { "$first": "$orders.productPrice"},
+      }
+    },
+
+    { '$group': 
+      {
+        _id: null,
+        totalSales: { 
+          $sum: { 
+            $multiply: 
+              ["$prodPrice", "$totalQuantity"]
+          }
+        }
+      }
+    },
+
+    {
+      '$project':
+      {
+        // _id: 1,
+        totalSales: 1
+      }
+    }
+  ]).exec((err, total) => next(err, total));
+};

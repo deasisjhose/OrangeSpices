@@ -516,22 +516,28 @@ router.get('/purchase_report/filter', (req, res) => {
 // Get  profitability page
 router.get('/profitability', (req, res) => {
   console.log("Read profitability report successful!");
-  //expenseController.getExpenseName(req, expense => {
-    //userController.getID(req.session.user, user => {
-      if(req.session.username === "admin"){
-        res.render('profitability', { 
-          isAdmin: true,
-          //expenseName: expense
+  expenseDetailsController.getAllDetails(req, expenses => {
+    reportsController.profitReport(req, total => {
+      reportsController.profitExpReport(req, expTotal => {
+        userController.getID(req.session.user, user => {
+          if(req.session.username === "admin"){
+            res.render('profitability', { 
+              isAdmin: true,
+              expenseDetails: expenses,
+              sales: total,
+              totalExpenses: expTotal
+            })
+          }
+          else {
+            res.render('profitability', { 
+              isAdmin: false,
+              
+            })
+          }
         })
-      }
-      else {
-        res.render('profitability', { 
-          isAdmin: false,
-          //expenseName: expense
-        })
-      }
-    //})
-  //})
+      })
+    })
+  })
 });
 
 router.get('/getIngredients', (req, res) => {

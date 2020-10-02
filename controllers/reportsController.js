@@ -1,5 +1,6 @@
 const productModel = require('../models/Product');
 const orderModel = require('../models/Order');
+const expenseModel = require('../models/ExpenseDetails');
 const orderListModel = require('../models/OrderList');
 const purchaseModel = require('../models/PurchaseSupplies');
 const { validationResult } = require('express-validator');
@@ -101,4 +102,30 @@ exports.purchaseReport = (req, res) => {
             }
         })
     }
+};
+
+exports.profitReport = (req, res) => {
+    productModel.getTotalSales(req,(err, total) => {
+        if(err){
+            req.flash('error_msg', 'Could not get purchases.');
+            res.redirect('/profitability');
+        } else {
+            console.log("total");
+            console.log(total[0].totalSales);
+            res(total[0].totalSales);
+        }
+    })
+};
+
+exports.profitExpReport = (req, res) => {
+    expenseModel.getTotalExpenses(req,(err, expenses) => {
+        if(err){
+            req.flash('error_msg', 'Could not get expenses.');
+            res.redirect('/profitability');
+        } else {
+            console.log("total expenses");
+            console.log(expenses[0].totalExpenses);
+            res(expenses[0].totalExpenses);
+        }
+    })
 };
