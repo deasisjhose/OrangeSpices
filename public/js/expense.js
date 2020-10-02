@@ -15,7 +15,7 @@ $(document).ready(function() {
         } else if (expenseAmt <= 0) {
             alert("Invalid value for amount.");
         }
-        if (d1.getTime() > today.getTime()) {
+        else if (d1.getTime() > today.getTime()) {
             alert("Invalid date. Cannot be future");
         } else {
             $.ajax({
