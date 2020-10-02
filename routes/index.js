@@ -519,21 +519,25 @@ router.get('/profitability', (req, res) => {
   expenseDetailsController.getAllDetails(req, expenses => {
     reportsController.profitReport(req, total => {
       reportsController.profitExpReport(req, expTotal => {
-        userController.getID(req.session.user, user => {
-          if(req.session.username === "admin"){
-            res.render('profitability', { 
-              isAdmin: true,
-              expenseDetails: expenses,
-              sales: total,
-              totalExpenses: expTotal
-            })
-          }
-          else {
-            res.render('profitability', { 
-              isAdmin: false,
-              
-            })
-          }
+        reportsController.getNetIncome(req, netIncome => {
+          userController.getID(req.session.user, user => {
+            if(req.session.username === "admin"){
+              res.render('profitability', { 
+                isAdmin: true,
+                expenseDetails: expenses,
+                sales: total,
+                totalExpenses: expTotal,
+                timestamp: new Date(),
+                netIncome: netIncome
+              })
+            }
+            else {
+              res.render('profitability', { 
+                isAdmin: false,
+                
+              })
+            }
+          })
         })
       })
     })

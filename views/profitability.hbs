@@ -62,7 +62,7 @@
                             <p class="ts0 m-0 font-weight-bold">Orange &amp; Spices</p>
                             <p class="ts1 m-0 font-weight-bold">Income Statement</p>
                             <p class="ts2 m-0 font-weight-bold" id="reportTitle">For the Month Ended January 31, 2020</p>
-                            <p class="text-muted m-0" id="datetime">Date Generated: 2020-09-18 4:39 pm</p>
+                            <p class="text-muted m-0" id="datetime"></p>
                         </div>
                         <table class="table text-center table-borderless profit">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
@@ -72,11 +72,11 @@
                             </tr>
                             <tr>
                                 <th class="text-left">Cost of Sales</th>
-                                <td class="text-right" id="cos">(44,613.00)</td>
+                                <td class="text-right" id="cos"></td>
                             </tr>
                             <tr>
                                 <th class="text-left highlight">Gross Profit</th>
-                                <td class="text-right highlight font-weight-bold">₱ 1158</td>
+                                <td class="text-right highlight font-weight-bold">₱ {{sales}}</td>
                             </tr>
                             <tr>
                                 <th class="text-left" colspan="2">Expenses</th>
@@ -84,15 +84,6 @@
                             <tbody>
                                 {{>expenseReport}}
                             </tbody>
-                            
-                            {{!-- <tr>
-                                <th class="text-left">Salaries Expense</th>
-                                <td class="text-right">(56,500.00)</td>
-                            </tr>
-                            <tr>
-                                <th class="text-left">Utilities Expense</th>
-                                <td class="text-right">(5,000.00)</td>
-                            </tr> --}}
                             <tr>
                                 <th class="text-left highlight">Total Expenses</th>
                                 <td class="text-right highlight font-weight-bold" id="totalExp">(₱ {{totalExpenses}})</td>
@@ -103,7 +94,7 @@
                             </tr>                         
                             <tr>
                                 <th class="text-left highlight">Net Income</th>
-                                <td class="text-right highlight font-weight-bold">₱ 30000</td>
+                                <td class="text-right highlight font-weight-bold">₱ {{netIncome}}</td>
                             </tr>
                         </table>
                     </div>
@@ -119,6 +110,16 @@
 </body>
 
 <script>
+ var dt = new Date();
+    y = dt.getFullYear();
+    m = dt.getMonth() + 1;
+    d = dt.getDate();
+
+    if(m >= "9")
+        document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + "0" + m + "-" + d + " " + dt.toLocaleTimeString();
+    else
+        document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + m + "-" + d + " " + dt.toLocaleTimeString();
+
     function getDaysInMonth(m, y) {
         return m===2 ? y & 3 || !(y%25) && y & 15 ? 28 : 29 : 30 + (m+(m>>3)&1);
     }
@@ -151,17 +152,6 @@
             console.log(year);
             console.log(day);
             document.getElementById("reportTitle").innerHTML = "For the Month Ended " + monthName + " " + day + ", " + year;
-
-            //date generated
-            var dt = new Date();
-            y = dt.getFullYear();
-            m = dt.getMonth() + 1;
-            d = dt.getDate();
-
-            if(m >= "9")
-                document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + "0" + m + "-" + d + " " + dt.toLocaleTimeString();
-            else
-                document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + m + "-" + d + " " + dt.toLocaleTimeString();
         })
     });
 </script>
