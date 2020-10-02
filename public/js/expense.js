@@ -7,20 +7,29 @@ $(document).ready(function(){
         var expenseID = expense.options[expense.selectedIndex].getAttribute("data-id");
         console.log(expense);
         console.log(expenseID);
-        $.ajax({
-            url: '/expenseDetails/add',
-            method: 'POST',
-            data: {
-                expenseDate: expenseDate, 
-                expenseName: expenseID, 
-                expenseDesc: expenseDesc, 
-                expenseAmt: expenseAmt 
-            },
-            error: () => callback(),
-            success: function(){
-                alert("Expense details successfully saved!");
-                window.location.href="/expenseDetails"; 
-            }
-        });
+
+        if(expenseDate == "" || expenseDesc == "" || expenseAmt == "" || expense == ""){
+            alert("Please input all fields."); 
+        }
+        else if(expenseAmt <= 0 ){
+            alert("Invalid value for amount."); 
+        }
+        else{
+            $.ajax({
+                url: '/expenseDetails/add',
+                method: 'POST',
+                data: {
+                    expenseDate: expenseDate, 
+                    expenseName: expenseID, 
+                    expenseDesc: expenseDesc, 
+                    expenseAmt: expenseAmt 
+                },
+                error: () => callback(),
+                success: function(){
+                    alert("Expense details successfully saved!");
+                    window.location.href="/expenseDetails"; 
+                }
+            });
+        }
     });
 });
