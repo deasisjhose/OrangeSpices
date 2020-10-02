@@ -9,13 +9,13 @@ $(document).ready(function() {
         console.log(expenseID);
 
         var today = new Date();
-
+        var d1 = new Date(expenseDate);
         if (expenseDate == "" || expenseDesc == "" || expenseAmt == "" || expense == "") {
             alert("Please input all fields.");
         } else if (expenseAmt <= 0) {
             alert("Invalid value for amount.");
         }
-        if (expenseDate.getTime() > today.getTime()) {
+        if (d1.getTime() > today.getTime()) {
             alert("Invalid date. Cannot be future");
         } else {
             $.ajax({
