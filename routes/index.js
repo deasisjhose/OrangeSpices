@@ -577,7 +577,7 @@ router.post('/purchase/add', loggedIn, addPurchaseValidation, purchaseController
 router.post('/purchase/order', loggedIn, purchaseController.sendEmail);
 router.post('/expense/add', loggedIn, addExpenseValidation, expenseController.addExpense);
 router.post('/expenseDetails/add', loggedIn, addExpenseDetailsValidation, expenseDetailsController.addExpenseDetails);
-router.post('/supplies/check', loggedIn, discrepancyController.checkDiscrepancy);
+router.post('/supplies/update', loggedIn, discrepancyController.updateStock);
 router.post('/checkout', loggedIn, billingController.checkout);
 
 module.exports = router;

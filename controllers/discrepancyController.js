@@ -2,7 +2,7 @@ const discrepancyModel = require('../models/Discrepancy');
 const supplyModel = require('../models/Supplies');
 const { validationResult } = require('express-validator');
 
-exports.checkDiscrepancy = (req, res) => {
+exports.updateStock = (req, res) => {
     const errors = validationResult(req);
     const messages = errors.array().map((item) => item.msg);
     const { physicalCount, id } = req.body;
@@ -21,6 +21,10 @@ exports.checkDiscrepancy = (req, res) => {
                        date: Date.now(),
                        supplyID: id
                     };
+
+                    var updateStock = {
+                        totalSupply: physicalCount
+                    };
                     
                     discrepancyModel.add(discrepancy, function(err, result){
                         if (err) {
@@ -28,10 +32,18 @@ exports.checkDiscrepancy = (req, res) => {
                         } else {
                             console.log('Discrepancy added!');
                             console.log(result);
+                            supplyModel.updateStock(id, updateStock, (err, result) => {
+                                if (err) {
+                                    req.flash('error_msg', 'Could not update supply.');
+                                    res.redirect('/supplies');
+                                } else {
+                                    req.flash('success_msg', 'Supply updated!');
+                                    res.redirect('/supplies');
+                                }
+                            })
                         }
+
                     })
-                    req.flash('success_msg', 'Discrepancy recorded!');
-                    res.redirect('/supplies');
                 }
             })
         }
