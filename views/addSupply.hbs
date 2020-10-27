@@ -52,7 +52,6 @@
                         <div class="col-4">
                             <label for="ingName" style="font-weight: bold;">Name (Ingredient)</label>
                             <select id="select-ingredient" name="ingredientName" placeholder="Select ingredient" class="form-control">
-                                <option selected="true" disabled="disabled">Select ingredient</option>
                                 {{>ingredientName}}
                             </select>
                             <p id="ingNameError" class="error"></p>
@@ -61,8 +60,6 @@
                             <label for="unitQty" style="font-weight: bold;">Unit Quantity</label>
                             <input type="number" class="form-control" placeholder="Ex. 80" id="unitQty" min="1">
                             <p id="prodPriceError" class="error"></p>
-                            <label for="unit" style="font-weight: bold;">Unit</label>
-                            <input type="number" class="form-control" disabled="disabled" min="1" style="background: #dddddd;" name="unit">
                         </div>
                     </div>
                 </div>

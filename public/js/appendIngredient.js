@@ -20,17 +20,27 @@ $(document).ready(function(){
     var unit = document.getElementById("unit");
     var unitID = unit.options[unit.selectedIndex].getAttribute("data-id");
 
-    idIngList.push(selectedVal);
-    ingName.push(selectedValue);
-    qtyList.push(qty);
-    unitList.push(unitID);
-    console.log("unitList");
-    console.log(unitList);
+    if(qty == ""){
+      alert("Please fill out all fields!");
+    }
+    else if(qty < 0){
+        alert("You cannot enter a negative value!");
+    }
+    else{
+      idIngList.push(selectedVal);
+      ingName.push(selectedValue);
+      qtyList.push(qty);
+      unitList.push(unitID);
+      console.log("unitList");
+      console.log(unitList);
 
-    addIng(selectedVal, qty, unit);
+      addIng(selectedVal, qty, unit);
 
-    i++;  
-    $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="selectIng" name="ingredientName" placeholder="' + selectedValue +'" style="width:215px;"></input></td><td><input type="number" class="form-control" disabled="disabled" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" placeholder="' + qty +'"min="1"></td><td><input id="unit" class="form-control" disabled="disabled" placeholder="' + unitName +'" style="width:150px; height: 40px;"></input></td><td><button style="margin-left: 25px; height: 40px;" type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x Remove</button></td></tr>');  
+      i++;  
+      $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="selectIng" name="ingredientName" placeholder="' + selectedValue +'" style="width:215px;"></input></td><td><input type="number" class="form-control" disabled="disabled" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" placeholder="' + qty +'"min="1"></td><td><input id="unit" class="form-control" disabled="disabled" placeholder="' + unitName +'" style="width:150px; height: 40px;"></input></td><td><button style="margin-left: 25px; height: 40px;" type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x Remove</button></td></tr>');  
+      
+    }
+
     });  
 
   $(document).on('click', '.btn_remove', function(){  
@@ -48,27 +58,35 @@ $(document).ready(function(){
     prod = document.getElementById("product").value;
     category = document.getElementById("category").value;
     price = document.getElementById("prodPrice").value;
-    $.ajax({
-      url: '/products/add',
-      method: 'POST',
-      data: {
-        prodName: prod,
-        category: category,
-        prodPrice: price,
-        idIngList: idIngList,
-        ingName: ingName,
-        qtyList: qtyList,
-        unitList: unitList
-      },
-      error: function(){
-        alert("May error");
-      },
-      success: function(){
-        window.location.href="/products"; 
+
+    if(prod == "" || category == "" || price == "" ){
+      alert("Please fill out all fields!");
     }
-    
-    });
-    alert("Product successfully saved!");
+    else if(price <= 0){
+        alert("You cannot enter a zero or negative value!");
+    }
+    else{
+      $.ajax({
+        url: '/products/add',
+        method: 'POST',
+        data: {
+          prodName: prod,
+          category: category,
+          prodPrice: price,
+          idIngList: idIngList,
+          ingName: ingName,
+          qtyList: qtyList,
+          unitList: unitList
+        },
+        error: function(){
+          alert("Please fill out the ingrdients table.");
+        },
+        success: function(){
+          window.location.href="/products"; 
+      }
+      });
+      alert("Product successfully saved!");
+    }
   });
 }); 
 
