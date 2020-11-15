@@ -19,7 +19,6 @@ exports.getAllProducts = (param, callback) =>{
 
 // Adding product
 exports.addProduct = (req, res) => {
-
   //const { prodName, category, prodPrice, productID, ingredientID, quantityNeeded, unitID } = req.body;
   const errors = validationResult(req);
     if (errors.isEmpty()) {
@@ -211,4 +210,19 @@ exports.getBakedSushi = (req, res) => {
     req.flash('error_msg', messages.join(' ')); 
     res.redirect('/POS');
   }
+};
+
+// Delete product
+exports.delete = (req, res) => {
+  var id = req.params.id;
+  
+  productModel.remove(id, (err, result) => {
+    if (err) {
+      throw err; 
+    } 
+    else {
+      req.flash('success_msg', 'Product removed!');
+      res.redirect('/products');
+    }
+  }); 
 };

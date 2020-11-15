@@ -87,6 +87,13 @@ exports.getBSUSH = function(req, next) {
   });
 };
 
+// Delete product
+exports.remove = function(query, next) {
+  Product.findByIdAndRemove(query, function(err, product){
+    next(err, product);
+  });
+};
+
 // Get all orderList
 exports.getAllProducts = (param, next) => {
   Product.aggregate(

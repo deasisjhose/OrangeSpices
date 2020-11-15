@@ -121,6 +121,9 @@ router.get('/products/add', loggedIn, (req, res) => {
   })
 });
 
+// Delete product
+router.get('/product/delete/:id', loggedIn, productController.delete);
+
 // Get inventory [supplies] page
 router.get('/supplies', loggedIn, (req, res) => {
   console.log("Read supplies successful!");
