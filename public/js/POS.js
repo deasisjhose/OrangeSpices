@@ -92,4 +92,6 @@ $(document).ready(function () {
         window.location.replace("/POS");
         alert("Order successfully saved!");
     })
+
+    
 }); 

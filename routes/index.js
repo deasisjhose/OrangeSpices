@@ -573,6 +573,7 @@ router.get('/logout', loggedIn, userController.logoutUser);
 
 // POST methods for form submissions
 router.post('/login', loginValidation, userController.loginUser);
+router.post('/searchPOS', loggedIn, billingController.search);
 router.post('/products/add', loggedIn, productController.addProduct);
 router.post('/supplies/add', loggedIn, supplyController.addSupply);
 router.post('/ingredients/add', loggedIn, ingredientController.addIngredient);
