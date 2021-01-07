@@ -5,6 +5,7 @@ const orderListModel = require('../models/OrderList');
 const purchaseModel = require('../models/PurchaseSupplies');
 const { validationResult } = require('express-validator');
 
+// Order history report
 exports.orderHistory = (req, res) => {
     var sDate = req.query.ordfromDate;
     var eDate = req.query.ordToDate;
@@ -41,6 +42,7 @@ exports.orderHistory = (req, res) => {
     }
 };
 
+// Sales report
 exports.salesReport = (req, res) => {
     var sDate = req.query.salfromDate;
     var eDate = req.query.salToDate;
@@ -68,6 +70,7 @@ exports.salesReport = (req, res) => {
     }
 };
 
+// Purchase report
 exports.purchaseReport = (req, res) => {
     var sDate = req.query.ordfromDate;
     var eDate = req.query.ordToDate;
@@ -104,10 +107,11 @@ exports.purchaseReport = (req, res) => {
     }
 };
 
+// Profitability total sales
 exports.profitReport = (req, res) => {
     productModel.getTotalSales(req,(err, total) => {
         if(err){
-            req.flash('error_msg', 'Could not get purchases.');
+            req.flash('error_msg', 'Could not get total sales.');
             res.redirect('/profitability');
         } else {
             console.log("total");
@@ -117,6 +121,7 @@ exports.profitReport = (req, res) => {
     })
 };
 
+// Profitability total sales
 exports.profitExpReport = (req, res) => {
     expenseModel.getTotalExpenses(req,(err, expenses) => {
         if(err){
@@ -130,6 +135,7 @@ exports.profitExpReport = (req, res) => {
     })
 };
 
+// Getting net income
 exports.getNetIncome = (req, res) => {
     expenseModel.getTotalExpenses(req,(err, expenses) => {
         productModel.getTotalSales(req,(err, total) => {

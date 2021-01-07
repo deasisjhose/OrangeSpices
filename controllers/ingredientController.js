@@ -1,7 +1,7 @@
 const ingredientModel = require('../models/Ingredients');
 const { validationResult } = require('express-validator');
 
-//Getting all ingredients
+// Getting all ingredients
 exports.getAllIngredients = (param, callback) =>{
   ingredientModel.getAll(param, (err, ingredients) => {
     if (err) throw err;
@@ -60,6 +60,7 @@ exports.addIngredient = (req, res) => {
   }
 }; 
 
+// Getting ingredient name
 exports.getIngredientName = (param, callback) => {
   ingredientModel.getName({ingredientName: true}, (err, ingredients) => {
     if (err) throw err;

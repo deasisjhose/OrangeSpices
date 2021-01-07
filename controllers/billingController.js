@@ -2,6 +2,7 @@ const orderModel = require('../models/Order');
 const orderListModel = require('../models/OrderList');
 const { validationResult } = require('express-validator');
 
+// After clicking checkout
 exports.checkout = (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {

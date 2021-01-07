@@ -2,7 +2,7 @@ const userModel = require('../models/Users');
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
 
-// Login
+// User login
 exports.loginUser = (req, res) => {
   const errors = validationResult(req);
   if (!req.session.user) {

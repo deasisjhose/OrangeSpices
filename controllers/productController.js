@@ -71,7 +71,7 @@ exports.addProduct = (req, res) => {
     }
 }; 
 
-
+// Get ala carte products
 exports.getAlaCarte = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
@@ -92,6 +92,7 @@ exports.getAlaCarte = (req, res) => {
   }
 };
 
+// Get beef rice meal products
 exports.getBeefRiceMeal = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
@@ -112,6 +113,7 @@ exports.getBeefRiceMeal = (req, res) => {
   }
 };
 
+// Get pork rice meal products
 exports.getPorkRiceMeal = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
@@ -132,6 +134,7 @@ exports.getPorkRiceMeal = (req, res) => {
   }
 };
 
+// Get chicken rice meal products
 exports.getChickenRiceMeal = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
@@ -152,6 +155,7 @@ exports.getChickenRiceMeal = (req, res) => {
   }
 };
 
+// Get all day breakfast products
 exports.getAllDayBreakfast = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
@@ -172,6 +176,7 @@ exports.getAllDayBreakfast = (req, res) => {
   }
 };
 
+// Get baked spaghetti products
 exports.getBakedSpaghetti = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
@@ -192,6 +197,7 @@ exports.getBakedSpaghetti = (req, res) => {
   }
 };
 
+// Get baked sushi products
 exports.getBakedSushi = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())

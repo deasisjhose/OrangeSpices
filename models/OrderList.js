@@ -22,7 +22,7 @@ exports.getByID = function(id, next) {
   });
 };
 
-// Getall orderList
+// Get all orderList
 exports.getAllList = (next) => {
   OrderList.find({}, (err, orderList) => {
     next(err, orderList);

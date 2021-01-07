@@ -2,6 +2,7 @@ const discrepancyModel = require('../models/Discrepancy');
 const supplyModel = require('../models/Supplies');
 const { validationResult } = require('express-validator');
 
+// Recording discrepancy and updating stocks
 exports.updateStock = (req, res) => {
     const errors = validationResult(req);
     const messages = errors.array().map((item) => item.msg);

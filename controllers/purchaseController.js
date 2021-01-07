@@ -5,7 +5,7 @@ const supplyModel = require('../models/Supplies');
 
 const { validationResult } = require('express-validator');
 
-//Sending Purchase Order via email
+// Sending purchase order via email
 exports.sendEmail = (req, res) => {
     var supplierName = req.body.supplierName;
     var supplierEmail = req.body.supplierEmail;
@@ -41,8 +41,7 @@ exports.sendEmail = (req, res) => {
     res.status(200).send();
 };
 
-
-//Getting all purchase
+// Getting all purchase
 exports.getAllPurchase = (param, callback) => {
     purchaseModel.getAll(param, (err, purchase) => {
         if (err) throw err;
@@ -159,6 +158,7 @@ exports.addPurchase = (req, res) => {
     }
 };
 
+// Get ingredient name
 exports.getIngredientName = (param, callback) => {
     ingredientModel.getName({ ingredientName: true }, (err, ingredients) => {
         if (err) throw err;

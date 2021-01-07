@@ -1,7 +1,7 @@
 const expenseModel = require('../models/Expense');
 const { validationResult } = require('express-validator');
 
-//Getting all expense
+// Getting all expense
 exports.getAllExpense = (param, callback) => {
     expenseModel.getAll(param, (err, expense) => {
       if (err) throw err;
@@ -16,7 +16,7 @@ exports.getAllExpense = (param, callback) => {
     });
 };
 
-//Add expense
+// Add expense
 exports.addExpense = (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty())

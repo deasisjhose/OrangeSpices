@@ -1,7 +1,7 @@
 const supplyModel = require('../models/Supplies');
 const { validationResult } = require('express-validator');
 
-//Getting all supplies
+// Getting all supplies
 exports.getAllSupplies = (param, callback) => {
   supplyModel.getAll(param, (err, supplies) => {
     if (err) throw err;
@@ -16,7 +16,7 @@ exports.getAllSupplies = (param, callback) => {
   });
 };
 
-//Add supplies
+// Add supplies
 exports.addSupply = (req, res) => {
   const errors = validationResult(req);
   if (errors.isEmpty())
@@ -58,6 +58,7 @@ exports.addSupply = (req, res) => {
   }
 }; 
 
+// Getting supply name
 exports.getSupplyName = (param, callback) => {
   supplyModel.getName({brandName: true}, (err, supplies) => {
     if (err) throw err;
