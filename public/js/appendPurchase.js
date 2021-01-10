@@ -4,15 +4,6 @@ $(document).ready(function() {
     // exp = expiry date,
     function addPurchase(id, exp, qty, price) {
         itemsArray.push({id: id, exp: Date.parse(exp), qty: Number.parseInt(qty), price: Number.parseInt(price)});
-        // console.log("testing addPurchase func");
-        // console.log("id");
-        // console.log(id);
-        // console.log("exp");
-        // console.log(exp);
-        // console.log("qty");
-        // console.log(qty);
-        // console.log("price");
-        // console.log(price);
     }
       
     var i = 1;  
@@ -23,7 +14,8 @@ $(document).ready(function() {
         var selectSupply = document.getElementById("supplyName");
         var selectedSupply = selectSupply.options[selectSupply.selectedIndex].value;
         var selectedSupplyID = selectSupply.options[selectSupply.selectedIndex].getAttribute("data-id");
-        var expiryDate = document.getElementById("expDate").value;
+        var expiryDate = document.getElementById("expDate").value
+        var expDate = new Date(expiryDate).toJSON().slice(0,10).split('-').reverse().join('/');
         var qty = document.getElementById("numItems").value;
         var price = document.getElementById("purchPrice").value;
 
@@ -79,7 +71,7 @@ $(document).ready(function() {
             console.log(expiryDate);
             i++;
 
-            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="supplyName" name="supplyName" placeholder="' + selectedSupply +'" style="width:215px;"></input></td><td><input type="date" class="form-control" id="expDate" disabled="disabled" style="width:170px; height: 40px;" placeholder="' + Date.parse(expiryDate) + '"</input></td><td><input disabled="disabled" type="number" class="form-control" id="numItems" placeholder="'+ qty +'" style="width:120px; height: 40px;" min="1"></td><td><input disabled="disabled" type="number" class="form-control" id="purchPrice" placeholder="'+ price +'" style="width:145px; height: 40px;" min="1" step="0.01"</input></td><td><button style="margin-left: 25px; height: 40px;" type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x Remove</button></td></tr>');
+            $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="supplyName" name="supplyName" placeholder="' + selectedSupply +'" style="width:215px;"></input></td><td><input type="name" class="form-control" id="expDate" disabled="disabled" style="width:170px; height: 40px;" placeholder="' + expDate + '"</input></td><td><input disabled="disabled" type="number" class="form-control" id="numItems" placeholder="'+ qty +'" style="width:120px; height: 40px;" min="1"></td><td><input disabled="disabled" type="number" class="form-control" id="purchPrice" placeholder="'+ price +'" style="width:145px; height: 40px;" min="1" step="0.01"</input></td><td><button style="width: 100px; height: 40px;" type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x Remove</button></td></tr>');
         }
     });
 
