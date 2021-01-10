@@ -28,7 +28,7 @@ exports.addProduct = (req, res) => {
         var prodPrice = req.body.prodPrice;
 
         var idList = req.body.idIngList;
-        var ingName = req.body.ingName;
+        // var ingName = req.body.ingName;
         var qtyList = req.body.qtyList;
         var unitList = req.body.unitList; 
 

@@ -60,9 +60,14 @@
                             <p id="prodPriceError" class="error"></p>
                         </div>
                         <div class="col-12">
-                            <p style="font-weight: bold;">Ingredients</p>
+                            <p style="font-weight: bold;">List of Ingredients</p>
                             <div class="table-responsive">  
                                <table class="table table-bordered" id="dynamic_field">  
+                                   <tr>
+                                        <th style="text-align: center; font-size: 13px;">Ingredient</th>
+                                        <th style="text-align: center; font-size: 13px;">Quantity</th>
+                                        <th style="text-align: center; font-size: 13px;">Unit</th>
+                                    </tr>
                                     <tr>
                                         <td>
                                             <div class="form-group" style="height: 40px;">
@@ -73,8 +78,7 @@
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <label for="quantity" class="sr-only">Quantity</label>
-                                                <input type="number" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" placeholder="Quantity" min="1">
+                                                <input type="number" id="quantity" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" placeholder="Quantity" min="1">
                                             </div>
                                         </td>
                                         <td>

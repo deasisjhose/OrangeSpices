@@ -37,32 +37,55 @@
                 <div class="card shadow mb-3">  
                     <div class="form-container" style="padding: 20px;">
                         <div class="col-4">
-                            <label for="suppName" style="font-weight: bold;">Supply Name</label>
-                            <select id="supplyName" class="form-control">
-                                {{>supplyName}}
-                            </select>
-                            <p id="purchNameError" class="error"></p>
-                        </div>
-                        <div class="col-4">
                             <label for="purchDate" style="font-weight: bold;">Purchase Date</label>
                             <input type="date" class="form-control" id="purchDate">
                             <p id="purchDateError" class="error"></p>
                         </div>
-                        <div class="col-4">
-                            <label for="expDate" style="font-weight: bold;">Expiry Date</label>
-                            <input type="date" class="form-control" id="expDate">
-                            <p id="expDateError" class="error"></p>
+                        <hr>
+                        <div class="col-12">
+                            <p style="font-weight: bold;">Purchased Items</p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dynamic_field">  
+                                    <tr>
+                                        <th style="text-align: center; font-size: 13px;">Supply</th>
+                                        <th style="text-align: center; font-size: 13px;">Expiry Date</th>
+                                        <th style="text-align: center; font-size: 13px;">Quantity</th>
+                                        <th style="text-align: center; font-size: 13px;">Price</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group" style="height: 40px;">
+                                                <select id="supplyName" class="form-control" name="supplyName" style="width:215px;">
+                                                    {{>supplyName}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="date" class="form-control" id="expDate" style="width:170px; height: 40px;">
+                                                <p id="expDateError" class="error"></p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <label for="quantity" class="sr-only">Quantity</label>
+                                                <input type="number" class="form-control" id="numItems" placeholder="No. of items" style="width:120px; height: 40px;" min="1">
+                                                <p id="numItemsError" class="error"></p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="purchPrice" placeholder="Price per item" style="width:145px; height: 40px;" min="1" step="0.01">
+                                                <p id="purchPriceError" class="error"></p>
+                                            </div>  
+                                        </td>
+                                        <td>
+                                            <button style="margin-left: 25px; height: 40px;" type="button" id="addPurchase" class="btn btn-primary add-btn">+ Add</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>   
                         </div>
-                        <div class="col-4">
-                            <label for="numItems" style="font-weight: bold;">No. of Items</label>
-                            <input type="number" class="form-control" placeholder="Enter number of items" id="numItems" min="1">
-                            <p id="numItemsError" class="error"></p>
-                        </div>
-                        <div class="col-4">
-                            <label for="purchPrice" style="font-weight: bold;">Price</label>
-                            <input type="number" class="form-control" placeholder="Price per item" id="purchPrice" min="1" step="0.01">
-                            <p id="purchPriceError" class="error"></p>
-                        </div>            
                     </div>
                 </div>
             </div>
@@ -73,5 +96,5 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/addPurchase#page-top"><i class="fas fa-angle-up"></i></a></div>
-    <script src="/public/js/purchase.js"></script>
+    <script src="/public/js/appendPurchase.js"></script>
 </body>

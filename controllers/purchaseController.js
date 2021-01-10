@@ -60,38 +60,39 @@ exports.getAllPurchase = (param, callback) => {
 exports.addPurchase = (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
+        var i;
         const purchDate = req.body.purchDate;
-        const supplyName = req.body.supplyName;
+        const idSupplyList = req.body.idSupplyList;
+        const supplyList = req.body.supplyList;
         const numItems = req.body.numItems;
         const expDate = req.body.expDate;
         const purchPrice = req.body.purchPrice;
+        const totalPrice = [];
 
-        if (supplyName == "Select supply name...") {
-            req.flash('error_msg', 'Please select supply name.');
-            res.redirect('/purchase/add');
-        } else if (purchDate == "" && expDate != "") {
-            req.flash('error_msg', 'Please select purchase date.');
-            res.redirect('/purchase/add');
-        } else if (purchDate != "" && expDate == "") {
-            req.flash('error_msg', 'Please select expiry date.');
-            res.redirect('/purchase/add');
-        } else if (purchDate == "" && expDate == "") {
-            req.flash('error_msg', 'Please select dates.');
-            res.redirect('/purchase/add');
-        } else {
-            var total;
-            total = numItems * purchPrice;
+        // console.log("purchase date inside controller");
+        // console.log(purchDate);
+        // console.log("sample supply name in controller");
+        // console.log(supplyList[0]);
+        // console.log("number of items in controller");
+        // console.log(numItems);
+        // console.log("price inside in controller");
+        // console.log(purchPrice);
+        // console.log("expiry date inside controller");
+        // console.log(expDate);
 
-            var purchase = {
+        for(i = 0; i < idSupplyList.length; i++){
+            totalPrice[i] = numItems[i] * purchPrice[i];
+
+            var purchaseList = {
                 purchaseDate: purchDate,
-                supplyID: supplyName,
-                purchaseQty: numItems,
-                expiryDate: expDate,
-                purchasePrice: purchPrice,
-                totalPrice: total
+                supplyID: idSupplyList[i],
+                purchaseQty: numItems[i],
+                expiryDate: expDate[i],
+                purchasePrice: purchPrice[i],
+                totalPrice: totalPrice[i]
             }
 
-            purchaseModel.add(purchase, function(err, result) {
+            purchaseModel.add(purchaseList, function(err, result) {
                 if (err) {
                     console.log(err);
                     req.flash('error_msg', 'Could not add purchase. Please try again.');
@@ -101,7 +102,7 @@ exports.addPurchase = (req, res) => {
                     var quantity = result.purchaseQty;
                     var unitQuantity, total;
                     var ingID;
-
+                        
                     supplyModel.getByID(suppID, (err, supply) => {
                         if (err) {
                             req.flash('error_msg', 'Could not find supply.');
@@ -110,13 +111,13 @@ exports.addPurchase = (req, res) => {
                             ingID = supply.ingredientID;
                             unitQuantity = supply.unitQuantity;
                             total = quantity * unitQuantity;
-
+    
                             var updateStock = {
                                 $inc: {
                                     totalSupply: total
                                 }
                             };
-
+    
                             supplyModel.updateStock(suppID, updateStock, (err, result) => {
                                 if (err) {
                                     req.flash('error_msg', 'Could not update supply stock.');
@@ -132,7 +133,7 @@ exports.addPurchase = (req, res) => {
                                                     totalQuantity: total
                                                 }
                                             }
-
+    
                                             ingredientModel.updateIngredient(ingID, ingUpd, (err, result) => {
                                                 if (err) {
                                                     req.flash('error_msg', 'Could not update ingredient.');
