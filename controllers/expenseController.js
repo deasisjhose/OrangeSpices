@@ -1,68 +1,72 @@
 const expenseModel = require('../models/Expense');
 const { validationResult } = require('express-validator');
 
-// Getting all expense
-exports.getAllExpense = (param, callback) => {
-    expenseModel.getAll(param, (err, expense) => {
-      if (err) throw err;
-        
-      const expensesObjects = [];
-        
-      expense.forEach(function(doc) {
-        expensesObjects.push(doc.toObject());
-      });
-        
-      callback(expensesObjects);
-    });
+// Getting all expense details
+exports.getAllExpense = (req, res) => {
+  expenseModel.getAll(req, (err, expense) => {
+    if(err){
+      req.flash('error_msg', 'Could not get expenses.');
+      console.log(err);
+      // res.redirect('/expense');
+    } else {
+      console.log("expense inside expenseController");
+      console.log(expense);
+      res(expense);
+    }
+  });
 };
 
-// Add expense
+// Add expense details
 exports.addExpense = (req, res) => {
     const errors = validationResult(req);
-    if (errors.isEmpty())
-    {
-      const { expenseName, expenseType } = req.body;
-      expenseModel.getOne({ expenseName: {$regex: expenseName, $options:'i'}}, (err, result) => {
-        if (result) {
-            req.flash('error_msg', 'Already have that expense. Try again.');
-            res.redirect('/expense/add');
-        } else {
-          var expense = {
-            expenseName: expenseName,
-            expenseType: expenseType
-          }
-           
-          expenseModel.add(expense, function(err, result){
-            if(err){
-              req.flash('error_msg', 'Could not add expense. Please try again.');
-              res.redirect('/expense/add');
-            }
-            else {
-              console.log("Expense added!");
-              req.flash('success_msg', 'Expense added!');
-              res.redirect('/expense');
-            }
-          })
+    if (errors.isEmpty()){
+      const expenseDate = req.body.expenseDate;
+      const expenseName = req.body.expenseList;
+      const expenseType = req.body.expenseType;
+      const expenseDesc = req.body.expenseDesc;
+      const expenseAmt = req.body.expenseAmt;
+      var i;
+
+      for(i = 0; i < expenseName.length; i++)
+      {
+        var expense = {
+           date: expenseDate,
+           expenseName: expenseName[i],
+           expenseType: expenseType[i],
+           description: expenseDesc[i],
+           expenseAmount: expenseAmt[i]
         }
-      });
+            
+        expenseModel.add(expense, function(err, result){
+          if(err){
+            console.log(err);
+            req.flash('error_msg', 'Could not add expense details.');
+            res.redirect('/expense/add');
+          } else {
+            console.log("Expenses added!");
+            console.log(result);
+            res.status(200).send();
+          }
+        })
+      }
     } else {
       const messages = errors.array().map((item) => item.msg);
-      req.flash('error_msg', messages.join(' ')); 
+      req.flash('error_msg', messages.join(' '));
       res.redirect('/expense/add');
     }
 }; 
 
 // Get expense name
-exports.getExpenseName = (param, callback) => {
-    expenseModel.getName({expenseName: true}, (err, expense) => {
-      if (err) throw err;
+// exports.getExpenseName = (param, callback) => {
+//   expenseModel.getName({expenseName: true}, (err, expense) => {
+//     if (err) throw err;
         
-      const expenseObjects = [];
+//     const expenseObjects = [];
         
-      expense.forEach(function(doc) {
-        expenseObjects.push(doc.toObject());
-      });
+//     expense.forEach(function(doc) {
+//       expenseObjects.push(doc.toObject());
+//     });
         
-      callback(expenseObjects);
-    });
-};
+//     callback(expenseObjects);
+//   });
+// };

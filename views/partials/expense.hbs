@@ -1,6 +1,9 @@
 {{#each expense}}
     <tr>
+        <td>{{formattingDate expenseDate}}</td>
         <td>{{expenseName}}</td>
         <td>{{expenseType}}</td>
+        <td>{{description}}</td>
+        <td>₱{{expenseAmount}}</td>
     </tr>
 {{/each}}

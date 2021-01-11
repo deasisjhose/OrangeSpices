@@ -15,7 +15,7 @@
                         style="background-color: #c64327 !important; color: #ffffff !important;" href="/products"><i class="fa fa-fw fa-star mr-2"></i>Products</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/supplies"><i class="fa fa-fw fa-archive mr-2"></i>Inventory</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/procurement"><i class="fa fa-fw fa-shopping-basket mr-2"></i>Procurement</a></li>
-                    <li class="nav-item" role="presentation"><a class="nav-link" href="/expenseDetails"><i class="fa fa-fw fa-calculator mr-2"></i>Expenses</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/expense"><i class="fa fa-fw fa-calculator mr-2"></i>Expenses</a></li>
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/order_history"><i class="fa fa-fw fa-file-alt mr-2"></i>Reports</a></li>
                     {{else}}
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/supplies"><i class="fa fa-fw fa-archive mr-2"></i>Inventory</a></li>
@@ -67,22 +67,23 @@
                                         <th style="text-align: center; font-size: 13px;">Ingredient</th>
                                         <th style="text-align: center; font-size: 13px;">Quantity</th>
                                         <th style="text-align: center; font-size: 13px;">Unit</th>
+                                        <th style="text-align: center; font-size: 13px;">Add or Remove</th>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="form-group" style="height: 40px;">
+                                            <div class="form-group" style="height: 40px; margin-bottom: 0rem !important;">
                                                 <select id="selectIng" class="form-control" name="ingredientName" style="width:215px;">
                                                     {{>ingredientName}}
                                                 </select>
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="form-group">
+                                            <div class="form-group" style="margin-bottom: 0rem !important;">
                                                 <input type="number" id="quantity" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" placeholder="Quantity" min="1">
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="form-group">
+                                            <div class="form-group" style="margin-bottom: 0rem !important;">
                                                 <select id="unit" class="form-control" style="width:150px; height: 40px;">
                                                     {{>units}}
                                                 </select>

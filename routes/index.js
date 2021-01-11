@@ -8,7 +8,6 @@ const discrepancyController = require('../controllers/discrepancyController');
 const ingredientController = require('../controllers/ingredientController');
 const purchaseController = require('../controllers/purchaseController');
 const expenseController = require('../controllers/expenseController');
-const expenseDetailsController = require('../controllers/expenseDetailsController');
 const reportsController = require('../controllers/reportsController');
 const { loginValidation, addProductValidation, addSupplyValidation, addIngredientValidation, 
         addPurchaseValidation, purchaseOrderValidation, addExpenseValidation, addExpenseDetailsValidation } = require('../validators.js');
@@ -274,57 +273,15 @@ router.get('/purchase/order', (req, res) => {
   })
 });
 
-// Get accounting [expense details] page
-router.get('/expenseDetails', loggedIn, (req, res) => {
-  console.log("Read expense details successful!");
-  expenseDetailsController.getAllDetails(req, details => {
-    userController.getID(req.session.user, user => {
-      if(req.session.username == "admin"){
-        res.render('expenseDetails', { 
-          isAdmin: true,
-          expenseDetails: details,
-        })
-      }
-      else {
-        res.render('expenseDetails', { 
-          isAdmin: false
-        })
-      }
-    })
-  })
-});
-
-// Get accounting [add expense details] page
-router.get('/expenseDetails/add', loggedIn, (req, res) => {
-  console.log("Read add details successful!");
-  expenseController.getExpenseName(req, expense => {
-    userController.getID(req.session.user, user => {
-      if(req.session.username == "admin"){
-        res.render('addExpenseDetail', { 
-          isAdmin: true,
-          expenseName: expense
-        })
-      }
-      else {
-        res.render('addExpenseDetail', { 
-          isAdmin: false, 
-           expenseName: expense
-        })
-      }
-    })
-  })
-});
-
-
 // Get expense page
 router.get('/expense', loggedIn, (req, res) => {
   console.log("Read expense successful!");
-  expenseController.getAllExpense(req, expense => {
+  expenseController.getAllExpense(req, expenses => {
     userController.getID(req.session.user, user => {
       if(req.session.username == "admin"){
         res.render('expense', { 
           isAdmin: true,
-          expense: expense
+          expense: expenses,
         })
       }
       else {
@@ -337,24 +294,62 @@ router.get('/expense', loggedIn, (req, res) => {
 });
 
 // Get add expense page
-router.get('/expense/add', (req, res) => {
+router.get('/expense/add', loggedIn, (req, res) => {
   console.log("Read add expense successful!");
-  expenseController.getExpenseName(req, expense => {
-    userController.getID(req.session.user, user => {
-      if(req.session.username == "admin"){
-        res.render('addExpense', { 
-          isAdmin: true,
-          expenseName: expense
-        })
-      }
-      else {
-        res.render('addExpense', { 
-          isAdmin: false
-        })
-      }
-    })
+  userController.getID(req.session.user, user => {
+    if(req.session.username == "admin"){
+      res.render('addExpense', { 
+        isAdmin: true
+      })
+    }
+    else {
+      res.render('addExpense', { 
+        isAdmin: false
+      })
+    }
   })
 });
+
+
+// Get expense page
+// router.get('/expense', loggedIn, (req, res) => {
+//   console.log("Read expense successful!");
+//   expenseController.getAllExpense(req, expense => {
+//     userController.getID(req.session.user, user => {
+//       if(req.session.username == "admin"){
+//         res.render('expense', { 
+//           isAdmin: true,
+//           expense: expense
+//         })
+//       }
+//       else {
+//         res.render('expense', { 
+//           isAdmin: false
+//         })
+//       }
+//     })
+//   })
+// });
+
+// Get add expense page
+// router.get('/expense/add', (req, res) => {
+//   console.log("Read add expense successful!");
+//   expenseController.getExpenseName(req, expense => {
+//     userController.getID(req.session.user, user => {
+//       if(req.session.username == "admin"){
+//         res.render('addExpense', { 
+//           isAdmin: true,
+//           expenseName: expense
+//         })
+//       }
+//       else {
+//         res.render('addExpense', { 
+//           isAdmin: false
+//         })
+//       }
+//     })
+//   })
+// });
 
 // Get order history report page
 router.get('/order_history', (req, res) => {
@@ -519,7 +514,7 @@ router.get('/purchase_report/filter', (req, res) => {
 // Get  profitability page
 router.get('/profitability', (req, res) => {
   console.log("Read profitability report successful!");
-  expenseDetailsController.getAllDetails(req, expenses => {
+  expenseController.getAllExpense(req, expenses => {
     reportsController.profitReport(req, total => {
       reportsController.profitExpReport(req, expTotal => {
         reportsController.getNetIncome(req, netIncome => {
@@ -561,12 +556,12 @@ router.get('/getSupplies', (req, res) => {
   });
 });
 
-router.get('/getExpense', (req, res) => {
-  expenseController.getExpenseName(req.query.name, expense => {
-        console.log(expense);
-        res.status(200).send(expense);
-  });
-});
+// router.get('/getExpense', (req, res) => {
+//   expenseController.getExpenseName(req.query.name, expense => {
+//         console.log(expense);
+//         res.status(200).send(expense);
+//   });
+// });
 
 // Logout
 router.get('/logout', loggedIn, userController.logoutUser);
@@ -579,8 +574,7 @@ router.post('/supplies/add', loggedIn, supplyController.addSupply);
 router.post('/ingredients/add', loggedIn, ingredientController.addIngredient);
 router.post('/purchase/add', loggedIn, addPurchaseValidation, purchaseController.addPurchase);
 router.post('/purchase/order', loggedIn, purchaseController.sendEmail);
-router.post('/expense/add', loggedIn, addExpenseValidation, expenseController.addExpense);
-router.post('/expenseDetails/add', loggedIn, addExpenseDetailsValidation, expenseDetailsController.addExpenseDetails);
+router.post('/expense/add', loggedIn, expenseController.addExpense);
 router.post('/supplies/update', loggedIn, discrepancyController.updateStock);
 router.post('/checkout', loggedIn, billingController.checkout);
 

@@ -5,7 +5,7 @@
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 shadow">
             <div class="container-fluid d-flex flex-column p-0">
                 <a class="navbar-brand d-flex justify-content-center align-items-center m-0" href="/expense#page-top">
-                    <div class="sidebar-brand-icon"><img src="/public/img/logo.png" width="75"></i></div>
+                    <div class="sidebar-brand-icon"><img src="public/img/logo.png" width="75"></i></div>
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="nav navbar-nav text-light" id="accordionSidebar">
@@ -14,11 +14,7 @@
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/products"><i class="fa fa-fw fa-star mr-2"></i>Products</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/supplies"><i class="fa fa-fw fa-archive mr-2"></i>Inventory</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/procurement"><i class="fa fa-fw fa-shopping-basket mr-2"></i>Procurement</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" style="background-color: #c64327 !important; color: #ffffff !important;" href="/expenseDetails"><i class="fa fa-fw fa-calculator mr-2"></i>Expenses</a></li>                        
-                        <li class="nav-item" role="presentation"><a class="nav-link" 
-                            style="padding-left: 50px !important; height: 36px !important;" href="/expenseDetails">Expense Details</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" 
-                            style="background-color: #f47639 !important; color: #ffffff !important; padding-left: 50px !important; height: 36px !important;" href="/expense">Expense</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" style="background-color: #c64327 !important; color: #ffffff !important;" href="/expense"><i class="fa fa-fw fa-calculator mr-2"></i>Expenses</a></li>                        
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/order_history"><i class="fa fa-fw fa-file-alt mr-2"></i>Reports</a></li>
                     {{else}}
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/supplies"><i class="fa fa-fw fa-archive mr-2"></i>Inventory</a></li>
@@ -30,8 +26,7 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Expenses</span></div>
-                    <div class="add">
-                        <a href="/expense/add"><button type="button" class="btn btn-primary btn-sm add-btn">+ Add</button></a>
+                    <a href="/expense/add"><div class="add"><button type="button" class="btn btn-primary btn-sm add-btn">+ Add</button></a>
                     </div>
             </nav>
             <div class="container-fluid" style="margin-left: 225px;width: 82%;">
@@ -41,8 +36,11 @@
                         <table class="table table-hover text-center">
                             <thead>
                               <tr>
+                                <th scope="col">Date</th>
                                 <th scope="col">Expense Name</th>
+                                <th scope="col">Description</th>
                                 <th scope="col">Expense Type</th>
+                                <th scope="col">Amount</th>
                               </tr>
                             </thead>
                             <tbody>

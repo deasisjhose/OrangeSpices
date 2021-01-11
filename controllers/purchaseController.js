@@ -69,17 +69,6 @@ exports.addPurchase = (req, res) => {
         const purchPrice = req.body.purchPrice;
         const totalPrice = [];
 
-        // console.log("purchase date inside controller");
-        // console.log(purchDate);
-        // console.log("sample supply name in controller");
-        // console.log(supplyList[0]);
-        // console.log("number of items in controller");
-        // console.log(numItems);
-        // console.log("price inside in controller");
-        // console.log(purchPrice);
-        // console.log("expiry date inside controller");
-        // console.log(expDate);
-
         for(i = 0; i < idSupplyList.length; i++){
             totalPrice[i] = numItems[i] * purchPrice[i];
 

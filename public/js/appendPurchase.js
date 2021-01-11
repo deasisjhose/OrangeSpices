@@ -8,7 +8,6 @@ $(document).ready(function() {
       
     var i = 1;  
     var idSupplyList = [], supplyList = [], expDateList = [], qtyList = [], priceList = [];
-    var prod, category, price;
 
     $('#addPurchase').click(function(){
         var selectSupply = document.getElementById("supplyName");
@@ -18,17 +17,6 @@ $(document).ready(function() {
         var expDate = new Date(expiryDate).toJSON().slice(0,10).split('-').reverse().join('/');
         var qty = document.getElementById("numItems").value;
         var price = document.getElementById("purchPrice").value;
-
-        console.log("selectedSupplyID");
-        console.log(selectedSupplyID);
-        console.log("selectedSupply");
-        console.log(selectedSupply);
-        console.log("expiryDate line 34");
-        console.log(expiryDate);
-        console.log("num items");
-        console.log(qty);
-        console.log("purchase price");
-        console.log(price);
 
         if(expiryDate == "" && qty == "" && price == ""){
             alert("Please fill out all fields!");
@@ -64,11 +52,7 @@ $(document).ready(function() {
             qtyList.push(qty);
             priceList.push(price);
 
-            console.log("expiryDate b4 parsed");
-            console.log(expiryDate);
             addPurchase(selectedSupplyID, expiryDate, qty, price);
-            console.log("expiryDate after parsed");
-            console.log(expiryDate);
             i++;
 
             $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="supplyName" name="supplyName" placeholder="' + selectedSupply +'" style="width:215px;"></input></td><td><input type="name" class="form-control" id="expDate" disabled="disabled" style="width:170px; height: 40px;" placeholder="' + expDate + '"</input></td><td><input disabled="disabled" type="number" class="form-control" id="numItems" placeholder="'+ qty +'" style="width:120px; height: 40px;" min="1"></td><td><input disabled="disabled" type="number" class="form-control" id="purchPrice" placeholder="'+ price +'" style="width:145px; height: 40px;" min="1" step="0.01"</input></td><td><button style="width: 100px; height: 40px;" type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x Remove</button></td></tr>');
@@ -96,6 +80,7 @@ $(document).ready(function() {
         if (purchDate == "") {
             alert("Please enter purchase date");
         } 
+        // TO DO: validations when "save" button is clicked
         // else if (d1.getTime() > today.getTime() || d2.getTime() < d1.getTime()) {
         //     alert("Invalid dates");
         // } 
