@@ -80,6 +80,7 @@ exports.getPurchase = (param, next) => {
           day: { $dayOfMonth: "$purchaseDate" },
           year: { $year: "$purchaseDate" }
         }, 
+        purchaseDate: { "$first": "$purchaseDate" }, 
         supplyName: { "$push": "$supp.brandName" },
         purchaseQty: { "$push": "$purchaseQty" },
         expiryDate: { "$push": "$expiryDate" },
@@ -90,6 +91,7 @@ exports.getPurchase = (param, next) => {
     {
       '$project':
       {
+        purchaseDate: 1,
         supplyName: 1,
         purchaseQty: 1,
         totalQuantity: 1,

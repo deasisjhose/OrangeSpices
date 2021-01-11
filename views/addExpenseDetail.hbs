@@ -35,16 +35,14 @@
                     </div>            
                 </nav>    
             <div class="container-fluid" style="margin-left: 225px;width: 82%;">
+                {{>messages}}
                 <div class="card shadow mb-3">  
-                    {{>messages}}
                     <div class="form-container" style="padding: 20px;">
-                        <div class="row">
-                            <div class="col-4">
-                                <label for="expenseDate" style="font-weight: bold;">Date</label>
-                                <input type="date" class="form-control" id="expenseDate">
-                                <p id="expenseDateError" class="error"></p>
-                            </div>
+                        <div class="col-4">
+                            <label for="expenseDate" style="font-weight: bold;">Date</label>
+                            <input type="date" class="form-control" id="expenseDate">
                         </div>
+                        <hr>
                         <div class="col-4">
                             <label for="expenseName" style="font-weight: bold;">Expense Name</label>
                             <select class="form-control" id="expenseName">
