@@ -62,3 +62,41 @@ exports.getAllPurchase = (param, next) => {
     }
   ]).exec((err, purchase) => next(err, purchase));
 };
+
+exports.getPurchase = (param, next) => {
+  Purchase.aggregate(
+  [
+    {'$lookup': {
+      'from': 'supplies',
+      'localField': 'supplyID',
+      'foreignField': '_id',
+      'as': 'supp'
+      }
+    },
+    { '$group': 
+      {
+        _id: { 
+          month: { $month: "$purchaseDate" },
+          day: { $dayOfMonth: "$purchaseDate" },
+          year: { $year: "$purchaseDate" }
+        }, 
+        supplyName: { "$push": "$supp.brandName" },
+        purchaseQty: { "$push": "$purchaseQty" },
+        expiryDate: { "$push": "$expiryDate" },
+        price: { "$push": "$purchasePrice" },
+        totalPrice: { "$push": "$totalPrice" }
+      }
+    },
+    {
+      '$project':
+      {
+        supplyName: 1,
+        purchaseQty: 1,
+        totalQuantity: 1,
+        expiryDate: 1,
+        price: 1,
+        totalPrice: 1
+      }
+    }
+  ]).exec((err, purchase) => next(err, purchase));
+};

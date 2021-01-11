@@ -1,10 +1,10 @@
 {{#each purchase}}
     <tr style="font-size: 13px;">
-        <td class="text-left" style="padding-left: 20px;">{{supplyID.brandName}}</td>
+        <td class="text-left" style="padding-left: 20px;">{{supplyName}}</td>
         <td>{{formattingDate purchaseDate}}</td>
         <td>{{formattingDate expiryDate}}</td>
         <td>{{purchaseQty}}</td>
-        <td class="text-right" style="padding-right: 20px;">₱{{purchasePrice}}</td>
+        <td class="text-right" style="padding-right: 20px;">₱{{price}}</td>
         <td class="text-right" style="padding-right: 40px;">₱{{totalPrice}}</td>
     </tr>
 {{/each}}

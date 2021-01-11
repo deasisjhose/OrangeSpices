@@ -42,18 +42,18 @@ exports.sendEmail = (req, res) => {
 };
 
 // Getting all purchase
-exports.getAllPurchase = (param, callback) => {
-    purchaseModel.getAll(param, (err, purchase) => {
-        if (err) throw err;
-
-        const purchasesObjects = [];
-
-        purchase.forEach(function(doc) {
-            purchasesObjects.push(doc.toObject());
-        });
-
-        callback(purchasesObjects);
-    });
+exports.getAllPurchase = (req, res) => {
+    purchaseModel.getPurchase(req, (err, purchase) => {
+        if(err){
+            req.flash('error_msg', 'Could not get purchases.');
+            console.log(err);
+            // res.redirect('/procurement');
+        } else {
+            console.log("Purchase inside purchaseController");
+            console.log(purchase);
+            res(purchase);
+        }
+    })
 };
 
 // Adding purchase
