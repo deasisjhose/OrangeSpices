@@ -32,13 +32,14 @@ exports.getAllList = (next) => {
 // Get all orderList
 exports.getAll = (param, next) => {
   OrderList.aggregate(
-    [{'$lookup': 
+  [
+    {'$lookup': 
       {
         'from': 'orders',
         'localField': '_id',
         'foreignField': 'orderListID',
         'as': 'orders'
-      }
+      },
     }
   ]).exec((err, orders) => next(err, orders));
 };

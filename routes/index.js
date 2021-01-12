@@ -310,56 +310,19 @@ router.get('/expense/add', loggedIn, (req, res) => {
   })
 });
 
-
-// Get expense page
-// router.get('/expense', loggedIn, (req, res) => {
-//   console.log("Read expense successful!");
-//   expenseController.getAllExpense(req, expense => {
-//     userController.getID(req.session.user, user => {
-//       if(req.session.username == "admin"){
-//         res.render('expense', { 
-//           isAdmin: true,
-//           expense: expense
-//         })
-//       }
-//       else {
-//         res.render('expense', { 
-//           isAdmin: false
-//         })
-//       }
-//     })
-//   })
-// });
-
-// Get add expense page
-// router.get('/expense/add', (req, res) => {
-//   console.log("Read add expense successful!");
-//   expenseController.getExpenseName(req, expense => {
-//     userController.getID(req.session.user, user => {
-//       if(req.session.username == "admin"){
-//         res.render('addExpense', { 
-//           isAdmin: true,
-//           expenseName: expense
-//         })
-//       }
-//       else {
-//         res.render('addExpense', { 
-//           isAdmin: false
-//         })
-//       }
-//     })
-//   })
-// });
-
 // Get order history report page
 router.get('/order_history', (req, res) => {
   console.log("Read order history successful!");
   reportsController.orderHistory(req, orderHistory  => {
     userController.getID(req.session.user, user => {
+      var date = new Date((new Date() - (7 * 24 * 60 * 60 * 1000)));
+      var today = new Date();
       if(req.session.username == "admin"){
         res.render('orderHistory', { 
           isAdmin: true,
-          orderList: orderHistory
+          orderList: orderHistory,
+          startDate: date,
+          endDate: today
         })
       }
       else {

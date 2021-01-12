@@ -11,14 +11,19 @@ exports.orderHistory = (req, res) => {
     var eDate = req.query.ordToDate;
     
     if(sDate == undefined && eDate == undefined){
+        var date = new Date((new Date() - (7 * 24 * 60 * 60 * 1000)));
+        var today = new Date();
         orderListModel.getAll(req,(err, list) => {
             if(err){
-                req.flash('error_msg', 'Could not get order list.');
-                res.redirect('/order_history');
+                console.log("order history error");
+                console.log(err);
             } else {
-                console.log("list");
-                console.log(list);
-                res(list);
+                today.setDate(today.getDate()+1);
+                var listObjects = list.filter(e => e.orderDate >= date && e.orderDate <= today);
+
+                console.log("listObjects");
+                console.log(listObjects);
+                res(listObjects);
             }
         })
     } else {
@@ -46,11 +51,25 @@ exports.orderHistory = (req, res) => {
 exports.salesReport = (req, res) => {
     var sDate = req.query.salfromDate;
     var eDate = req.query.salToDate;
-    var i;
 
     if(sDate == undefined && eDate == undefined){
-        var today = new Date;
         productModel.getAllProducts(req, (err, products) => {
+            if(err){
+                console.log("Could not get sales");
+                console.log(err);
+                req.flash('error_msg', 'Could not get products.');
+                //res.redirect('/sales_report');
+            } else {
+                console.log("products");
+                console.log(products);
+                // console.log("products date");
+                // console.log(products[0].date);
+                
+                res(products);    
+            }
+        })
+    } else {
+        productModel.getAllProducts(sDate, eDate, (err, products) => {
             if(err){
                 console.log("Could not get sales");
                 console.log(err);
@@ -63,10 +82,6 @@ exports.salesReport = (req, res) => {
                 res(products);    
             }
         })
-    } else {
-        var startDate = new Date(sDate);
-        var endDate = new Date(eDate);
-
     }
 };
 

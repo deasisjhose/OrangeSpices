@@ -9,13 +9,13 @@ const orderSchema = new mongoose.Schema({
   subTotal: { type: Number, required: true }
 });
 
+const Order = mongoose.model('order', orderSchema);
+
 // Declaring productID and ingredientID as pk's
 orderSchema.index({
   productID: 1,
   orderListID: 1
 }, { unique: true });
-
-const Order = mongoose.model('order', orderSchema);
 
 // Add Order
 exports.add = function(obj, next) {

@@ -95,17 +95,36 @@ exports.remove = function(query, next) {
 };
 
 // Get all orderList
-exports.getAllProducts = (param, next) => {
+exports.getAllProducts = (req, next) => {
   Product.aggregate(
   [
-    {'$lookup': {
+    { '$lookup': {
         'from': 'orders',
         'localField': '_id',
         'foreignField': 'productID',
         'as': 'orders'
       }
     },
-    { '$unwind':'$orders'},
+    { '$unwind': '$orders' },
+    // { '$lookup': {
+    //   'from': 'orders',
+    //   'localField': '_id',
+    //   'foreignField': 'orderListID',  // in order to access orderDate since orderListID is the fk
+    //   'as': 'orderList'
+    //   }
+    // },
+    //{ '$unwind':'$orders.orderList' },
+    // {
+    //   '$match': {
+    //     'date': {'$gte': new Date((new Date() - (7 * 24 * 60 * 60 * 1000))) } // match documents for the last 7 days
+    //   }
+    // },
+    // { '$group': 
+    //   {
+    //     _id: {'$gte': [ "$orders.orderListID.orderDate", "$date" ] },
+        
+    //   }
+    // },
     { '$group': 
       {
         _id: '$orders.productID',
@@ -115,6 +134,7 @@ exports.getAllProducts = (param, next) => {
             '$orders.orderQuantity'
           },
         prodPrice: { "$first": "$orders.productPrice"},
+        orderDate: { "$first": "$orders.orderList"}
       }
     },
     {
@@ -127,7 +147,8 @@ exports.getAllProducts = (param, next) => {
         {
           '$multiply':
           [ '$prodPrice', '$totalQuantity' ]
-        }
+        },
+        orderDate: 1
       }
     }
   ]).exec((err, orders) => next(err, orders));
