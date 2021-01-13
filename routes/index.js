@@ -315,14 +315,12 @@ router.get('/order_history', (req, res) => {
   console.log("Read order history successful!");
   reportsController.orderHistory(req, orderHistory  => {
     userController.getID(req.session.user, user => {
-      var date = new Date((new Date() - (7 * 24 * 60 * 60 * 1000)));
       var today = new Date();
       if(req.session.username == "admin"){
         res.render('orderHistory', { 
           isAdmin: true,
           orderList: orderHistory,
-          startDate: date,
-          endDate: today
+          today: today
         })
       }
       else {
@@ -365,10 +363,20 @@ router.get('/sales_report', (req, res) => {
   console.log("Read sales report successful!");
   reportsController.salesReport(req, sales => {
     userController.getID(req.session.user, user => {
+      var today = new Date();
+      var i, j, totalAmount = 0;
+      for(i = 0; i < sales.length; i++){
+        totalAmount += sales[i].subTotal; 
+      }
+
+      console.log("total amount sa loob ni index.js");
+      console.log(totalAmount);
       if(req.session.username == "admin"){
         res.render('salesReport', { 
           isAdmin: true,
-          products: sales
+          products: sales,
+          totalAmount: totalAmount,
+          today: today
         })
       }
       else {

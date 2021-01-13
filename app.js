@@ -45,6 +45,11 @@ app.engine('hbs', exphbs.create({
     formattingDate: function(string){
       let date = new Date(string)
       return (date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear();
+    },
+    formatDate: function(string){
+      let date = new Date(string)
+      var month = date.toLocaleString('default', { month: 'long' })
+      return (month + ' ' + date.getDate() + ', ' + date.getFullYear());
     }
   },
   defaultLayout: 'main',

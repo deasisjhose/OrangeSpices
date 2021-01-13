@@ -99,42 +99,20 @@ exports.getAllProducts = (req, next) => {
   Product.aggregate(
   [
     { '$lookup': {
-        'from': 'orders',
-        'localField': '_id',
-        'foreignField': 'productID',
-        'as': 'orders'
+      'from': 'orders',
+      'localField': '_id',
+      'foreignField': 'productID',
+      'as': 'orders'
       }
     },
     { '$unwind': '$orders' },
-    // { '$lookup': {
-    //   'from': 'orders',
-    //   'localField': '_id',
-    //   'foreignField': 'orderListID',  // in order to access orderDate since orderListID is the fk
-    //   'as': 'orderList'
-    //   }
-    // },
-    //{ '$unwind':'$orders.orderList' },
-    // {
-    //   '$match': {
-    //     'date': {'$gte': new Date((new Date() - (7 * 24 * 60 * 60 * 1000))) } // match documents for the last 7 days
-    //   }
-    // },
-    // { '$group': 
-    //   {
-    //     _id: {'$gte': [ "$orders.orderListID.orderDate", "$date" ] },
-        
-    //   }
-    // },
     { '$group': 
       {
         _id: '$orders.productID',
         prodName: { "$first": "$orders.productName"},
-        totalQuantity:
-          { '$sum': 
-            '$orders.orderQuantity'
-          },
+        totalQuantity: { '$sum': '$orders.orderQuantity'},
         prodPrice: { "$first": "$orders.productPrice"},
-        orderDate: { "$first": "$orders.orderList"}
+        orderListID: { "$first": "$orders.orderListID"}
       }
     },
     {
@@ -143,11 +121,13 @@ exports.getAllProducts = (req, next) => {
         prodName: 1,
         totalQuantity: 1,
         prodPrice: 1,
-        totalAmount: 
+        subTotal: 
         {
           '$multiply':
           [ '$prodPrice', '$totalQuantity' ]
         },
+        totalAmount: { '$sum': "$subTotal" },
+        orderListID: 1,
         orderDate: 1
       }
     }

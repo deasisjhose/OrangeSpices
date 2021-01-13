@@ -10,19 +10,21 @@ exports.orderHistory = (req, res) => {
     var sDate = req.query.ordfromDate;
     var eDate = req.query.ordToDate;
     
-    if(sDate == undefined && eDate == undefined){
-        var date = new Date((new Date() - (7 * 24 * 60 * 60 * 1000)));
-        var today = new Date();
-        orderListModel.getAll(req,(err, list) => {
+    if(sDate == undefined && eDate == undefined){ 
+        //var today = new Date((new Date() - (7 * 24 * 60 * 60 * 1000)));
+        var start = new Date(new Date().setHours(00,00,00))
+        var end = new Date(new Date().setHours(23,59,59));
+
+        orderListModel.getOrderHistory(req,(err, list) => {
             if(err){
                 console.log("order history error");
                 console.log(err);
             } else {
-                today.setDate(today.getDate()+1);
-                var listObjects = list.filter(e => e.orderDate >= date && e.orderDate <= today);
+                var listObjects = list.filter(e => e.orderDate >= start && e.orderDate <= end); // filter documents within the day
 
                 console.log("listObjects");
                 console.log(listObjects);
+
                 res(listObjects);
             }
         })
@@ -30,13 +32,13 @@ exports.orderHistory = (req, res) => {
         var startDate = new Date(sDate);
         var endDate = new Date(eDate);
 
-        orderListModel.getAll(req, (err, list) => {
+        orderListModel.getOrderHistory(req, (err, list) => {
             if(err){
-                req.flash('error_msg', 'Could not get order list.');
-                res.redirect('/order_history');
+                console.log("order history error");
+                console.log(err);
             } else {
                 endDate.setDate(endDate.getDate()+1);
-                var listObjects = list.filter(e => e.orderDate >= startDate && e.orderDate <= endDate);
+                var listObjects = list.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the date range
 
                 console.log("listObjects");
                 console.log(listObjects);
@@ -53,19 +55,74 @@ exports.salesReport = (req, res) => {
     var eDate = req.query.salToDate;
 
     if(sDate == undefined && eDate == undefined){
-        productModel.getAllProducts(req, (err, products) => {
+        var start = new Date(new Date().setHours(00,00,00))
+        var end = new Date(new Date().setHours(23,59,59));
+
+        orderListModel.getOrderHistory(req, (err, orders) => {
             if(err){
-                console.log("Could not get sales");
+                console.log("Sales error");
                 console.log(err);
-                req.flash('error_msg', 'Could not get products.');
-                //res.redirect('/sales_report');
             } else {
-                console.log("products");
-                console.log(products);
-                // console.log("products date");
-                // console.log(products[0].date);
-                
-                res(products);    
+                console.log("orders");
+                console.log(orders);
+                var i, j, k;
+                var temp = [], ordersArray = [];
+                var listObjects = orders.filter(e => e.orderDate >= start && e.orderDate <= end); // filter documents within the day
+
+                console.log("listObjects");
+                console.log(listObjects);
+
+                for(i = 0; i < listObjects.length; i++){
+                    for(j = 0; j < listObjects[i].orders.length; j++){
+                        temp.push({
+                            productID: listObjects[i].orders[j].productID,
+                            productName: listObjects[i].orders[j].productName,
+                            orderQuantity: listObjects[i].orders[j].orderQuantity,
+                            productPrice: listObjects[i].orders[j].productPrice,
+                            subTotal: listObjects[i].orders[j].subTotal
+                        })
+
+                    }
+                }
+
+                for(i = 0; i < temp.length; i++){
+                    if(i == 0){
+                        console.log('1');
+                        ordersArray.push({
+                            productID: temp[i].productID,
+                            productName: temp[i].productName,
+                            orderQuantity: temp[i].orderQuantity,
+                            productPrice: temp[i].productPrice,
+                            subTotal: temp[i].subTotal
+                        })
+                    }
+                    else {
+                        for(j = 0; j < ordersArray.length; j++){
+                            if(temp[i].productName == ordersArray[j].productName){
+                                console.log('2');
+                                ordersArray[j].orderQuantity += temp[i].orderQuantity;
+                                ordersArray[j].subTotal += temp[i].subTotal;
+                                break;
+                            }
+                            if(j == ordersArray.length-1){
+                                console.log('3');
+                                ordersArray.push({
+                                    productID: temp[i].productID,
+                                    productName: temp[i].productName,
+                                    orderQuantity: temp[i].orderQuantity,
+                                    productPrice: temp[i].productPrice,
+                                    subTotal: temp[i].subTotal
+                                })
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                console.log("ordersArray");
+                console.log(ordersArray);
+
+                res(ordersArray);
             }
         })
     } else {

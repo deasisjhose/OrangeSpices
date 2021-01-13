@@ -47,10 +47,10 @@
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
                             {{#if filterDate}}
-                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Order History from {{formattingDate startDate}} to {{formattingDate endDate}}</p>
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Order History from {{formatDate startDate}} to {{formatDate endDate}}</p>
                             <p class="text-muted m-0" id="datetime">Date Generated: {{timestamp}}</p>
                             {{else}}
-                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Order History from {{formattingDate startDate}} to {{formattingDate endDate}}</p>
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Order History for today {{formatDate today}}</p>
                             {{/if}}
                         </div>
                         <table class="table text-center table-bordered">
@@ -60,6 +60,10 @@
                             <tr class="border-left border-right"> 
                                 <th scope="col" style="background-color: #c64327 !important; color: #ffffff !important; border-right: 2px solid #e3e6f0;">Order ID</th>
                                 <th class="font-weight-bold" colspan="3" style="background-color: #c64327 !important; color: #ffffff !important;">{{_id}}</th>
+                            </tr>
+                            <tr class="border-left border-right"> 
+                                <th scope="col" style="background-color: #80C376 !important; color: #ffffff !important; border-right: 2px solid #e3e6f0;">Order Date</th>
+                                <th class="font-weight-bold" colspan="3" style="background-color: #80C376 !important; color: #ffffff !important;">{{formatDate orderDate}}</th>
                             </tr>
                             </thead>
                             <tr>

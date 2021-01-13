@@ -30,7 +30,7 @@ exports.getAllList = (next) => {
 };
 
 // Get all orderList
-exports.getAll = (param, next) => {
+exports.getOrderHistory = (param, next) => {
   OrderList.aggregate(
   [
     {'$lookup': 
@@ -42,4 +42,45 @@ exports.getAll = (param, next) => {
       },
     }
   ]).exec((err, orders) => next(err, orders));
+};
+
+// Get sales 
+exports.getSales = (param, next) => {
+  OrderList.aggregate(
+  [
+    { '$lookup': {
+      'from': 'orders',
+      'localField': '_id',
+      'foreignField': 'orderListID',
+      'as': 'orders'
+      }
+    },
+    { '$unwind': '$orders' },
+    { '$group': 
+      {
+        _id: { 
+          month: { $month: "$orderDate" },
+          day: { $dayOfMonth: "$orderDate" },
+          year: { $year: "$orderDate" }
+        }, 
+        productID: { '$push': '$orders.productID' },
+        prodName: { '$push': '$orders.productName' },
+        orderQuantity: { '$push': '$orders.orderQuantity' },
+        prodPrice: { '$push': '$orders.productPrice' },
+        subTotal: { '$push': '$orders.subTotal' },
+        orderDate: { '$first': '$orderDate' }
+      }
+    },
+    {
+      '$project':
+      {
+        productID: 1,
+        prodName: 1,
+        orderQuantity: 1,
+        prodPrice: 1,
+        subTotal: 1,
+        orderDate: 1
+      }
+    }
+  ]).exec((err, sales) => next(err, sales));
 };
