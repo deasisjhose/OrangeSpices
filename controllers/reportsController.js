@@ -28,6 +28,24 @@ exports.orderHistory = (req, res) => {
                 res(listObjects);
             }
         })
+    } else if (sDate == eDate){ // if date range is same day
+        var startDate = new Date(sDate);
+        var endDate = new Date(eDate).setHours(23,59,59);
+        
+        orderListModel.getOrderHistory(req, (err, list) => {
+            if(err){
+                console.log("order history error");
+                console.log(err);
+            } else {
+                var listObjects = list.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the date range
+
+                //console.log("listObjects");
+                //console.log(listObjects);
+                        
+                res(listObjects);
+            }
+        })
+
     } else {
         var startDate = new Date(sDate);
         var endDate = new Date(eDate);
@@ -63,8 +81,8 @@ exports.salesReport = (req, res) => {
                 console.log("Sales error");
                 console.log(err);
             } else {
-                console.log("orders");
-                console.log(orders);
+                // console.log("orders");
+                // console.log(orders);
                 var i, j, k;
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= start && e.orderDate <= end); // filter documents within the day
@@ -118,25 +136,147 @@ exports.salesReport = (req, res) => {
                         }
                     }
                 }
-
                 console.log("ordersArray");
                 console.log(ordersArray);
+                res(ordersArray);
+            }
+        })
+    } else if (sDate == eDate){
+        var startDate = new Date(sDate);
+        var endDate = new Date(eDate).setHours(23,59,59);
 
+        orderListModel.getOrderHistory(req, (err, orders) => {
+            if(err){
+                console.log("Sales error");
+                console.log(err);
+            } else {
+                // console.log("orders");
+                // console.log(orders);
+                var i, j, k;
+                var temp = [], ordersArray = [];
+                var listObjects = orders.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
+
+                console.log("listObjects");
+                console.log(listObjects);
+
+                for(i = 0; i < listObjects.length; i++){
+                    for(j = 0; j < listObjects[i].orders.length; j++){
+                        temp.push({
+                            productID: listObjects[i].orders[j].productID,
+                            productName: listObjects[i].orders[j].productName,
+                            orderQuantity: listObjects[i].orders[j].orderQuantity,
+                            productPrice: listObjects[i].orders[j].productPrice,
+                            subTotal: listObjects[i].orders[j].subTotal
+                        })
+
+                    }
+                }
+
+                for(i = 0; i < temp.length; i++){
+                    if(i == 0){
+                        console.log('1');
+                        ordersArray.push({
+                            productID: temp[i].productID,
+                            productName: temp[i].productName,
+                            orderQuantity: temp[i].orderQuantity,
+                            productPrice: temp[i].productPrice,
+                            subTotal: temp[i].subTotal
+                        })
+                    }
+                    else {
+                        for(j = 0; j < ordersArray.length; j++){
+                            if(temp[i].productName == ordersArray[j].productName){
+                                console.log('2');
+                                ordersArray[j].orderQuantity += temp[i].orderQuantity;
+                                ordersArray[j].subTotal += temp[i].subTotal;
+                                break;
+                            }
+                            if(j == ordersArray.length-1){
+                                console.log('3');
+                                ordersArray.push({
+                                    productID: temp[i].productID,
+                                    productName: temp[i].productName,
+                                    orderQuantity: temp[i].orderQuantity,
+                                    productPrice: temp[i].productPrice,
+                                    subTotal: temp[i].subTotal
+                                })
+                                break;
+                            }
+                        }
+                    }
+                }
+                console.log("ordersArray");
+                console.log(ordersArray);
                 res(ordersArray);
             }
         })
     } else {
-        productModel.getAllProducts(sDate, eDate, (err, products) => {
+        var startDate = new Date(sDate);
+        var endDate = new Date(eDate);
+
+        orderListModel.getOrderHistory(req, (err, orders) => {
             if(err){
-                console.log("Could not get sales");
+                console.log("Sales error");
                 console.log(err);
-                req.flash('error_msg', 'Could not get products.');
-                //res.redirect('/sales_report');
             } else {
-                console.log("products");
-                console.log(products);
-                
-                res(products);    
+                // console.log("orders");
+                // console.log(orders);
+                var i, j, k;
+                var temp = [], ordersArray = [];
+                var listObjects = orders.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents according to date range
+
+                console.log("listObjects");
+                console.log(listObjects);
+
+                for(i = 0; i < listObjects.length; i++){
+                    for(j = 0; j < listObjects[i].orders.length; j++){
+                        temp.push({
+                            productID: listObjects[i].orders[j].productID,
+                            productName: listObjects[i].orders[j].productName,
+                            orderQuantity: listObjects[i].orders[j].orderQuantity,
+                            productPrice: listObjects[i].orders[j].productPrice,
+                            subTotal: listObjects[i].orders[j].subTotal
+                        })
+
+                    }
+                }
+
+                for(i = 0; i < temp.length; i++){
+                    if(i == 0){
+                        console.log('1');
+                        ordersArray.push({
+                            productID: temp[i].productID,
+                            productName: temp[i].productName,
+                            orderQuantity: temp[i].orderQuantity,
+                            productPrice: temp[i].productPrice,
+                            subTotal: temp[i].subTotal
+                        })
+                    }
+                    else {
+                        for(j = 0; j < ordersArray.length; j++){
+                            if(temp[i].productName == ordersArray[j].productName){
+                                console.log('2');
+                                ordersArray[j].orderQuantity += temp[i].orderQuantity;
+                                ordersArray[j].subTotal += temp[i].subTotal;
+                                break;
+                            }
+                            if(j == ordersArray.length-1){
+                                console.log('3');
+                                ordersArray.push({
+                                    productID: temp[i].productID,
+                                    productName: temp[i].productName,
+                                    orderQuantity: temp[i].orderQuantity,
+                                    productPrice: temp[i].productPrice,
+                                    subTotal: temp[i].subTotal
+                                })
+                                break;
+                            }
+                        }
+                    }
+                }
+                console.log("ordersArray");
+                console.log(ordersArray);
+                res(ordersArray);
             }
         })
     }

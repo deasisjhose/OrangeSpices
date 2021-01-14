@@ -47,7 +47,7 @@
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
                             {{#if filterDate}}
-                                <p class="text-primary m-0 font-weight-bold" id="reportTitle">Sales Report from {{formattingDate startDate}} to {{formattingDate endDate}}</p>
+                                <p class="text-primary m-0 font-weight-bold" id="reportTitle">Sales Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
                                 <p class="text-muted m-0" id="datetime">Date Generated: {{timestamp}}</p>
                             {{else}}
                                 <p class="text-primary m-0 font-weight-bold" id="reportTitle">Sales Report for today {{formatDate today}}</p>

@@ -365,12 +365,11 @@ router.get('/sales_report', (req, res) => {
     userController.getID(req.session.user, user => {
       var today = new Date();
       var i, j, totalAmount = 0;
+
       for(i = 0; i < sales.length; i++){
         totalAmount += sales[i].subTotal; 
       }
-
-      console.log("total amount sa loob ni index.js");
-      console.log(totalAmount);
+      
       if(req.session.username == "admin"){
         res.render('salesReport', { 
           isAdmin: true,
@@ -395,11 +394,18 @@ router.get('/sales_report/filter', (req, res) => {
     userController.getID(req.session.user, user => {
       var startDate = req.query.salfromDate;
       var endDate = req.query.salToDate;
+      var i, j, totalAmount = 0;
+
+      for(i = 0; i < sales.length; i++){
+        totalAmount += sales[i].subTotal; 
+      }
+
       if(req.session.username == "admin"){
         res.render('salesReport', { 
           isAdmin: true,
           products: sales,
           filterDate: true,
+          totalAmount: totalAmount,
           startDate: startDate,
           endDate: endDate,
           timestamp: new Date()
