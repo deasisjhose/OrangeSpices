@@ -364,7 +364,7 @@ router.get('/sales_report', (req, res) => {
   reportsController.salesReport(req, sales => {
     userController.getID(req.session.user, user => {
       var today = new Date();
-      var i, j, totalAmount = 0;
+      var i, totalAmount = 0;
 
       for(i = 0; i < sales.length; i++){
         totalAmount += sales[i].subTotal; 
@@ -447,10 +447,21 @@ router.get('/purchase_report', (req, res) => {
   console.log("Read purchase report successful!");
   reportsController.purchaseReport(req, purchase => {
     userController.getID(req.session.user, user => {
+      var start = new Date((new Date() - (7 * 24 * 60 * 60 * 1000)));
+      var end = new Date();
+      var i, totalAmount = 0;
+
+      for(i = 0; i < purchase.length; i++){
+        totalAmount += purchase[i].subTotal; 
+      }
+
       if(req.session.username == "admin"){
         res.render('purchaseReport', { 
           isAdmin: true,
-          purchase: purchase
+          purchase: purchase,
+          startDate: start,
+          endDate: end,
+          totalAmount: totalAmount
         })
       }
       else {
@@ -469,6 +480,12 @@ router.get('/purchase_report/filter', (req, res) => {
     userController.getID(req.session.user, user => {
       var startDate = req.query.ordfromDate;
       var endDate = req.query.ordToDate;
+      var i, totalAmount = 0;
+
+      for(i = 0; i < purchase.length; i++){
+        totalAmount += purchase[i].subTotal; 
+      }
+
       if(req.session.username == "admin"){
         res.render('purchaseReport', { 
           isAdmin: true,
@@ -476,7 +493,8 @@ router.get('/purchase_report/filter', (req, res) => {
           filterDate: true,
           startDate: startDate,
           endDate: endDate,
-          timestamp: new Date()
+          timestamp: new Date(),
+          totalAmount: totalAmount
         })
       }
       else {

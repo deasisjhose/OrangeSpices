@@ -63,10 +63,11 @@ exports.getAllPurchase = (param, next) => {
   ]).exec((err, purchase) => next(err, purchase));
 };
 
+// for displaying purchases grouped by date
 exports.getPurchase = (param, next) => {
   Purchase.aggregate(
   [
-    {'$lookup': {
+    { '$lookup': {
       'from': 'supplies',
       'localField': 'supplyID',
       'foreignField': '_id',
@@ -89,6 +90,9 @@ exports.getPurchase = (param, next) => {
       }
     },
     {
+      $sort : { 'purchaseDate' : 1 }
+    },
+    {
       '$project':
       {
         purchaseDate: 1,
@@ -101,4 +105,18 @@ exports.getPurchase = (param, next) => {
       }
     }
   ]).exec((err, purchase) => next(err, purchase));
+};
+
+// Get all purchase
+exports.getAllPurchase = (param, next) => {
+  Purchase.aggregate(
+  [
+    { '$lookup': {
+      'from': 'supplies',
+      'localField': 'supplyID',
+      'foreignField': '_id',
+      'as': 'supply'
+      }
+    }
+  ]).exec((err, orders) => next(err, orders));
 };

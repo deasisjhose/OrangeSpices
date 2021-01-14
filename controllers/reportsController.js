@@ -11,7 +11,6 @@ exports.orderHistory = (req, res) => {
     var eDate = req.query.ordToDate;
     
     if(sDate == undefined && eDate == undefined){ 
-        //var today = new Date((new Date() - (7 * 24 * 60 * 60 * 1000)));
         var start = new Date(new Date().setHours(00,00,00))
         var end = new Date(new Date().setHours(23,59,59));
 
@@ -83,7 +82,7 @@ exports.salesReport = (req, res) => {
             } else {
                 // console.log("orders");
                 // console.log(orders);
-                var i, j, k;
+                var i, j;
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= start && e.orderDate <= end); // filter documents within the day
 
@@ -288,32 +287,139 @@ exports.purchaseReport = (req, res) => {
     var eDate = req.query.ordToDate;
     
     if(sDate == undefined && eDate == undefined){
+        var start = new Date((new Date() - (7 * 24 * 60 * 60 * 1000)));
+        var end = new Date();
+
         purchaseModel.getAllPurchase(req,(err, purchase) => {
             if(err){
-                req.flash('error_msg', 'Could not get purchases.');
-                res.redirect('/purchase_report');
+                console.log("Purchase error");
+                console.log(err);;
             } else {
-                console.log("purchase");
-                console.log(purchase);
-                res(purchase);
+                var i, j;
+                var temp = [], purchaseArray = [];
+
+                var listObjects = purchase.filter(e => e.purchaseDate >= start && e.purchaseDate <= end);
+
+                console.log("listObjects");
+                console.log(listObjects);
+
+                for(i = 0; i < listObjects.length; i++){
+                    for(j = 0; j < listObjects[i].supply.length; j++){
+                        temp.push({
+                            supplyID: listObjects[i].supplyID,
+                            supplyName: listObjects[i].supply[j].brandName,
+                            quantity: listObjects[i].purchaseQty,
+                            productPrice: listObjects[i].purchasePrice,
+                            subTotal: listObjects[i].totalPrice
+                        })
+
+                    }
+                }
+
+                for(i = 0; i < temp.length; i++){
+                    if(i == 0){
+                        console.log('1');
+                        purchaseArray.push({
+                            supplyID: temp[i].supplyID,
+                            supplyName: temp[i].supplyName,
+                            quantity: temp[i].quantity,
+                            productPrice: temp[i].productPrice,
+                            subTotal: temp[i].subTotal
+                        })
+                    }
+                    else {
+                        for(j = 0; j < purchaseArray.length; j++){
+                            if(temp[i].supplyName == purchaseArray[j].supplyName){
+                                console.log('2');
+                                purchaseArray[j].quantity += temp[i].quantity;
+                                purchaseArray[j].subTotal += temp[i].subTotal;
+                                break;
+                            }
+                            if(j == purchaseArray.length-1){
+                                console.log('3');
+                                purchaseArray.push({
+                                    supplyID: temp[i].supplyID,
+                                    supplyName: temp[i].supplyName,
+                                    quantity: temp[i].quantity,
+                                    productPrice: temp[i].productPrice,
+                                    subTotal: temp[i].subTotal
+                                })
+                                break;
+                            }
+                        }
+                    }
+                }
+                console.log("purchaseArray");
+                console.log(purchaseArray);
+                res(purchaseArray);
             }
         })
     } else {
         var startDate = new Date(sDate);
         var endDate = new Date(eDate);
 
-        purchaseModel.getAllPurchase(req, (err, purchase) => {
+        purchaseModel.getAllPurchase(req,(err, purchase) => {
             if(err){
-                req.flash('error_msg', 'Could not get purchase list.');
-                res.redirect('/purchase_report');
+                console.log("Purchase error");
+                console.log(err);;
             } else {
-                endDate.setDate(endDate.getDate());
-                var purchaseList = purchase.filter(e => e.purchaseDate >= startDate && e.purchaseDate <= endDate);
+                var i, j;
+                var temp = [], purchaseArray = [];
 
-                console.log("purchaseList");
-                console.log(purchaseList);
-                        
-                res(purchaseList);
+                var listObjects = purchase.filter(e => e.purchaseDate >= startDate && e.purchaseDate <= endDate);
+
+                console.log("listObjects");
+                console.log(listObjects);
+
+                for(i = 0; i < listObjects.length; i++){
+                    for(j = 0; j < listObjects[i].supply.length; j++){
+                        temp.push({
+                            supplyID: listObjects[i].supplyID,
+                            supplyName: listObjects[i].supply[j].brandName,
+                            quantity: listObjects[i].purchaseQty,
+                            productPrice: listObjects[i].purchasePrice,
+                            subTotal: listObjects[i].totalPrice
+                        })
+
+                    }
+                }
+
+                for(i = 0; i < temp.length; i++){
+                    if(i == 0){
+                        console.log('1');
+                        purchaseArray.push({
+                            supplyID: temp[i].supplyID,
+                            supplyName: temp[i].supplyName,
+                            quantity: temp[i].quantity,
+                            productPrice: temp[i].productPrice,
+                            subTotal: temp[i].subTotal
+                        })
+                    }
+                    else {
+                        for(j = 0; j < purchaseArray.length; j++){
+                            if(temp[i].supplyName == purchaseArray[j].supplyName){
+                                console.log('2');
+                                purchaseArray[j].quantity += temp[i].quantity;
+                                purchaseArray[j].subTotal += temp[i].subTotal;
+                                break;
+                            }
+                            if(j == purchaseArray.length-1){
+                                console.log('3');
+                                purchaseArray.push({
+                                    supplyID: temp[i].supplyID,
+                                    supplyName: temp[i].supplyName,
+                                    quantity: temp[i].quantity,
+                                    productPrice: temp[i].productPrice,
+                                    subTotal: temp[i].subTotal
+                                })
+                                break;
+                            }
+                        }
+                    }
+                }
+                console.log("purchaseArray");
+                console.log(purchaseArray);
+                res(purchaseArray);
             }
         })
     }

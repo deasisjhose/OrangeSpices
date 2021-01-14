@@ -47,10 +47,10 @@
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
                             {{#if filterDate}}
-                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Purchase Report from {{formattingDate startDate}} to {{formattingDate endDate}}</p>
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Purchase Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
                             <p class="text-muted m-0" id="datetime">Date Generated: {{timestamp}}</p>
                             {{else}}
-                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Purchase Report</p>
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle">Purchase Report for this week {{formatDate startDate}} to {{formatDate endDate}}</p>
                             {{/if}}
                         </div>
                         <table class="table text-center table-bordered">
@@ -59,19 +59,25 @@
                               <tr>
                                 <th scope="col">Supply</th>
                                 <th scope="col">Quantity</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Total</th>
+                                <th scope="col">Purchase Price</th>
+                                <th scope="col">Subtotal</th>
                               </tr>
                             </thead>
                             <tbody class="border-bottom">
                                 {{#each purchase}}
                                     <tr>
-                                        <td>{{supplyName}}</td>
-                                        <td>{{totalQuantity}}</td>
-                                        <td>₱{{price}}</td>
-                                        <td>₱{{totalAmount}}</td>
+                                        <td style="text-align: left;">{{supplyName}}</td>
+                                        <td>{{quantity}}</td>
+                                        <td>₱{{productPrice}}</td>
+                                        <td style="text-align: right;">₱{{subTotal}}</td>
                                     </tr>
                                 {{/each}}
+                                <thead style="border-top: 2px solid #e3e6f0; background-color: #c64327 !important; color: #ffffff !important;">
+                                    <tr>
+                                        <th scope="col" style="border-right: 2px solid #e3e6f0;">Total</th>
+                                        <th colspan="3" class="font-weight-bold" style="text-align: right;">₱ {{totalAmount}}</th>
+                                    </tr>    
+                                </thead>
                             </tbody>
                         </table>
                     </div>
