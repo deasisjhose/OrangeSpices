@@ -235,3 +235,42 @@ div .low-stock{
     color: #ffffff !important;
     background-color: #ffffff !important;
   }
+
+  .collapsible {
+    background-color: #FFC8BC;
+    color: #C64327;
+    font-weight: bold;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+
+  .active, .collapsible:hover {
+    background-color: #C64327;
+    color: #FFFFFF
+  }
+  
+  .collapsible:after {
+    content: '\002B'; /* unicode for + sign */
+    color: FFC8BC;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+  }
+
+  .active:after {
+    content: "\2212"; /* unicode for - sign */
+  }
+  
+  .purchases {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+    color: black;
+  }

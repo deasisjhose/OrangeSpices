@@ -48,7 +48,21 @@
                               </tr>
                             </thead>
                             <tbody>
-                              {{>purchase}}
+                                {{#each purchase}}
+                                    <button class="collapsible">Date of Purchase: {{formatDate purchaseDate}}</button>
+                                    <div class="purchases">
+                                        {{!-- {{#each supplyName}} --}}
+                                        <tr style="font-size: 13px;">
+                                            <td class="text-left" style="padding-left: 20px;">{{supplyName}}</td>
+                                            <td>{{formattingDate purchaseDate}}</td>
+                                            <td>{{formattingDate expiryDate}}</td>
+                                            <td>{{purchaseQty}}</td>
+                                            <td class="text-right" style="padding-right: 20px;">₱{{price}}</td>
+                                            <td class="text-right" style="padding-right: 40px;">₱{{totalPrice}}</td>
+                                        </tr>
+                                        {{!-- {{/each}} --}}
+                                    </div>
+                                {{/each}}
                             </tbody>
                           </table>
                     </div>
@@ -61,4 +75,5 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/procurement#page-top"><i class="fas fa-angle-up"></i></a></div>
+    <script src="/public/js/collapsibleProcurement.js"></script>
 </body>

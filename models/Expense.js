@@ -37,6 +37,9 @@ exports.getAll = (param, next) => {
       }
     },
     {
+      $sort : { 'expenseDate' : 1 }
+    },
+    {
       '$project':
       {
         expenseDate: 1,
