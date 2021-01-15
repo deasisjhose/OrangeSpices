@@ -44,7 +44,18 @@
                               </tr>
                             </thead>
                             <tbody>
-                              {{>expense}}
+                                {{#each expense}}
+                                    <button class="collapsible">Date of Purchase: {{format_Date expenseDate}}</button>
+                                    <div class="content">
+                                        <tr>
+                                            <td>{{formattingDate expenseDate}}</td>
+                                            <td>{{expenseName}}</td>
+                                            <td>{{expenseType}}</td>
+                                            <td>{{description}}</td>
+                                            <td>₱{{expenseAmount}}</td>
+                                        </tr>
+                                    </div>
+                                {{/each}}
                             </tbody>
                           </table>
                     </div>

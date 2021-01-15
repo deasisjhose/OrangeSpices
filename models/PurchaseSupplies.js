@@ -24,45 +24,6 @@ exports.getAll = (param, next) => {
   Purchase.find({}).populate('supplyID').exec((err, purchase) => next(err, purchase));
 };
 
-exports.getAllPurchase = (param, next) => {
-  Purchase.aggregate(
-  [
-    {'$lookup': {
-      'from': 'supplies',
-      'localField': 'supplyID',
-      'foreignField': '_id',
-      'as': 'supp'
-      }
-    },
-    { '$group': 
-      {
-        _id: "$supplyID",
-        supplyName: { "$first": "$supp.brandName"},
-        totalQuantity: 
-          { '$sum': 
-            '$purchaseQty'
-          },
-        price: { "$first": "$purchasePrice"},
-        purchaseDate: { "$first": "$purchaseDate"}
-      }
-    },
-    {
-      '$project':
-      {
-        supplyName: 1,
-        totalQuantity: 1,
-        price: 1,
-        totalAmount: 
-        {
-          '$multiply':
-          [ '$price', '$totalQuantity' ]
-        },
-        purchaseDate: 1
-      }
-    }
-  ]).exec((err, purchase) => next(err, purchase));
-};
-
 // for displaying purchases grouped by date
 exports.getPurchase = (param, next) => {
   Purchase.aggregate(
@@ -74,6 +35,7 @@ exports.getPurchase = (param, next) => {
       'as': 'supp'
       }
     },
+    { '$unwind': '$supp' },
     { '$group': 
       {
         _id: { 
@@ -86,11 +48,11 @@ exports.getPurchase = (param, next) => {
         purchaseQty: { "$push": "$purchaseQty" },
         expiryDate: { "$push": "$expiryDate" },
         price: { "$push": "$purchasePrice" },
-        totalPrice: { "$push": "$totalPrice" }
+        subTotal: { "$push": "$totalPrice" }
       }
     },
     {
-      $sort : { 'purchaseDate' : 1 }
+      $sort : { 'purchaseDate' : -1 }
     },
     {
       '$project':
@@ -101,7 +63,7 @@ exports.getPurchase = (param, next) => {
         totalQuantity: 1,
         expiryDate: 1,
         price: 1,
-        totalPrice: 1
+        subTotal: 1
       }
     }
   ]).exec((err, purchase) => next(err, purchase));

@@ -266,7 +266,7 @@ div .low-stock{
     content: "\2212"; /* unicode for - sign */
   }
   
-  .purchases {
+  .content {
     padding: 0 18px;
     max-height: 0;
     overflow: hidden;

@@ -50,17 +50,15 @@
                             <tbody>
                                 {{#each purchase}}
                                     <button class="collapsible">Date of Purchase: {{formatDate purchaseDate}}</button>
-                                    <div class="purchases">
-                                        {{!-- {{#each supplyName}} --}}
+                                    <div class="content">
                                         <tr style="font-size: 13px;">
                                             <td class="text-left" style="padding-left: 20px;">{{supplyName}}</td>
                                             <td>{{formattingDate purchaseDate}}</td>
                                             <td>{{formattingDate expiryDate}}</td>
                                             <td>{{purchaseQty}}</td>
                                             <td class="text-right" style="padding-right: 20px;">₱{{price}}</td>
-                                            <td class="text-right" style="padding-right: 40px;">₱{{totalPrice}}</td>
+                                            <td class="text-right" style="padding-right: 40px;">₱{{subTotal}}</td>
                                         </tr>
-                                        {{!-- {{/each}} --}}
                                     </div>
                                 {{/each}}
                             </tbody>

@@ -50,7 +50,12 @@ app.engine('hbs', exphbs.create({
       let date = new Date(string)
       var month = date.toLocaleString('default', { month: 'long' })
       return (month + ' ' + date.getDate() + ', ' + date.getFullYear());
-    }
+    },
+    format_Date: function(string){
+      let date = new Date(string)
+      var month = date.toLocaleString('default', { month: 'long' })
+      return (month + ' ' + date.getFullYear());
+    },
   },
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, '/views/layouts'), 
