@@ -43,7 +43,6 @@
                                     <thead style="font-size: 13px;">
                                       <tr>
                                         <th scope="col">Name</th>
-                                        <th scope="col">Purchase Date</th>
                                         <th scope="col">Expiry Date</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col" style="width: 130px;">Purchase Price</th>
@@ -51,14 +50,15 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                        <tr style="font-size: 13px;">
-                                            <td class="text-left" style="padding-left: 20px;">{{supplyName}}</td>
-                                            <td>{{formattingDate purchaseDate}}</td>
-                                            <td>{{formattingDate expiryDate}}</td>
-                                            <td>{{purchaseQty}}</td>
-                                            <td class="text-right" style="padding-right: 20px;">₱{{price}}</td>
-                                            <td class="text-right" style="padding-right: 40px;">₱{{subTotal}}</td>
-                                        </tr>
+                                        {{#each purchaseDetails}}
+                                            <tr style="font-size: 13px;">
+                                                <td class="text-left" style="padding-left: 20px;">{{supplyName}}</td>
+                                                <td>{{formattingDate expiryDate}}</td>
+                                                <td>{{purchaseQty}}</td>
+                                                <td class="text-right" style="padding-right: 20px;">₱{{price}}</td>
+                                                <td class="text-right" style="padding-right: 40px;">₱{{subTotal}}</td>
+                                            </tr>
+                                        {{/each}}
                                     </tbody>
                                 </table>
                             </div>

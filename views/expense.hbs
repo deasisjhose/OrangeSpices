@@ -34,12 +34,11 @@
                     {{>messages}}
                     <div class="card shadow mb-3">
                         {{#each expense}}
-                            <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{format_Date expenseDate}}</button>
+                            <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{formatDate expenseDate}}</button>
                             <div class="content">
                                 <table class="table table-hover text-center">
                                     <thead style="font-size: 13px;">
                                       <tr>
-                                        <th scope="col">Date</th>
                                         <th scope="col">Expense Name</th>
                                         <th scope="col">Expense Type</th>
                                         <th scope="col">Description</th>
@@ -47,13 +46,14 @@
                                       </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>{{formattingDate expenseDate}}</td>
-                                            <td>{{expenseName}}</td>
-                                            <td>{{expenseType}}</td>
-                                            <td>{{description}}</td>
-                                            <td>₱{{expenseAmount}}</td>
-                                        </tr>
+                                        {{#each expenseDetails}}
+                                            <tr>
+                                                <td>{{expenseName}}</td>
+                                                <td>{{expenseType}}</td>
+                                                <td>{{description}}</td>
+                                                <td>₱{{expenseAmount}}</td>
+                                            </tr>
+                                        {{/each}}
                                     </tbody>
                                 </table>
                             </div>

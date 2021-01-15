@@ -5,13 +5,29 @@ const { validationResult } = require('express-validator');
 exports.getAllExpense = (req, res) => {
   expenseModel.getAll(req, (err, expense) => {
     if(err){
-      req.flash('error_msg', 'Could not get expenses.');
+      console.log("Getting all expenses erorr");
       console.log(err);
-      // res.redirect('/expense');
     } else {
-      console.log("expense inside expenseController");
       console.log(expense);
-      res(expense);
+      var i, j, temp = [], expenseArray = [];
+
+      for(i = 0; i < expense.length; i++){
+          for(j = 0; j < expense[i].expenseName.length; j++){
+              temp.push({
+                  expenseName: expense[i].expenseName[j],
+                  expenseType: expense[i].expenseType[j],
+                  description: expense[i].description[j],
+                  expenseAmount: expense[i].expenseAmount[j]
+              })
+          }
+          expenseArray.push({
+              _id: expense[i]._id,
+              expenseDate: expense[i].expenseDate,
+              expenseDetails: temp
+          })
+          temp = [];
+      }
+      res(expenseArray);
     }
   });
 };

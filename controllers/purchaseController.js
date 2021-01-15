@@ -45,13 +45,29 @@ exports.sendEmail = (req, res) => {
 exports.getAllPurchase = (req, res) => {
     purchaseModel.getPurchase(req, (err, purchase) => {
         if(err){
-            req.flash('error_msg', 'Could not get purchases.');
+            console.log("Getting all purchase erorr");
             console.log(err);
-            // res.redirect('/procurement');
         } else {
-            console.log("Purchase inside purchaseController");
-            console.log(purchase);
-            res(purchase);
+            var i, j, temp = [], purchaseArray = [];
+
+            for(i = 0; i < purchase.length; i++){
+                for(j = 0; j < purchase[i].supplyName.length; j++){
+                    temp.push({
+                        supplyName: purchase[i].supplyName[j],
+                        purchaseQty: purchase[i].purchaseQty[j],
+                        expiryDate: purchase[i].expiryDate[j],
+                        price: purchase[i].price[j],
+                        subTotal: purchase[i].subTotal[j]
+                    })
+                }
+                purchaseArray.push({
+                    _id: purchase[i]._id,
+                    purchaseDate: purchase[i].purchaseDate,
+                    purchaseDetails: temp
+                })
+                temp = [];
+            }
+            res(purchaseArray);
         }
     })
 };

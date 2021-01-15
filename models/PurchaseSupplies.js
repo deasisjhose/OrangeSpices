@@ -80,5 +80,5 @@ exports.getAllPurchase = (param, next) => {
       'as': 'supply'
       }
     }
-  ]).exec((err, orders) => next(err, orders));
+  ]).exec((err, purchase) => next(err, purchase));
 };
