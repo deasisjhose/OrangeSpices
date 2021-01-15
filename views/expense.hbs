@@ -34,7 +34,7 @@
                     {{>messages}}
                     <div class="card shadow mb-3">
                         {{#each expense}}
-                            <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{formatDate expenseDate}}</button>
+                            <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Expense Date: {{formatDate expenseDate}}</button>
                             <div class="content">
                                 <table class="table table-hover text-center">
                                     <thead style="font-size: 13px;">
@@ -48,10 +48,10 @@
                                     <tbody>
                                         {{#each expenseDetails}}
                                             <tr>
-                                                <td>{{expenseName}}</td>
+                                                <td class="text-left">{{expenseName}}</td>
                                                 <td>{{expenseType}}</td>
-                                                <td>{{description}}</td>
-                                                <td>₱{{expenseAmount}}</td>
+                                                <td class="text-left">{{description}}</td>
+                                                <td class="text-right">₱{{expenseAmount}}</td>
                                             </tr>
                                         {{/each}}
                                     </tbody>
