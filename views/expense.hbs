@@ -33,20 +33,20 @@
                 <div class="col-12">
                     {{>messages}}
                     <div class="card shadow mb-3">
-                        <table class="table table-hover text-center">
-                            <thead>
-                              <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Expense Name</th>
-                                <th scope="col">Expense Type</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Amount</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                {{#each expense}}
-                                    <button class="collapsible">Date of Purchase: {{format_Date expenseDate}}</button>
-                                    <div class="content">
+                        {{#each expense}}
+                            <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{format_Date expenseDate}}</button>
+                            <div class="content">
+                                <table class="table table-hover text-center">
+                                    <thead style="font-size: 13px;">
+                                      <tr>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Expense Name</th>
+                                        <th scope="col">Expense Type</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Amount</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
                                         <tr>
                                             <td>{{formattingDate expenseDate}}</td>
                                             <td>{{expenseName}}</td>
@@ -54,10 +54,10 @@
                                             <td>{{description}}</td>
                                             <td>₱{{expenseAmount}}</td>
                                         </tr>
-                                    </div>
-                                {{/each}}
-                            </tbody>
-                          </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
@@ -68,4 +68,5 @@
             </div>
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/expense#page-top"><i class="fas fa-angle-up"></i></a></div>
+    <script src="/public/js/collapsibleExpense.js"></script>
 </body>

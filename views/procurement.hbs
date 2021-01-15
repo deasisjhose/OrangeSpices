@@ -35,22 +35,22 @@
             <div class="container-fluid" style="margin-left: 225px;width: 82%;">
                 <div class="col-12">
                     {{>messages}}
-                    <div class="card shadow mb-3">
-                        <table class="table table-hover text-center">
-                            <thead style="font-size: 13px;">
-                              <tr>
-                                <th scope="col">Name</th>
-                                <th scope="col">Purchase Date</th>
-                                <th scope="col">Expiry Date</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col" style="width: 130px;">Purchase Price</th>
-                                <th scope="col" style="width: 140px;">Total Price</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                {{#each purchase}}
-                                    <button class="collapsible">Date of Purchase: {{formatDate purchaseDate}}</button>
-                                    <div class="content">
+                    <div class="card shadow mb-3">    
+                        {{#each purchase}}
+                            <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Date of Purchase: {{formatDate purchaseDate}}</button>
+                            <div class="content">
+                                <table class="table table-hover text-center">
+                                    <thead style="font-size: 13px;">
+                                      <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Purchase Date</th>
+                                        <th scope="col">Expiry Date</th>
+                                        <th scope="col">Quantity</th>
+                                        <th scope="col" style="width: 130px;">Purchase Price</th>
+                                        <th scope="col" style="width: 140px;">Total Price</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
                                         <tr style="font-size: 13px;">
                                             <td class="text-left" style="padding-left: 20px;">{{supplyName}}</td>
                                             <td>{{formattingDate purchaseDate}}</td>
@@ -59,10 +59,10 @@
                                             <td class="text-right" style="padding-right: 20px;">₱{{price}}</td>
                                             <td class="text-right" style="padding-right: 40px;">₱{{subTotal}}</td>
                                         </tr>
-                                    </div>
-                                {{/each}}
-                            </tbody>
-                          </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                        {{/each}}
                     </div>
                 </div>
             </div>
