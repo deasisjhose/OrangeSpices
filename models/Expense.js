@@ -26,10 +26,9 @@ exports.getAll = (param, next) => {
       {
         _id: { 
           month: { $month: "$date" },
-          day: { $dayOfMonth: "$date" },
           year: { $year: "$date" }
         }, 
-        expenseDate: { "$first": "$date" }, 
+        expenseDate: { "$push": "$date" }, 
         expenseName: { "$push": "$expenseName" },
         expenseType: { "$push": "$expenseType" },
         description: { "$push": "$description" },
@@ -37,7 +36,10 @@ exports.getAll = (param, next) => {
       }
     },
     {
-      $sort : { 'expenseDate' : -1 }
+      $sort : { '_id' : -1 }
+    },
+    {
+      $sort : { 'expenseDate' : 1 }
     },
     {
       '$project':

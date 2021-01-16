@@ -8,21 +8,22 @@ exports.getAllExpense = (req, res) => {
       console.log("Getting all expenses erorr");
       console.log(err);
     } else {
-      console.log(expense);
-      var i, j, temp = [], expenseArray = [];
+      var i, j, temp = [], tempMonth, expenseArray = [];
 
       for(i = 0; i < expense.length; i++){
           for(j = 0; j < expense[i].expenseName.length; j++){
               temp.push({
-                  expenseName: expense[i].expenseName[j],
-                  expenseType: expense[i].expenseType[j],
-                  description: expense[i].description[j],
-                  expenseAmount: expense[i].expenseAmount[j]
+                expenseDate: expense[i].expenseDate[j],
+                expenseName: expense[i].expenseName[j],
+                expenseType: expense[i].expenseType[j],
+                description: expense[i].description[j],
+                expenseAmount: expense[i].expenseAmount[j]
               })
+              tempMonth = expense[expense.length-1].expenseDate[expense[i].expenseName.length-1];
           }
           expenseArray.push({
               _id: expense[i]._id,
-              expenseDate: expense[i].expenseDate,
+              expenseMonth: tempMonth,
               expenseDetails: temp
           })
           temp = [];

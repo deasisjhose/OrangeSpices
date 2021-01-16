@@ -38,8 +38,8 @@ exports.orderHistory = (req, res) => {
             } else {
                 var listObjects = list.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the date range
 
-                //console.log("listObjects");
-                //console.log(listObjects);
+                console.log("listObjects");
+                console.log(listObjects);
                         
                 res(listObjects);
             }
@@ -80,14 +80,9 @@ exports.salesReport = (req, res) => {
                 console.log("Sales error");
                 console.log(err);
             } else {
-                // console.log("orders");
-                // console.log(orders);
                 var i, j;
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= start && e.orderDate <= end); // filter documents within the day
-
-                console.log("listObjects");
-                console.log(listObjects);
 
                 for(i = 0; i < listObjects.length; i++){
                     for(j = 0; j < listObjects[i].orders.length; j++){
@@ -104,7 +99,6 @@ exports.salesReport = (req, res) => {
 
                 for(i = 0; i < temp.length; i++){
                     if(i == 0){
-                        console.log('1');
                         ordersArray.push({
                             productID: temp[i].productID,
                             productName: temp[i].productName,
@@ -116,13 +110,11 @@ exports.salesReport = (req, res) => {
                     else {
                         for(j = 0; j < ordersArray.length; j++){
                             if(temp[i].productName == ordersArray[j].productName){
-                                console.log('2');
                                 ordersArray[j].orderQuantity += temp[i].orderQuantity;
                                 ordersArray[j].subTotal += temp[i].subTotal;
                                 break;
                             }
                             if(j == ordersArray.length-1){
-                                console.log('3');
                                 ordersArray.push({
                                     productID: temp[i].productID,
                                     productName: temp[i].productName,
@@ -149,14 +141,9 @@ exports.salesReport = (req, res) => {
                 console.log("Sales error");
                 console.log(err);
             } else {
-                // console.log("orders");
-                // console.log(orders);
                 var i, j, k;
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
-
-                console.log("listObjects");
-                console.log(listObjects);
 
                 for(i = 0; i < listObjects.length; i++){
                     for(j = 0; j < listObjects[i].orders.length; j++){
@@ -173,7 +160,6 @@ exports.salesReport = (req, res) => {
 
                 for(i = 0; i < temp.length; i++){
                     if(i == 0){
-                        console.log('1');
                         ordersArray.push({
                             productID: temp[i].productID,
                             productName: temp[i].productName,
@@ -185,13 +171,11 @@ exports.salesReport = (req, res) => {
                     else {
                         for(j = 0; j < ordersArray.length; j++){
                             if(temp[i].productName == ordersArray[j].productName){
-                                console.log('2');
                                 ordersArray[j].orderQuantity += temp[i].orderQuantity;
                                 ordersArray[j].subTotal += temp[i].subTotal;
                                 break;
                             }
                             if(j == ordersArray.length-1){
-                                console.log('3');
                                 ordersArray.push({
                                     productID: temp[i].productID,
                                     productName: temp[i].productName,
@@ -218,14 +202,9 @@ exports.salesReport = (req, res) => {
                 console.log("Sales error");
                 console.log(err);
             } else {
-                // console.log("orders");
-                // console.log(orders);
                 var i, j, k;
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents according to date range
-
-                console.log("listObjects");
-                console.log(listObjects);
 
                 for(i = 0; i < listObjects.length; i++){
                     for(j = 0; j < listObjects[i].orders.length; j++){
@@ -242,7 +221,6 @@ exports.salesReport = (req, res) => {
 
                 for(i = 0; i < temp.length; i++){
                     if(i == 0){
-                        console.log('1');
                         ordersArray.push({
                             productID: temp[i].productID,
                             productName: temp[i].productName,
@@ -254,13 +232,11 @@ exports.salesReport = (req, res) => {
                     else {
                         for(j = 0; j < ordersArray.length; j++){
                             if(temp[i].productName == ordersArray[j].productName){
-                                console.log('2');
                                 ordersArray[j].orderQuantity += temp[i].orderQuantity;
                                 ordersArray[j].subTotal += temp[i].subTotal;
                                 break;
                             }
                             if(j == ordersArray.length-1){
-                                console.log('3');
                                 ordersArray.push({
                                     productID: temp[i].productID,
                                     productName: temp[i].productName,

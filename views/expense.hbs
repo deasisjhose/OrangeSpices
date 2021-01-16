@@ -34,11 +34,12 @@
                     {{>messages}}
                     <div class="card shadow mb-3">
                         {{#each expense}}
-                            <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Expense Date: {{formatDate expenseDate}}</button>
+                            <button class="btn collapsible" type="button" data-toggle="collapse" data-target="content" aria-expanded="false" aria-controls="content"> Expense Month: {{format_Date expenseMonth}}</button>
                             <div class="content">
                                 <table class="table table-hover text-center">
                                     <thead style="font-size: 13px;">
                                       <tr>
+                                        <th scope="col">Expense Date</th>
                                         <th scope="col">Expense Name</th>
                                         <th scope="col">Expense Type</th>
                                         <th scope="col">Description</th>
@@ -48,6 +49,7 @@
                                     <tbody>
                                         {{#each expenseDetails}}
                                             <tr>
+                                                <td>{{formattingDate expenseDate}}</td>
                                                 <td class="text-left">{{expenseName}}</td>
                                                 <td>{{expenseType}}</td>
                                                 <td class="text-left">{{description}}</td>
