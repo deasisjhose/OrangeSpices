@@ -334,7 +334,7 @@ exports.purchaseReport = (req, res) => {
         var startDate = new Date(sDate);
         var endDate = new Date(eDate);
 
-        purchaseModel.getAllPurchase(req,(err, purchase) => {
+        purchaseModel.getAllPurchase(req, (err, purchase) => {
             if(err){
                 console.log("Purchase error");
                 console.log(err);;

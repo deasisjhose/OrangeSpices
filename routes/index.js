@@ -227,8 +227,29 @@ router.get('/procurement', loggedIn, (req, res) => {
   })
 });
 
+// Get procurement filter report page
+router.get('/procurement/filter', loggedIn, (req, res) => {
+  console.log("Read procurement filter successful!");
+  purchaseController.getAllPurchase(req, purchase => {
+    userController.getID(req.session.user, user => {
+      if(req.session.username == "admin"){
+        res.render('procurement', { 
+          isAdmin: true,
+          purchase: purchase,
+          filterDate: true
+        })
+      }
+      else {
+        res.render('procurement', { 
+          isAdmin: false
+        })
+      }
+    })
+  })
+});
+
 // Get add purchase page
-router.get('/purchase/add', (req, res) => {
+router.get('/purchase/add', loggedIn, (req, res) => {
   console.log("Read add purchase successful!");
   supplyController.getSupplyName(req, supplies => {
     userController.getID(req.session.user, user => {
@@ -311,7 +332,7 @@ router.get('/expense/add', loggedIn, (req, res) => {
 });
 
 // Get order history report page
-router.get('/order_history', (req, res) => {
+router.get('/order_history', loggedIn, (req, res) => {
   console.log("Read order history successful!");
   reportsController.orderHistory(req, orderHistory  => {
     userController.getID(req.session.user, user => {
@@ -334,7 +355,7 @@ router.get('/order_history', (req, res) => {
 });
 
 // Get order history filter report page
-router.get('/order_history/filter', (req, res) => {
+router.get('/order_history/filter', loggedIn, (req, res) => {
   console.log("Read order history filter successful!");
   reportsController.orderHistory(req, orderHistory  => {
     userController.getID(req.session.user, user => {
@@ -360,7 +381,7 @@ router.get('/order_history/filter', (req, res) => {
 });
 
 // Get sales report page
-router.get('/sales_report', (req, res) => {
+router.get('/sales_report', loggedIn, (req, res) => {
   console.log("Read sales report successful!");
   reportsController.salesReport(req, sales => {
     userController.getID(req.session.user, user => {
@@ -390,7 +411,7 @@ router.get('/sales_report', (req, res) => {
 });
 
 // Get sales report page
-router.get('/sales_report/filter', (req, res) => {
+router.get('/sales_report/filter', loggedIn, (req, res) => {
   console.log("Read sales report filter successful!");
   reportsController.salesReport(req, sales => {
     userController.getID(req.session.user, user => {
@@ -423,7 +444,7 @@ router.get('/sales_report/filter', (req, res) => {
 });
 
 // Get inventory report page
-router.get('/inventory_report', (req, res) => {
+router.get('/inventory_report', loggedIn, (req, res) => {
   console.log("Read inventory report successful!");
   //expenseController.getExpenseName(req, expense => {
     //userController.getID(req.session.user, user => {
@@ -445,7 +466,7 @@ router.get('/inventory_report', (req, res) => {
 
 
 // Get purchase report page
-router.get('/purchase_report', (req, res) => {
+router.get('/purchase_report', loggedIn, (req, res) => {
   console.log("Read purchase report successful!");
   reportsController.purchaseReport(req, purchase => {
     userController.getID(req.session.user, user => {
@@ -477,7 +498,7 @@ router.get('/purchase_report', (req, res) => {
 });
 
 // Get purchase report page
-router.get('/purchase_report/filter', (req, res) => {
+router.get('/purchase_report/filter', loggedIn, (req, res) => {
   console.log("Read purchase report filter successful!");
   reportsController.purchaseReport(req, purchase => {
     userController.getID(req.session.user, user => {
@@ -510,7 +531,7 @@ router.get('/purchase_report/filter', (req, res) => {
 });
 
 // Get  profitability page
-router.get('/profitability', (req, res) => {
+router.get('/profitability', loggedIn, (req, res) => {
   console.log("Read profitability report successful!");
   expenseController.getAllExpense(req, expenses => {
     reportsController.profitReport(req, total => {

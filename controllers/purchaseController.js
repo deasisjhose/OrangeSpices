@@ -43,33 +43,70 @@ exports.sendEmail = (req, res) => {
 
 // Getting all purchase
 exports.getAllPurchase = (req, res) => {
-    purchaseModel.getPurchase(req, (err, purchase) => {
-        if(err){
-            console.log("Getting all purchase erorr");
-            console.log(err);
-        } else {
-            var i, j, temp = [], purchaseArray = [];
+    var sDate = req.query.fromDate;
+    var eDate = req.query.toDate;
 
-            for(i = 0; i < purchase.length; i++){
-                for(j = 0; j < purchase[i].supplyName.length; j++){
-                    temp.push({
-                        supplyName: purchase[i].supplyName[j],
-                        purchaseQty: purchase[i].purchaseQty[j],
-                        expiryDate: purchase[i].expiryDate[j],
-                        price: purchase[i].price[j],
-                        subTotal: purchase[i].subTotal[j]
+    if(sDate == undefined && eDate == undefined){
+        purchaseModel.getPurchase(req, (err, purchase) => {
+            if(err){
+                console.log("Getting all purchase erorr");
+                console.log(err);
+            } else {
+                var i, j, temp = [], purchaseArray = [];
+
+                for(i = 0; i < purchase.length; i++){
+                    for(j = 0; j < purchase[i].supplyName.length; j++){
+                        temp.push({
+                            supplyName: purchase[i].supplyName[j],
+                            purchaseQty: purchase[i].purchaseQty[j],
+                            expiryDate: purchase[i].expiryDate[j],
+                            price: purchase[i].price[j],
+                            subTotal: purchase[i].subTotal[j]
+                        })
+                    }
+                    purchaseArray.push({
+                        _id: purchase[i]._id,
+                        purchaseDate: purchase[i].purchaseDate,
+                        purchaseDetails: temp
                     })
+                    temp = [];
                 }
-                purchaseArray.push({
-                    _id: purchase[i]._id,
-                    purchaseDate: purchase[i].purchaseDate,
-                    purchaseDetails: temp
-                })
-                temp = [];
+                res(purchaseArray);
             }
-            res(purchaseArray);
-        }
-    })
+        })
+    } else {
+        var startDate = new Date(sDate);
+        var endDate = new Date(eDate);
+
+        purchaseModel.getPurchase(req, (err, purchase) => {
+            if(err){
+                console.log("Getting all purchase erorr");
+                console.log(err);
+            } else {
+                var i, j, temp = [], purchaseArray = [];
+                var listObjects = purchase.filter(e => e.purchaseDate >= startDate && e.purchaseDate <= endDate);
+                
+                for(i = 0; i < listObjects.length; i++){
+                    for(j = 0; j < listObjects[i].supplyName.length; j++){
+                        temp.push({
+                            supplyName: listObjects[i].supplyName[j],
+                            purchaseQty: listObjects[i].purchaseQty[j],
+                            expiryDate: listObjects[i].expiryDate[j],
+                            price: listObjects[i].price[j],
+                            subTotal: listObjects[i].subTotal[j]
+                        })
+                    }
+                    purchaseArray.push({
+                        _id: listObjects[i]._id,
+                        purchaseDate: listObjects[i].purchaseDate,
+                        purchaseDetails: temp
+                    })
+                    temp = [];
+                }
+                res(purchaseArray);
+            }
+        })        
+    }
 };
 
 // Adding purchase
