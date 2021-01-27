@@ -41,16 +41,16 @@
                         <div><button type="submit" class="btn btn-primary btn-sm add-btn ml-3 generate">Generate</button></div>
                     </form>
                 </div>
-            </nav>
             <div class="container-fluid" style="margin-left: 225px;width: 82%;">
                 <div class="col-12">
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
                             {{#if filterDate}}
-                                <p class="text-primary m-0 font-weight-bold" id="reportTitle">Sales Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
-                                <p class="text-muted m-0" id="datetime">Date Generated: {{timestamp}}</p>
+                                <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
+                                <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
                             {{else}}
-                                <p class="text-primary m-0 font-weight-bold" id="reportTitle">Sales Report for today {{formatDate today}}</p>
+                                <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report for today {{formatDate today}}</p>
+                                <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
                             {{/if}}
                         </div>
                         <table class="table text-center table-bordered">
@@ -72,7 +72,7 @@
                                     <td style="text-align: right;">₱{{subTotal}}</td>
                                 </tr>
                                 {{/each}}
-                                <thead style="border-top: 2px solid #e3e6f0; background-color: #c64327 !important; color: #ffffff !important;">
+                                <thead style="border-top: 2px solid #e3e6f0; background-color: #f47639 !important; color: #ffffff !important;">
                                     <tr>
                                         <th scope="col" style="border-right: 2px solid #e3e6f0;">Total</th>
                                         <th colspan="3" class="font-weight-bold" style="text-align: right;">₱ {{totalAmount}}</th>

@@ -1,13 +1,56 @@
 $(document).ready(function(){ 
   var ingArray = [];
 
-  function addIng(id, qty, unit) {
-    ingArray.push({id: id, qty: Number.parseInt(qty), unit: unit});
+  function addIng(id, qty) {
+    ingArray.push({id: id, qty: Number.parseInt(qty)});
   }
     
   var i = 1;  
-  var idIngList = [], ingName = [], qtyList = [], unitList = [];
+  var idIngList = [], ingName = [], qtyList = [];
   var prod, category, price;
+
+  $('#selectIng option').each(function() {
+    if(this.selected){
+      console.log("sana may laman");
+      console.log($(this).attr('data-id'));
+      $.ajax({
+        url: '/unit/name',
+        method: 'POST',
+        data: {
+          id: $(this).attr('data-id')
+        },
+        error: function(){
+          alert("Error selecting ingredient");
+        },
+        success: function(unit){
+          console.log(unit);
+          $('#unit').val(unit.unitName)
+        }
+      });
+    }
+  })
+  $('#selectIng').change(function() {
+    $('#selectIng option').each(function() {
+      if(this.selected){
+        console.log("sana may laman");
+        console.log($(this).attr('data-id'));
+        $.ajax({
+          url: '/unit/name',
+          method: 'POST',
+          data: {
+            id: $(this).attr('data-id')
+          },
+          error: function(){
+            alert("Error selecting ingredient");
+          },
+          success: function(unit){
+            console.log(unit);
+            $('#unit').val(unit.unitName)
+          }
+        });
+      }
+    })
+  })
 
   $('#addIngredient').click(function(){  
     console.log("adding...");
@@ -15,9 +58,7 @@ $(document).ready(function(){
     var selectedValue = selectIng.options[selectIng.selectedIndex].value;
     var selectedVal = selectIng.options[selectIng.selectedIndex].getAttribute("data-id");
     var qty = document.getElementById("quantity").value;
-    var unitName = document.getElementById("unit").value;
-    var unit = document.getElementById("unit");
-    var unitID = unit.options[unit.selectedIndex].getAttribute("data-id");
+    var unit = document.getElementById("unit").value;
 
     if(qty == ""){
       alert("Please fill out all fields!");
@@ -29,12 +70,11 @@ $(document).ready(function(){
       idIngList.push(selectedVal);
       ingName.push(selectedValue);
       qtyList.push(qty);
-      unitList.push(unitID);
 
-      addIng(selectedVal, qty, unit);
+      addIng(selectedVal, qty);
       i++;  
 
-      $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="selectIng" name="ingredientName" placeholder="' + selectedValue +'" style="width:215px;"></input></td><td><input type="number" class="form-control" disabled="disabled" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" placeholder="' + qty +'"min="1"></td><td><input id="unit" class="form-control" disabled="disabled" placeholder="' + unitName +'" style="width:150px; height: 40px;"></input></td><td><button style="margin-left: 25px; height: 40px;" type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x Remove</button></td></tr>');  
+      $('#dynamic_field').append('<tr id="row'+i+'"><td><input disabled="disabled" class="form-control" id="selectIng" name="ingredientName" value="' + selectedValue +'" style="width:215px;"></input></td><td><input type="number" class="form-control" disabled="disabled" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" value="' + qty +'"min="1"></td><td><input type="text" class="form-control" value="' + unit+ '"style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" disabled="disabled"></td><td><button style="margin-left: 25px; height: 40px;" type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">x Remove</button></td></tr>');  
     }
   }); 
 
@@ -46,7 +86,6 @@ $(document).ready(function(){
     idIngList.splice(index, 1);
     ingName.splice(index, 1);
     qtyList.splice(index, 1);
-    unitList.splice(index, 1); 
   });  
 
   $("button.save-btn").click(function(){
@@ -70,8 +109,7 @@ $(document).ready(function(){
           prodPrice: price,
           idIngList: idIngList,
           ingName: ingName,
-          qtyList: qtyList,
-          unitList: unitList
+          qtyList: qtyList
         },
         error: function(){
           alert("Please fill out the ingrdients table.");

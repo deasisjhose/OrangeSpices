@@ -21,3 +21,17 @@ exports.getAll = (param, next) => {
     next(err, units);
   });
 };
+
+// Get unit by id
+exports.getByID = function(id, next) {
+  Unit.findById(id, function(err, unit) {
+    next(err, unit);
+  });
+};
+
+// 
+exports.getOne = function(id, next) {
+  Unit.findOne({_id: id}, function(err, unit) {
+    next(err, unit);
+  });
+};

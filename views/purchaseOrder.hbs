@@ -50,12 +50,19 @@
                         <div class="col-12">
                             <p style="font-weight: bold;">Items</p>
                             <div class="table-responsive">  
-                                <table class="table table-bordered" id="dynamic_field">  
+                                <table class="table table-bordered" id="dynamic_field">
+                                    <thead style="font-size: 17px;">
+                                      <tr>
+                                        <th scope="col" stlye="text-align: center;">Supply Name</th>
+                                        <th scope="col" stlye="text-align: center;">No. of Items</th>
+                                        <th scope="col" stlye="text-align: center;">Add or Remove</th>
+                                      </tr>
+                                    </thead>  
                                     <tr>
                                         <td>
                                             <div class="form-group">
                                                 <select id="selectIng" class="form-control" style="width:215px;">
-                                                    {{>ingredientName}}
+                                                    {{>supplyName}}
                                                 </select>
                                             </div>
                                         </td>
@@ -64,22 +71,9 @@
                                                 <label for="numItems" class="sr-only">No. of Items</label>
                                                 <input type="number" class="form-control" style="width:130px; margin-right: 20px; margin-left: 20px; height: 40px;" placeholder="No. of Items" id="numItems" min="1">
                                             </div>
-                                        </td>    
-                                        <td>
-                                            <div class="form-group">
-                                                <label for="quantity" class="sr-only">Quantity</label>
-                                                <input type="number" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" id="quantity" placeholder="Quantity" min="1">
-                                            </div>
                                         </td>
                                         <td>
-                                            <div class="form-group">
-                                                <select id="unit" class="form-control" style="width:150px; height: 40px;">
-                                                    {{>units}}
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <button style="margin-left: 25px; height: 40px;" type="button" id="addIngredient" class="btn btn-primary add-btn">+</button>
+                                            <button style="margin-left: 25px; height: 40px;" type="button" id="addIngredient" class="btn btn-primary add-btn">+Add</button>
                                         </td>      
                                     </tr>
                                 </table>  

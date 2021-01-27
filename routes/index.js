@@ -251,20 +251,20 @@ router.get('/purchase/add', (req, res) => {
 // Get purchase order page
 router.get('/purchase/order', (req, res) => {
   console.log("Read purchase order successful!");
-  ingredientController.getIngredientName(req, ingredients => {
+  supplyController.getSupplyName(req, supplies => {
     unitController.getAllUnits(req, (units) => {
       userController.getID(req.session.user, user => {
         if(req.session.username == "admin"){
           res.render('purchaseOrder', { 
             isAdmin: true,
-            ingName: ingredients,
+            supplyName: supplies,
             unit: units
           })
         }
         else {
           res.render('purchaseOrder', { 
             isAdmin: false, 
-            ingName: ingredients,
+            supplyName: supplies,
             unit: units
           })
         }
@@ -320,7 +320,8 @@ router.get('/order_history', (req, res) => {
         res.render('orderHistory', { 
           isAdmin: true,
           orderList: orderHistory,
-          today: today
+          today: today,
+          timestamp: new Date()
         })
       }
       else {
@@ -375,7 +376,8 @@ router.get('/sales_report', (req, res) => {
           isAdmin: true,
           products: sales,
           totalAmount: totalAmount,
-          today: today
+          today: today,
+          timestamp: new Date()
         })
       }
       else {
@@ -461,7 +463,8 @@ router.get('/purchase_report', (req, res) => {
           purchase: purchase,
           startDate: start,
           endDate: end,
-          totalAmount: totalAmount
+          totalAmount: totalAmount,
+          timestamp: new Date()
         })
       }
       else {
@@ -539,15 +542,22 @@ router.get('/profitability', (req, res) => {
 
 router.get('/getIngredients', (req, res) => {
   ingredientController.getIngredientName(req.query.name, ing => {
-        console.log(ing);
-        res.status(200).send(ing);
+      console.log(ing);
+      res.status(200).send(ing);
   });
 });
 
 router.get('/getSupplies', (req, res) => {
   supplyController.getSupplyName(req.query.name, supply => {
-        console.log(supply);
-        res.status(200).send(supply);
+      console.log(supply);
+      res.status(200).send(supply);
+  });
+});
+
+router.get('/getUnit', (req, res) => {
+  unitController.getUnitID(req, unit => {
+      console.log(unit);
+      res.status(200).send(unit);
   });
 });
 
@@ -565,6 +575,7 @@ router.get('/logout', loggedIn, userController.logoutUser);
 router.post('/login', loginValidation, userController.loginUser);
 router.post('/searchPOS', loggedIn, billingController.search);
 router.post('/products/add', loggedIn, productController.addProduct);
+router.post('/unit/name', loggedIn, unitController.getUnitID);
 router.post('/supplies/add', loggedIn, supplyController.addSupply);
 router.post('/ingredients/add', loggedIn, ingredientController.addIngredient);
 router.post('/purchase/add', loggedIn, addPurchaseValidation, purchaseController.addPurchase);
