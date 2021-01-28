@@ -25,6 +25,7 @@ exports.getProductID = (req, res) => {
       throw err;
     } else {
       var productObject = result.toObject();
+      console.log(productObject);
       res(productObject);
     }
   });

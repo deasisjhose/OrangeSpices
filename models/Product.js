@@ -46,8 +46,8 @@ exports.search = function(product, next) {
 };
 
 // Get product by id
-exports.getByID = function(index, next) {
-  Product.findById(index, function(err, product) {
+exports.getByID = function(id, next) {
+  Product.findById(id, function(err, product) {
     next(err, product);
   });
 };
