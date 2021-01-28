@@ -4,13 +4,11 @@ const billingController = require('../controllers/billingController');
 const unitController = require('../controllers/unitController');
 const productController = require('../controllers/productController');
 const supplyController = require('../controllers/supplyController');
-const discrepancyController = require('../controllers/discrepancyController');
 const ingredientController = require('../controllers/ingredientController');
 const purchaseController = require('../controllers/purchaseController');
 const expenseController = require('../controllers/expenseController');
 const reportsController = require('../controllers/reportsController');
-const { loginValidation, addProductValidation, addSupplyValidation, addIngredientValidation, 
-        addPurchaseValidation, purchaseOrderValidation, addExpenseValidation, addExpenseDetailsValidation } = require('../validators.js');
+const { loginValidation, addPurchaseValidation } = require('../validators.js');
 const { loggedIn } = require('../middlewares/checkAuth');
 
 router.get('/', (req, res) => {
@@ -117,7 +115,7 @@ router.get('/products/add', loggedIn, (req, res) => {
   })
 });
 
-// Get search products 
+// Search products 
 router.get('/products/search', loggedIn, (req, res) => {
   console.log("Read search product successful!");
   productController.searchProduct(req, product => {
@@ -200,6 +198,26 @@ router.get('/ingredients', loggedIn, (req, res) => {
         })
       }
     })    
+  })
+});
+
+// Search ingredients 
+router.get('/ingredients/search', loggedIn, (req, res) => {
+  console.log("Read search ingredient successful!");
+  ingredientController.searchIngredient(req, ingredients => {
+    userController.getID(req.session.user, (user) => {
+      if(req.session.username == "admin"){
+        res.render('ingredients', { 
+          isAdmin: true,
+          ingredient: ingredients,
+        })
+      }
+      else {
+        res.render('ingredients', { 
+          isAdmin: false
+        })
+      }
+    })
   })
 });
 
@@ -611,7 +629,6 @@ router.get('/logout', loggedIn, userController.logoutUser);
 
 // POST methods for form submissions
 router.post('/login', loginValidation, userController.loginUser);
-router.post('/searchPOS', loggedIn, billingController.search);
 router.post('/products/add', loggedIn, productController.addProduct);
 router.post('/unit/name', loggedIn, unitController.getUnitID);
 router.post('/supplies/add', loggedIn, supplyController.addSupply);

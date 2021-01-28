@@ -17,6 +17,37 @@ exports.getAllIngredients = (param, callback) =>{
   });
 };
 
+// Search ingredient
+exports.searchIngredient = (req, res) => {
+  var query = req.query.searchProd;
+  const errors = validationResult(req);
+  if (errors.isEmpty()) {
+    ingredientModel.search({ ingredientName: { $regex: query, $options:'i' }}, (err, result) => {
+      if (err) {
+        console.log("There's an error!")
+        console.log(err);
+      } else {
+        console.log("Ingredients results");
+        console.log(result);
+        if (result) { 
+          const ingredientsObjects = [];
+          result.forEach(function(doc) {
+            ingredientsObjects.push(doc.toObject());
+          });
+          res(ingredientsObjects);
+        } 
+        else { 
+          console.log("No ingreditnes found!");
+          res.status(400).send("No ingredients found!");
+        }
+      }
+    });
+  } else {
+    console.log("Error searching ingredient!");
+    res.status(400).send("Error searching ingredient!");
+  }
+};
+
 // Adding ingredient
 exports.addIngredient = (req, res) => {
   const errors = validationResult(req);

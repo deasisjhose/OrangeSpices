@@ -52,7 +52,3 @@ exports.checkout = (req, res) => {
         res.redirect('/POS');
     }
 };
-
-exports.search = (req, res) => {
-
-};

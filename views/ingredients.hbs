@@ -34,6 +34,14 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Ingredients</span></div>
+                    <form action="/ingredients/search" method="GET" class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input class="bg-light form-control border-3 small" type="text" name="searchProd" placeholder="Search for ingredients..." style="width: 430px;">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary py-0 search-btn" type="submit"><i class="fas fa-search" style="font-size: 13px;"></i></button>
+                            </div>
+                        </div>
+                    </form>
                     <div class="add">
                         <a href="/ingredients/add"><button type="button" class="btn btn-primary btn-sm add-btn">+ Add</button></a>
                     </div>

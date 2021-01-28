@@ -16,6 +16,11 @@ exports.add = function(obj, next) {
     });
 };
 
+// Search ingredient
+exports.search = function(ingredient, next) {
+    Ingredient.find(ingredient).populate('unitID').exec((err, ingredients) => next(err, ingredients));
+  };
+
 // Get all ingredients
 exports.getAll = (param, next) => {
     Ingredient.find({}).populate('unitID').exec((err, ingredients) => next(err, ingredients));
