@@ -26,10 +26,18 @@
             <div id="content">
                 <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
                     <div class="title"><span class="text-primary m-0 font-weight-bold">Products</span><span class="text-primary m-0 numresults"></span></div>
+                    <form action="/products/search" method="GET" class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        <div class="input-group">
+                            <input class="bg-light form-control border-0 small" type="text" name="searchProd" placeholder="Search for products...">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary py-0 search-btn" type="submit"><i class="fas fa-search" style="font-size: 13px;"></i></button>
+                            </div>
+                        </div>
+                    </form>
                     <div class="add">
                         <a href="/products/add"><button type="button" class="btn btn-primary btn-sm add-btn">+ Add</button></a>
                     </div>
-            </nav>
+                </nav>
             <div class="container-fluid" style="margin-left: 225px;width: 82%;">
                 <div class="col-12">
                     {{>messages}}

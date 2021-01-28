@@ -22,54 +22,86 @@ exports.addProduct = (req, res) => {
   //const { prodName, category, prodPrice, productID, ingredientID, quantityNeeded, unitID } = req.body;
   const errors = validationResult(req);
     if (errors.isEmpty()) {
-        var i;
-        var prodName = req.body.prodName;
-        var category = req.body.category;
-        var prodPrice = req.body.prodPrice;
+      var i;
+      var prodName = req.body.prodName;
+      var category = req.body.category;
+      var prodPrice = req.body.prodPrice;
 
-        var idList = req.body.idIngList;
-        // var ingName = req.body.ingName;
-        var qtyList = req.body.qtyList;
-        var unitList = req.body.unitList; 
+      var idList = req.body.idIngList;
+      // var ingName = req.body.ingName;
+      var qtyList = req.body.qtyList;
+      var unitList = req.body.unitList; 
 
-        var ingredientList = {
-          prodName: prodName,
-          prodPrice: prodPrice,
-          category: category
-        }
+      var ingredientList = {
+        prodName: prodName,
+        prodPrice: prodPrice,
+        category: category
+      }
 
-        productModel.add(ingredientList, function(err, result) {
-            if (err) {
-                console.log(err);
-                req.flash('error_msg', 'Could not add product list.');
-                res.redirect('/products/add');
-            } else {
-                for(i = 0; i < idList.length; i++){
-                    var ingredients = {
-                      productID: result._id, 
-                      ingredientID: idList[i],
-                      quantityNeeded: qtyList[i],
-                      unitID: unitList[i]
-                    }
-
-                    ingredientModel.add(ingredients, function(err, result){
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(result);
-                        }
-                    })
-                }
-                console.log("Product saved!");
-                res.status(200).send();
+      productModel.add(ingredientList, function(err, result) {
+        if (err) {
+          console.log(err);
+          req.flash('error_msg', 'Could not add product list.');
+          res.redirect('/products/add');
+        } else {
+          for(i = 0; i < idList.length; i++){
+            var ingredients = {
+              productID: result._id, 
+              ingredientID: idList[i],
+              quantityNeeded: qtyList[i],
+              unitID: unitList[i]
             }
-        })
+
+            ingredientModel.add(ingredients, function(err, result){
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(result);
+              }
+            })
+          }
+        console.log("Product saved!");
+        res.status(200).send();
+        }
+      })
     } else {
-        const messages = errors.array().map((item) => item.msg);
-        req.flash('error_msg', messages.join(' '));
-        res.redirect('/products/add');
+      const messages = errors.array().map((item) => item.msg);
+      req.flash('error_msg', messages.join(' '));
+      res.redirect('/products/add');
     }
 }; 
+
+// Search product
+exports.searchProduct = (req, res) => {
+  var query = req.query.searchProd;
+  const errors = validationResult(req);
+  console.log(query);
+  if (errors.isEmpty()) {
+    productModel.search({ prodName: { $regex: query, $options:'i' }}, (err, result) => {
+      if (err) {
+        console.log("There's an error!")
+        console.log(err);
+      } else {
+        console.log("product results");
+        console.log(result);
+        if (result) { 
+          const productObjects = [];
+          result.forEach(function(doc) {
+            productObjects.push(doc.toObject());
+          });
+          res(productObjects);
+        } 
+        else { 
+          console.log("No products found!");
+          res.status(400).send("No products found!");
+        }
+      }
+    });
+  } else {
+    console.log("Error searching product!");
+    res.status(400).send("Error searching product!");
+  }
+};
 
 // Get ala carte products
 exports.getAlaCarte = (req, res) => {

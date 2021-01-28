@@ -101,21 +101,38 @@ router.get('/products', loggedIn, (req, res) => {
 router.get('/products/add', loggedIn, (req, res) => {
   console.log("Read add product successful!");
   ingredientController.getAllIngredients(req, ingredients => {
-    unitController.getAllUnits(req, (units) => {
-      userController.getID(req.session.user, (user) => {
-        if(req.session.username == "admin"){
-          res.render('addProduct', { 
-            isAdmin: true,
-            unit: units,
-            ingName: ingredients,
-          })
-        }
-        else {
-          res.render('addProduct', { 
-            isAdmin: false
-          })
-        }
-      })
+    userController.getID(req.session.user, (user) => {
+      if(req.session.username == "admin"){
+        res.render('addProduct', { 
+          isAdmin: true,
+          ingName: ingredients,
+        })
+      }
+      else {
+        res.render('addProduct', { 
+          isAdmin: false
+        })
+      }
+    })
+  })
+});
+
+// Get search products 
+router.get('/products/search', loggedIn, (req, res) => {
+  console.log("Read search product successful!");
+  productController.searchProduct(req, product => {
+    userController.getID(req.session.user, (user) => {
+      if(req.session.username == "admin"){
+        res.render('products', { 
+          isAdmin: true,
+          product: product,
+        })
+      }
+      else {
+        res.render('products', { 
+          isAdmin: false
+        })
+      }
     })
   })
 });

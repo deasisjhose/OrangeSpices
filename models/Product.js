@@ -31,6 +31,13 @@ exports.getOne = function(query, next) {
   });
 };
 
+// Search product
+exports.search = function(product, next) {
+  Product.find(product, function(err, product) {
+    next(err, product);
+  });
+};
+
 // Get product by id
 exports.getByID = function(index, next) {
   Product.findById(index, function(err, product) {
