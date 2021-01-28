@@ -65,6 +65,9 @@ $(document).ready(function() {
 
     $("button.save-btn").click(function() {
         var expenseDate = document.getElementById("expenseDate").value;
+        var expense = document.getElementById("expenseName").value;
+        var desc = document.getElementById("expenseDesc").value;
+        var amount = document.getElementById("expenseAmt").value;
 
         var today = new Date();
         var d1 = new Date(expenseDate);
@@ -72,6 +75,30 @@ $(document).ready(function() {
         if (expenseDate == "") {
             alert("Please enter expense date");
         } 
+        else if(expenseDate == "" && expense == "" && desc == "" && amount == ""){
+            alert("Please fill out all fields!");
+        }
+        else if (expense == "" && desc != "" && amount != ""){
+            alert("Please enter expense name!");
+        }
+        else if (expense != "" && desc == "" && amount != ""){
+            alert("Please enter description!");
+        }
+        else if (expense != "" && desc != "" && amount == ""){
+            alert("Please enter expense amount!");
+        }
+        else if (expense != "" && desc == "" && amount == ""){
+            alert("Please enter description and amount!");
+        }
+        else if (expense == "" && desc != "" && amount == ""){
+            alert("Please enter expense name and amount!");
+        }
+        else if (expense == "" && desc == "" && amount != ""){
+            alert("Please enter expense name and description!");
+        }
+        else if (amount <= 0) {
+            alert("You cannot enter a zero or negative value!");
+        }
         // else if (d1.getTime() > today.getTime()) {
         //     alert("Invalid date. Cannot be future");
         // } 

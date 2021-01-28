@@ -81,6 +81,7 @@ $(document).ready(function() {
             alert("Please enter purchase date");
         } 
         // TO DO: validations when "save" button is clicked
+        // if may laman yung purchase date tapos empty yung list pag nag save button siya inaaccept niya
         // else if (d1.getTime() > today.getTime() || d2.getTime() < d1.getTime()) {
         //     alert("Invalid dates");
         // } 

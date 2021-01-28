@@ -9,8 +9,8 @@ const productIngredientSchema = new mongoose.Schema({
 
 // Declaring productID and ingredientID as pk's
 productIngredientSchema.index({
-    productID: 1,
-    ingredientID: 1
+  productID: 1,
+  ingredientID: 1
 }, { unique: true });
 
 const ProductIngredient = mongoose.model('productIng', productIngredientSchema);
@@ -18,8 +18,21 @@ const ProductIngredient = mongoose.model('productIng', productIngredientSchema);
 // Add Ingredient
 exports.add = function(obj, next) {
   const ingredient = new ProductIngredient(obj);
-
   ingredient.save(function(err, prod) {
     next(err, prod);
+  });
+};
+
+// Get all product ingredients
+exports.getAll = (next) => {
+  ProductIngredient.find({}, (err, prodIng) => {
+    next(err, prodIng);
+  });
+};
+
+// Get product ingredietns by id
+exports.getByID = function(id, next) {
+  ProductIngredient.findById(id, function(err, prodIng) {
+    next(err, prodIng);
   });
 };
