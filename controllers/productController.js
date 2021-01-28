@@ -266,25 +266,30 @@ exports.getBakedSushi = (req, res) => {
 
 // Edit product
 exports.editProduct = (req, res) => {
-  const { prodName, prodPrice } =req.body; 
+  const { id, prodName, prodPrice } =req.body; 
 
-  var edit = {
-    $set: { 
-      prodName: prodName,
-      prodPrice: prodPrice
-    } 
-  };
-
-  productModel.edit(req.body.id, edit,(err, result) => {
-    if (err) {
-      console.log("Error cannot edit product!");
-      console.log(err);
-    } else {
-      console.log("Product edited!");
-      console.log(result);
-      res.redirect('/products');
-    }
-  });
+  if(prodPrice <= 0){
+    req.flash('error_msg', 'Could not enter negative value!');
+    res.redirect('/products/edit/'+id);
+  } else {
+    var edit = {
+      $set: { 
+        prodName: prodName,
+        prodPrice: prodPrice
+      } 
+    };
+  
+    productModel.edit(req.body.id, edit,(err, result) => {
+      if (err) {
+        console.log("Error cannot edit product!");
+        console.log(err);
+      } else {
+        console.log("Product edited!");
+        console.log(result);
+        res.redirect('/products');
+      }
+    });
+  }
 };
 
 // Delete product
