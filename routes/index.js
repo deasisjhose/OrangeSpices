@@ -619,7 +619,7 @@ router.post('/ingredients/add', loggedIn, ingredientController.addIngredient);
 router.post('/purchase/add', loggedIn, addPurchaseValidation, purchaseController.addPurchase);
 router.post('/purchase/order', loggedIn, purchaseController.sendEmail);
 router.post('/expense/add', loggedIn, expenseController.addExpense);
-router.post('/supplies/update', loggedIn, discrepancyController.updateStock);
+router.post('/ingredient/update', loggedIn, ingredientController.updateStock);
 router.post('/checkout', loggedIn, billingController.checkout);
 
 module.exports = router;

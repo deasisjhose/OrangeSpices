@@ -3,7 +3,7 @@ const mongoose = require('./connection');
 const discrepancySchema = new mongoose.Schema({
   physicalCount: { type: Number, required: true },
   date: { type: Date, required: false},
-  supplyID: { type: mongoose.Schema.Types.ObjectId, ref: 'supply', required: true}, 
+  ingredientID: { type: mongoose.Schema.Types.ObjectId, ref: 'ingredient', required: true}, 
 });
 
 const Discrepancy = mongoose.model('discrepancy', discrepancySchema);

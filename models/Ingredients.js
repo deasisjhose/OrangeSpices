@@ -43,7 +43,7 @@ exports.getByID = function(id, next) {
 };
 
 // Update total ingredients
-exports.updateIngredient = function(id, update, next) {
+exports.updateStock = function(id, update, next) {
     Ingredient.findOneAndUpdate({ _id: id }, update, { new: true }, function(err, ingredient) {
         next(err, ingredient);
     })
