@@ -20,85 +20,62 @@ exports.checkout = (req, res) => {
             orderDate: Date.now(),
             totalAmount: totalAmount
         }
-        
+        console.log('idList');
+        console.log(idList);
         for(i = 0; i < idList.length; i++){
-            prodIngModel.getByID(idList[i], (err, prodIng) => {
+            prodIngModel.getIngredients(idList[i], (err, prodIng) => {
                 if (err) {
                     console.log("Could not find product ingredients.");
+                    console.log(err);
                 } else {
-                    ingID = supply.ingredientID;
-                    unitQuantity = supply.unitQuantity;
-                    total = quantity * unitQuantity;
+                    console.log("prodIng");
+                    console.log(prodIng);
 
-                    var updateStock = {
-                        $inc: {
-                            totalSupply: total
-                        }
-                    };
-
-                    supplyModel.updateStock(suppID, updateStock, (err, result) => {
-                        if (err) {
-                            req.flash('error_msg', 'Could not update supply stock.');
-                            res.redirect('/purchase/add');
-                        } else {
-                            ingredientModel.getByID(ingID, (err, ingredient) => {
-                                if (err) {
-                                    req.flash('error_msg', 'Could not find ingredient.');
-                                    res.redirect('/purchase/add');
-                                } else {
-                                    var ingUpd = {
-                                        $inc: {
-                                            totalQuantity: total
+                    for(j = 0; j < prodIng.length; j++){
+                        var reduceStock = {
+                            $inc: {
+                                totalQuantity: -prodIng[j].quantityNeeded
+                            }
+                        };
+                        ingredientModel.updateStock(prodIng[j].ingredientID, reduceStock, (err, result) => {
+                            if (err) {
+                                console.log("Could not reduce ingredients.");
+                                console.log(err);
+                            } else {
+                                console.log("Ingredient stock reduced!");
+                                console.log(result);
+                                orderListModel.add(orderList, function(err, result) {
+                                    if (err) {
+                                        console.log(err);
+                                        req.flash('error_msg', 'Could not add order list.');
+                                        res.redirect('/POS');
+                                    } else {
+                                        for(j = 0; j < idList.length; j++){
+                                            var order = {
+                                                productID: idList[j],
+                                                orderListID: result._id, 
+                                                productName: prodList[j],
+                                                orderQuantity: qtyList[j],
+                                                productPrice: priceList[j],
+                                                subTotal: subList[j]
+                                            }
+                                            orderModel.add(order, function(err, result){
+                                                if (err) {
+                                                    console.log(err);
+                                                } else {
+                                                    console.log(result);
+                                                }
+                                            })
                                         }
+                                        console.log("Order saved!");
                                     }
-
-                                    ingredientModel.updateIngredient(ingID, ingUpd, (err, result) => {
-                                        if (err) {
-                                            req.flash('error_msg', 'Could not update ingredient.');
-                                            res.redirect('/supplies');
-                                        } else {
-                                            console.log("Purchase added!");
-                                            res.status(200).send();
-                                        }
-                                    })
-                                }
-                            });
-                        }
-                    })
+                                })
+                            }
+                        })
+                    }
                 }
             })
         }
-
-
-
-
-                orderListModel.add(orderList, function(err, result) {
-                    if (err) {
-                        console.log(err);
-                        req.flash('error_msg', 'Could not add order list.');
-                        res.redirect('/POS');
-                    } else {
-                        for(j = 0; j < idList.length; j++){
-                            var order = {
-                                productID: idList[j],
-                                orderListID: result._id, 
-                                productName: prodList[j],
-                                orderQuantity: qtyList[j],
-                                productPrice: priceList[j],
-                                subTotal: subList[j]
-                            }
-
-                            orderModel.add(order, function(err, result){
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    console.log(result);
-                                }
-                            })
-                        }
-                        console.log("Order saved!");
-                    }
-                })
     } else {
         const messages = errors.array().map((item) => item.msg);
         req.flash('error_msg', messages.join(' '));

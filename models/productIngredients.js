@@ -31,8 +31,14 @@ exports.getAll = (next) => {
 };
 
 // Get product ingredietns by id
-exports.getByID = function(id, next) {
-  ProductIngredient.findById(id, function(err, prodIng) {
+exports.getIngredients = function(id, next) {
+  ProductIngredient.findById({ productID: id }, function(err, prodIng) {
+    next(err, prodIng);
+  });
+};
+
+exports.getIngredients = function(id, next) {
+  ProductIngredient.find({productID: id}, function (err, prodIng) {
     next(err, prodIng);
   });
 };
