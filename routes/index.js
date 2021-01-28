@@ -135,6 +135,26 @@ router.get('/products/search', loggedIn, (req, res) => {
   })
 });
 
+// Getting id of the product user wants to edit
+router.get('/products/edit/:id', loggedIn, (req, res) => {
+  console.log("Read edit product successful!");
+  productController.getProductID(req, product => {
+    userController.getID(req.session.user, (user) => {
+      if(req.session.username == "admin"){
+        res.render('editProduct', { 
+          isAdmin: true,
+          product: product,
+        })
+      }
+      else {
+        res.render('editProduct', { 
+          isAdmin: false
+        })
+      }
+    })
+  })
+});
+
 // Delete product
 router.get('/product/delete/:id', loggedIn, productController.delete);
 
@@ -630,6 +650,7 @@ router.get('/logout', loggedIn, userController.logoutUser);
 // POST methods for form submissions
 router.post('/login', loginValidation, userController.loginUser);
 router.post('/products/add', loggedIn, productController.addProduct);
+router.post('/products/edit', loggedIn, productController.editProduct);
 router.post('/unit/name', loggedIn, unitController.getUnitID);
 router.post('/supplies/add', loggedIn, supplyController.addSupply);
 router.post('/ingredients/add', loggedIn, ingredientController.addIngredient);

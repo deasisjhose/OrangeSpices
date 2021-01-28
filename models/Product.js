@@ -17,6 +17,13 @@ exports.add = function(obj, next) {
   });
 };
 
+// Edit product
+exports.edit = function(id, update, next) {
+  Product.findOneAndUpdate({_id: id}, update, { new: true }, function(err, product) {
+    next(err, product);
+  })
+};
+
 // Get all products
 exports.getAll = (param, next) => {
   Product.find({}, (err, prod) => {

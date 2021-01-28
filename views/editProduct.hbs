@@ -1,0 +1,100 @@
+<title>Edit Product</title>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 shadow">
+            <div class="container-fluid d-flex flex-column p-0">
+                <a class="navbar-brand d-flex justify-content-center align-items-center m-0" href="/editProduct#page-top">
+                    <div class="sidebar-brand-icon"><img src="public/img/logo.png" width="75"></i></div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="nav navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/POS"><i class="fa fa-fw fa-store mr-2"></i>Point of Sale</a></li>
+                    {{#if isAdmin}}
+                    <li class="nav-item" role="presentation"><a class="nav-link" 
+                        style="background-color: #c64327 !important; color: #ffffff !important;" href="/products"><i class="fa fa-fw fa-star mr-2"></i>Products</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/supplies"><i class="fa fa-fw fa-archive mr-2"></i>Inventory</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/procurement"><i class="fa fa-fw fa-shopping-basket mr-2"></i>Procurement</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/expense"><i class="fa fa-fw fa-calculator mr-2"></i>Expenses</a></li>
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/order_history"><i class="fa fa-fw fa-file-alt mr-2"></i>Reports</a></li>
+                    {{else}}
+                    <li class="nav-item" role="presentation"><a class="nav-link" href="/supplies"><i class="fa fa-fw fa-archive mr-2"></i>Inventory</a></li>
+                    {{/if}}
+                </ul>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="title"><span class="text-primary m-0 font-weight-bold">Edit Product</span></div>
+                <form class="form-control" action="/products/edit" method="POST">
+                    <div class="buttons">
+                        <button type="submit" class="btn btn-primary btn-sm save-btn">Save</button>
+                        <a href="/products"><button type="button" class="btn btn-primary btn-sm can-btn">Cancel</button></a>
+                    </div>            
+                </nav>
+                <div class="container-fluid" style="margin-left: 225px;width: 82%;">
+                    {{>messages}}
+                    <div class="card shadow mb-3">  
+                        <div class="form-container" style="padding: 20px;">
+                            <input name="id" type="hidden" value="{{product._id}}">
+                            <div class="col-4">
+                                <label for="prodName" style="font-weight: bold;">Name</label>
+                                <input type="text" class="form-control" value="{{product.prodName}}" name="prodName" id="product">
+                                <p id="prodNameError" class="error"></p>
+                            </div>
+                            <div class="col-4">
+                                <label for="category" style="font-weight: bold;">Category</label>
+                                <input type="text" disabled="disabled" class="form-control" value="{{product.category}}" name="prodCategory" id="category">
+                            </div>
+                            <div class="col-4">
+                                <label for="prodPrice" style="font-weight: bold;">Price</label>
+                                <input type="number" class="form-control" value="{{product.prodPrice}}" name="prodPrice" id="prodPrice">
+                                <p id="prodPriceError" class="error"></p>
+                            </div>
+                        </form>
+                            {{!-- <div class="col-12">
+                                <p style="font-weight: bold;">List of Ingredients</p>
+                                <div class="table-responsive">  
+                                <table class="table table-bordered" id="dynamic_field">  
+                                    <tr>
+                                        <th style="text-align: center; font-size: 13px;">Ingredient</th>
+                                        <th style="text-align: center; font-size: 13px;">Quantity</th>
+                                        <th style="text-align: center; font-size: 13px;">Unit</th>
+                                        <th style="text-align: center; font-size: 13px;">Add or Remove</th>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="form-group" style="height: 40px; margin-bottom: 0rem !important;">
+                                                <select id="selectIng" class="form-control" name="ingredientName" style="width:215px;">
+                                                    {{>ingredientName}}
+                                                </select>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group" style="margin-bottom: 0rem !important;">
+                                                <input type="number" id="quantity" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" placeholder="Quantity" min="1">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group" style="margin-bottom: 0rem !important;">
+                                                <input type="text" id="unit" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;" disabled="disabled">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <button style="margin-left: 25px; height: 40px;" type="button" id="addIngredient" class="btn btn-primary add-btn">+ Add</button>
+                                        </td>      
+                                    </tr>
+                                </table>  
+                            </div>   --}}                     
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <footer class="bg-white sticky-footer">
+            <div class="container my-auto">
+                <div class="text-center my-auto copyright"><span>Copyright © Orange &amp; Spices 2020</span></div>
+            </div>
+        </footer>
+    </div><a class="border rounded d-inline scroll-to-top" href="/addProduct#page-top"><i class="fas fa-angle-up"></i></a></div>
+</body>

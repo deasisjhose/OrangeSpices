@@ -17,6 +17,19 @@ exports.getAllProducts = (param, callback) =>{
   });
 };
 
+// Get product by ID
+exports.getProductID = (req, res) => {
+  var id = req.params.id;
+  productModel.getByID(id, (err, result) => {
+    if (err) {
+      throw err;
+    } else {
+      var productObject = result.toObject();
+      res(productObject);
+    }
+  });
+}
+
 // Adding product
 exports.addProduct = (req, res) => {
   //const { prodName, category, prodPrice, productID, ingredientID, quantityNeeded, unitID } = req.body;
@@ -248,6 +261,29 @@ exports.getBakedSushi = (req, res) => {
     req.flash('error_msg', messages.join(' ')); 
     res.redirect('/POS');
   }
+};
+
+// Edit product
+exports.editProduct = (req, res) => {
+  const { prodName, prodPrice } =req.body; 
+
+  var edit = {
+    $set: { 
+      prodName: prodName,
+      prodPrice: prodPrice
+    } 
+  };
+
+  productModel.edit(req.body.id, edit,(err, result) => {
+    if (err) {
+      console.log("Error cannot edit product!");
+      console.log(err);
+    } else {
+      console.log("Product edited!");
+      console.log(result);
+      res.redirect('/products');
+    }
+  });
 };
 
 // Delete product
