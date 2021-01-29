@@ -1,9 +1,0 @@
-{{#each product}}
-    <tr style="font-size: 13px;">
-        <td class="text-left" style="padding-left: 40px;">{{prodName}}</td>
-        <td>{{category}}</td>
-        <td class="text-right" style="padding-right: 60px;">₱{{prodPrice}}</td>
-        <td style="width: 70px !important;"><a href="/products/edit/{{this._id}}"><button type="submit" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Edit</button></a></td>
-        <td><a href="/product/delete/{{this._id}}"><button type="submit" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Delete</button></a></td>
-    </tr>
-{{/each}}

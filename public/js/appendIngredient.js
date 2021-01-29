@@ -93,10 +93,11 @@ $(document).ready(function(){
     category = document.getElementById("category").value;
     price = document.getElementById("prodPrice").value;
 
-    if(prod == "" || category == "" || price == "" ){
-      alert("Please fill out all fields!");
-    }
-    else if(price <= 0){
+    // if(prod == "" && category == "" && price == "" ){
+    //   alert("Please fill out all fields!");
+    // }
+    // else 
+    if(price <= 0){
         alert("You cannot enter a zero or negative value!");
     }
     else{

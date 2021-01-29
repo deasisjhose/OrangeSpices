@@ -62,8 +62,7 @@ exports.addProduct = (req, res) => {
             var ingredients = {
               productID: result._id, 
               ingredientID: idList[i],
-              quantityNeeded: qtyList[i],
-              unitID: unitList[i]
+              quantityNeeded: qtyList[i]
             }
 
             ingredientModel.add(ingredients, function(err, result){
@@ -286,6 +285,7 @@ exports.editProduct = (req, res) => {
       } else {
         console.log("Product edited!");
         console.log(result);
+        req.flash('success_msg', 'Product edited!');
         res.redirect('/products');
       }
     });
@@ -294,15 +294,19 @@ exports.editProduct = (req, res) => {
 
 // Delete product
 exports.delete = (req, res) => {
-  var id = req.params.id;
+  var id = req.body.id;
+  console.log("id sa controller");
+  console.log(id);
   
   productModel.remove(id, (err, result) => {
     if (err) {
+      console.log(err);
       throw err; 
     } 
     else {
+      console.log(result);
       req.flash('success_msg', 'Product removed!');
-      res.redirect('/products');
+      res.status(200).send();
     }
   }); 
 };

@@ -52,7 +52,15 @@
                             </thead>
                             <tbody>
                               <tr>
-                                {{>product}}
+                                {{#each product}}
+                                    <tr style="font-size: 13px;" data-id="{{_id}}">
+                                        <td class="text-left" style="padding-left: 40px;">{{prodName}}</td>
+                                        <td>{{category}}</td>
+                                        <td class="text-right" style="padding-right: 60px;">₱{{prodPrice}}</td>
+                                        <td style="width: 70px !important;"><a href="/products/edit/{{this._id}}"><button type="submit" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Edit</button></a></td>
+                                        <td><button type="submit" onclick="confirmDelete(this)" name="delete" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Delete</button></td>
+                                    </tr>
+                                {{/each}}
                               </tr>
                             </tbody>
                           </table>
@@ -65,5 +73,8 @@
                 <div class="text-center my-auto copyright"><span>Copyright © Orange &amp; Spices 2020</span></div>
             </div>
         </footer>
-    </div><a class="border rounded d-inline scroll-to-top" href="/products#page-top"><i class="fas fa-angle-up"></i></a></div>
+    </div>
+    <a class="border rounded d-inline scroll-to-top" href="/products#page-top"><i class="fas fa-angle-up"></i></a>
+    </div>
+    <script src="/public/js/products.js"></script>
 </body>

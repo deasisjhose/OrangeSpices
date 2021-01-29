@@ -157,7 +157,7 @@ router.get('/products/edit/:id', loggedIn, (req, res) => {
 });
 
 // Delete product
-router.get('/product/delete/:id', loggedIn, productController.delete);
+// router.get('/product/delete/:id', loggedIn, productController.delete);
 
 // Get inventory [supplies] page
 router.get('/supplies', loggedIn, (req, res) => {
@@ -652,6 +652,7 @@ router.get('/logout', loggedIn, userController.logoutUser);
 router.post('/login', loginValidation, userController.loginUser);
 router.post('/products/add', loggedIn, productController.addProduct);
 router.post('/products/edit', loggedIn, productController.editProduct);
+router.post('/product/delete/:id', loggedIn, productController.delete);
 router.post('/unit/name', loggedIn, unitController.getUnitID);
 router.post('/supplies/add', loggedIn, supplyController.addSupply);
 router.post('/ingredients/add', loggedIn, ingredientController.addIngredient);
