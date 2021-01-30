@@ -46,8 +46,13 @@
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
                             {{#if filterDate}}
-                                <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
-                                <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
+                                {{#if moreThanOneDay}}
+                                    <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Daily Sales Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
+                                    <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
+                                {{else}}
+                                    <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
+                                    <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
+                                {{/if}}
                             {{else}}
                                 <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report for today {{formatDate today}}</p>
                                 <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
@@ -65,14 +70,14 @@
                                 <tbody class="border-bottom">
                                     {{#each products}}
                                     <tr>
-                                        <td class="text-left pl-4">{{formatDate orderDate}}</td>
-                                        <td style="text-align: right;">₱{{subTotal}}</td>
+                                        <td class="text-left pl-4" style="font-size: 15px;">{{formatDate orderDate}}</td>
+                                        <td style="text-align: right; font-size: 15px;">₱{{subTotal}}</td>
                                     </tr>
                                     {{/each}}
                                     <thead style="border-top: 2px solid #e3e6f0; background-color: #f47639 !important; color: #ffffff !important;">
                                         <tr>
-                                            <th scope="col" style="border-right: 2px solid #e3e6f0;">Total</th>
-                                            <th colspan="3" class="font-weight-bold" style="text-align: right;">₱ {{totalAmount}}</th>
+                                            <th scope="col" style="border-right: 2px solid #e3e6f0; font-size: 20px;">Total</th>
+                                            <th colspan="3" class="font-weight-bold" style="text-align: right; font-size: 20px;">₱ {{totalAmount}}</th>
                                         </tr>    
                                     </thead>
                                 </tbody>
@@ -88,16 +93,16 @@
                             <tbody class="border-bottom">
                                 {{#each products}}
                                 <tr>
-                                    <td class="text-left pl-4">{{productName}}</td>
-                                    <td>{{orderQuantity}}</td>
-                                    <td>₱{{productPrice}}</td>
-                                    <td style="text-align: right;">₱{{subTotal}}</td>
+                                    <td class="text-left pl-4" style="font-size: 15px;">{{productName}}</td>
+                                    <td style="font-size: 15px;">{{orderQuantity}}</td>
+                                    <td style="font-size: 15px;">₱{{productPrice}}</td>
+                                    <td style="text-align: right; font-size: 15px;">₱{{subTotal}}</td>
                                 </tr>
                                 {{/each}}
                                 <thead style="border-top: 2px solid #e3e6f0; background-color: #f47639 !important; color: #ffffff !important;">
                                     <tr>
-                                        <th scope="col" style="border-right: 2px solid #e3e6f0;">Total</th>
-                                        <th colspan="3" class="font-weight-bold" style="text-align: right;">₱ {{totalAmount}}</th>
+                                        <th scope="col" style="border-right: 2px solid #e3e6f0; font-size: 20px;">Total</th>
+                                        <th colspan="3" class="font-weight-bold" style="text-align: right; font-size: 20px;">₱ {{totalAmount}}</th>
                                     </tr>    
                                 </thead>
                             </tbody>

@@ -176,7 +176,7 @@ exports.addPurchase = (req, res) => {
                                                 }
                                             }
     
-                                            ingredientModel.updateIngredient(ingID, ingUpd, (err, result) => {
+                                            ingredientModel.updateStock(ingID, ingUpd, (err, result) => {
                                                 if (err) {
                                                     req.flash('error_msg', 'Could not update ingredient.');
                                                     res.redirect('/supplies');

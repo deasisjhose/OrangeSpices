@@ -41,8 +41,7 @@ exports.addSupply = (req, res) => {
         supplyModel.add(supply, function(err, result){
           if(err){
             console.log(err);
-            req.flash('error_msg', 'Could not add supply. Please try again.');
-            res.redirect('/supplies/add');
+            res.status(400).send();
           }
           else {
             console.log("Supply added!");
