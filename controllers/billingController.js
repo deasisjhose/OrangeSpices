@@ -8,50 +8,35 @@ const { validationResult } = require('express-validator');
 exports.checkIngredients = (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-        var i, j;
-        var idList = req.body.id;
-        var qtyList = req.body.orderQuantity;
+        var i;
+        var id = req.body.id;
+        var qty = req.body.orderQuantity;
 
-        for(i = 0; i < idList.length; i++){
-            prodIngModel.getIngredients(idList[i], function(err, prodIng){
-                if (err) {
-                    console.log("Could not find product ingredients.");
-                    console.log(err);
-                } else {
-                    for(j = 0; j < prodIng.length; j++){
-                        var total = [];
-                        total[j] = qtyList[i] * prodIng[j].quantityNeeded;
-    
-                        var reduceStock = {
-                            $inc: {
-                                totalQuantity: -total[j]
-                            }
-                        };
-    
-                        ingredientModel.getByID(prodIng[j].ingredientID, function(err, ingredient){
-                            if(ingredient.totalQuantity < total[j]){
-                                console.log("Not enough ingredients!");
-                                res.status(400).send("Ingredient not enough!");
-                            }
-                            else {
-                                ingredientModel.updateStock(ingredient._id, reduceStock, (err, result) => {
-                                    if (err) {
-                                        console.log("Could not reduce ingredients.");
-                                        console.log(err);
-                                    }
-                                    else {
-                                        console.log("Ingredient stock reduced!");
-                                        console.log(result);
-        
-                                        
-                                    }
-                                })
-                            }
-                        })
-                    }
+        prodIngModel.getIngredients(id, function(err, prodIng){
+            if (err) {
+                console.log("Could not find product ingredients.");
+                console.log(err);
+            } else {
+                var total;
+
+                for(i = 0; i < prodIng.length; i++){
+                    total = qty * prodIng[i].quantityNeeded;
+                    console.log("items to reduce");
+                    console.log(total);
+
+                    ingredientModel.getByID(prodIng[i].ingredientID, function(err, ingredient){
+                        if(ingredient.totalQuantity < total){
+                            console.log("Not enough ingredients in controller");
+                            res.status(400).send();
+                        }
+                        else {
+                            console.log("ingredients enough in controller.");
+                            res.status(200).send();
+                        }
+                    })
                 }
-            })
-        }
+            }
+        })
     }
 };
 
@@ -59,7 +44,7 @@ exports.checkIngredients = (req, res) => {
 exports.checkout = (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
-        var i, j;
+        var i, j, k;
         var idList = req.body.id;
         var prodList = req.body.productName;
         var qtyList = req.body.orderQuantity;
@@ -70,34 +55,70 @@ exports.checkout = (req, res) => {
             orderDate: Date.now(),
             totalAmount: totalAmount
         }
+        var quantity;
 
-        orderListModel.add(orderList, function(err, result) {
-            if (err) {
-                console.log(err);
-                req.flash('error_msg', 'Could not add order list.');
-                res.redirect('/POS');
-            } else {
-                for(i = 0; i < idList.length; i++){
-                    var order = {
-                        productID: idList[i],
-                        orderListID: result._id, 
-                        productName: prodList[i],
-                        orderQuantity: qtyList[i],
-                        productPrice: priceList[i],
-                        subTotal: subList[i]
+        for(i = 0; i < idList.length; i++){
+            quantity = qtyList[i];
+            prodIngModel.getIngredients(idList[i], function(err, prodIng){
+                if (err) {
+                    console.log("Could not find product ingredients.");
+                    console.log(err);
+                } else {
+                    var total = [];
+                    
+                    for(j = 0; j < prodIng.length; j++){
+                        total[j] = quantity * prodIng[j].quantityNeeded;
+
+                        var reduceStock = {
+                            $inc: {
+                                totalQuantity: -total[j]
+                            }
+                        };
+
+                        ingredientModel.updateStock(prodIng[j].ingredientID, reduceStock, function(err, result){
+                            if (err) {
+                                console.log("Could not reduce ingredients.");
+                                console.log(err);
+                                res.status(500).send("Could not reduce ingredients.");
+                            }
+                            else {
+                                console.log("Ingredient stock reduced!");
+                                console.log(result);
+                                
+                                orderListModel.add(orderList, function(err, result) {
+                                    if (err) {
+                                        console.log("Could not add orderList.");
+                                        console.log(err);
+                                    } else {
+                                        for(k = 0; k < idList.length; k++){
+                                            var order = {
+                                                productID: idList[k],
+                                                orderListID: result._id, 
+                                                productName: prodList[k],
+                                                orderQuantity: qtyList[k],
+                                                productPrice: priceList[k],
+                                                subTotal: subList[k]
+                                            }
+
+                                            orderModel.add(order, function(err, result){
+                                                if (err) {
+                                                    console.log("Could not add order.");
+                                                    console.log(err);
+                                                } else {
+                                                    console.log(result);
+                                                    res.status(200).send();
+                                                }
+                                            })
+                                        }
+                                        console.log("Order saved!");
+                                    }
+                                })
+                            }
+                        })
                     }
-
-                    orderModel.add(order, function(err, result){
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            console.log(result);
-                        }
-                    })
                 }
-                console.log("Order saved!");
-            }
-        })
+            })
+        }
     } else {
         const messages = errors.array().map((item) => item.msg);
         req.flash('error_msg', messages.join(' '));

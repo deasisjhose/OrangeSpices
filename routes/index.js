@@ -507,6 +507,7 @@ router.get('/inventory_report', loggedIn, (req, res) => {
       if(req.session.username == "admin"){
         res.render('inventoryReport', { 
           isAdmin: true,
+          timestamp: new Date()
           //expenseName: expense
         })
       }
@@ -660,6 +661,7 @@ router.post('/purchase/add', loggedIn, addPurchaseValidation, purchaseController
 router.post('/purchase/order', loggedIn, purchaseController.sendEmail);
 router.post('/expense/add', loggedIn, expenseController.addExpense);
 router.post('/ingredient/update', loggedIn, ingredientController.updateStock);
+router.post('/check/ingredients', loggedIn, billingController.checkIngredients);
 router.post('/checkout', loggedIn, billingController.checkout);
 
 module.exports = router;

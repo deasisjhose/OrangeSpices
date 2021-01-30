@@ -33,11 +33,6 @@ exports.getOne = function(query, next) {
     });
 };
 
-// Get ingredient names
-exports.getName = function(req, next) {
-    Ingredient.find({}).populate('unitID').exec((err, ingredients) => next(err, ingredients));
-};
-
 // Get Ingredient by ID
 exports.getByID = function(id, next) {
     Ingredient.findById(id, function(err, ingredient) {

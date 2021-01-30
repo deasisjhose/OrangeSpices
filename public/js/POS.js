@@ -48,24 +48,40 @@ $(document).ready(function () {
 
     $(".save-qty").click(function () { 
         if(document.getElementById("qty").value !== "") {
-            // do your actions
             qty = document.getElementById("qty").value;
-            sub = qty * price;
-            idList.push(id);
-            productName.push(prodName);
-            priceList.push(price);
-            qtyList.push(qty);
-            subList.push(sub);
-            saveOrder(prodName, qty, price);
-            markup = "<tr><td class='leftdiz'>" + prodName  
-                + "</td>" + "<td class='text-right' style='padding-right: 42px;'>" + qty + "</td>" 
-                + "<td class='text-right' style='padding-right: 55px;'>₱ " + price + "</td>" 
-                + "<td class='text-right pr-2'>₱ " + sub + "</td></tr>"; 
-            tableBody = $("table tbody"); 
-            tableBody.append(markup); 
-            totalAmount += price * qty;
-            $('#amt').html("₱" + totalAmount);
-            $("#myModal").modal('hide');
+
+            $.ajax({
+                url: '/check/ingredients',
+                method: 'post',
+                data: {
+                    id: id,
+                    orderQuantity: qty
+                },
+                error: function(){
+                    alert("Not enough ingredients! Try again!");
+                    $("#myModal").modal('hide');
+                },
+                success: function(){
+                    sub = qty * price;
+                    idList.push(id);
+                    productName.push(prodName);
+                    priceList.push(price);
+                    qtyList.push(qty);
+                    subList.push(sub);
+
+                    saveOrder(prodName, qty, price);
+                    markup = "<tr><td class='leftdiz'>" + prodName  
+                        + "</td>" + "<td class='text-right' style='padding-right: 42px;'>" + qty + "</td>" 
+                        + "<td class='text-right' style='padding-right: 55px;'>₱ " + price + "</td>" 
+                        + "<td class='text-right pr-2'>₱ " + sub + "</td></tr>"; 
+                    tableBody = $("table tbody"); 
+                    tableBody.append(markup); 
+                    totalAmount += price * qty;
+                    $('#amt').html("₱" + totalAmount);
+                    $("#myModal").modal('hide');
+                }
+            });
+            
         }
         else{
             alert("Enter quantity first!");
@@ -87,11 +103,10 @@ $(document).ready(function () {
                 totalAmount: totalAmount
             },
             error: () => callback(),
-            success: a => callback(a)
+            success: function(){
+                alert("Order successfully saved!");
+            }
         });
         window.location.replace("/POS");
-        alert("Order successfully saved!");
     })
-
-    
 }); 
