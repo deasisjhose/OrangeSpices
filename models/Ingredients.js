@@ -35,9 +35,7 @@ exports.getOne = function(query, next) {
 
 // Get ingredient names
 exports.getName = function(req, next) {
-    Ingredient.find({}, { ingredientName: 1, _id: 1 }, function(err, ingredient) {
-        next(err, ingredient);
-    });
+    Ingredient.find({}).populate('unitID').exec((err, ingredients) => next(err, ingredients));
 };
 
 // Get Ingredient by ID

@@ -1,4 +1,48 @@
 $(document).ready(function(){ 
+    $('#selectIng option').each(function() {
+        if(this.selected){
+          console.log("sana may laman");
+          console.log($(this).attr('data-id'));
+          $.ajax({
+            url: '/unit/name',
+            method: 'POST',
+            data: {
+              id: $(this).attr('data-id')
+            },
+            error: function(){
+              alert("Error selecting ingredient");
+            },
+            success: function(unit){
+              console.log(unit);
+              $('#unit').val(unit.unitName)
+            }
+          });
+        }
+    })
+
+    $('#selectIng').change(function() {
+        $('#selectIng option').each(function() {
+          if(this.selected){
+            console.log("sana may laman");
+            console.log($(this).attr('data-id'));
+            $.ajax({
+              url: '/unit/name',
+              method: 'POST',
+              data: {
+                id: $(this).attr('data-id')
+              },
+              error: function(){
+                alert("Error selecting ingredient");
+              },
+              success: function(unit){
+                console.log(unit);
+                $('#unit').val(unit.unitName)
+              }
+            });
+          }
+        })
+      })
+
     $("button.save-btn").click(function(){
         var brand = document.getElementById("supplyBrand").value;
         var unitQty = document.getElementById("unitQty").value;

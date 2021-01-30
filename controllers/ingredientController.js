@@ -94,7 +94,7 @@ exports.addIngredient = (req, res) => {
 
 // Getting ingredient name
 exports.getIngredientName = (param, callback) => {
-  ingredientModel.getName({ingredientName: true}, (err, ingredients) => {
+  ingredientModel.getAll(param, (err, ingredients) => {
     if (err) throw err;
       
     const ingredientsObjects = [];
@@ -102,7 +102,7 @@ exports.getIngredientName = (param, callback) => {
     ingredients.forEach(function(doc) {
       ingredientsObjects.push(doc.toObject());
     });
-      
+    
     callback(ingredientsObjects);
   });
 };

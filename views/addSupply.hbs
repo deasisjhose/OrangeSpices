@@ -50,11 +50,16 @@
                             <p id="supplyBrandError" class="error"></p>
                         </div>
                         <div class="col-4">
-                            <label for="ingName" style="font-weight: bold;">Name (Ingredient)</label>
-                            <select id="select-ingredient" name="ingredientName" placeholder="Select ingredient" class="form-control">
+                            <label for="ingName" style="font-weight: bold;">Ingredient Name</label>
+                            <select id="selectIng" name="ingredientName" placeholder="Select ingredient" class="form-control">
                                 {{>ingredientName}}
                             </select>
                             <p id="ingNameError" class="error"></p>
+                        </div>
+                        <div class="col-4">
+                            <label for="supplyBrand" style="font-weight: bold;">Unit</label>
+                            <input type="text" class="form-control" disabled="disabled" id="unit">
+                            <p id="unitError" class="error"></p>
                         </div>
                         <div class="col-4">
                             <label for="unitQty" style="font-weight: bold;">Unit Quantity</label>

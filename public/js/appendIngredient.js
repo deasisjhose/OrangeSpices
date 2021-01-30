@@ -29,6 +29,7 @@ $(document).ready(function(){
       });
     }
   })
+  
   $('#selectIng').change(function() {
     $('#selectIng option').each(function() {
       if(this.selected){
