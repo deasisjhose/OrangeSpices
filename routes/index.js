@@ -473,7 +473,14 @@ router.get('/sales_report/filter', loggedIn, (req, res) => {
     userController.getID(req.session.user, user => {
       var startDate = req.query.salfromDate;
       var endDate = req.query.salToDate;
-      var i, j, totalAmount = 0;
+      var moreThanOneDay;
+      var i, totalAmount = 0;
+
+      if(startDate != endDate){
+        moreThanOneDay = true;
+      } else {
+        moreThanOneDay = false;
+      }
 
       for(i = 0; i < sales.length; i++){
         totalAmount += sales[i].subTotal; 
@@ -484,6 +491,7 @@ router.get('/sales_report/filter', loggedIn, (req, res) => {
           isAdmin: true,
           products: sales,
           filterDate: true,
+          moreThanOneDay: moreThanOneDay,
           totalAmount: totalAmount,
           startDate: startDate,
           endDate: endDate,

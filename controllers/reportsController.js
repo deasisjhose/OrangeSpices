@@ -195,63 +195,103 @@ exports.salesReport = (req, res) => {
         })
     } else {
         var startDate = new Date(sDate);
-        var endDate = new Date(eDate);
+        var endDate = new Date(eDate).setHours(23,59,59);
 
         orderListModel.getOrderHistory(req, (err, orders) => {
             if(err){
                 console.log("Sales error");
                 console.log(err);
             } else {
-                var i, j, k;
-                var temp = [], ordersArray = [];
+                var i, j;
+                var temp = [], ordersArray = [], dailySales = [];
                 var listObjects = orders.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents according to date range
+
+                console.log("listObjects");
+                console.log(listObjects);
 
                 for(i = 0; i < listObjects.length; i++){
                     for(j = 0; j < listObjects[i].orders.length; j++){
+                        console.log("listObjects[i].orders[j]");
+                        console.log(listObjects[i].orders[j]);
                         temp.push({
-                            productID: listObjects[i].orders[j].productID,
-                            productName: listObjects[i].orders[j].productName,
-                            orderQuantity: listObjects[i].orders[j].orderQuantity,
-                            productPrice: listObjects[i].orders[j].productPrice,
+                            orderDate: listObjects[i].orderDate,
                             subTotal: listObjects[i].orders[j].subTotal
                         })
-
                     }
                 }
 
                 for(i = 0; i < temp.length; i++){
                     if(i == 0){
-                        ordersArray.push({
-                            productID: temp[i].productID,
-                            productName: temp[i].productName,
-                            orderQuantity: temp[i].orderQuantity,
-                            productPrice: temp[i].productPrice,
+                        dailySales.push({
+                            orderDate: temp[i].orderDate,
                             subTotal: temp[i].subTotal
                         })
                     }
                     else {
-                        for(j = 0; j < ordersArray.length; j++){
-                            if(temp[i].productName == ordersArray[j].productName){
-                                ordersArray[j].orderQuantity += temp[i].orderQuantity;
-                                ordersArray[j].subTotal += temp[i].subTotal;
+                        for(j = 0; j < dailySales.length; j++){
+                            if(temp[i].orderDate.getMonth()+1 == dailySales[j].orderDate.getMonth()+1 && temp[i].orderDate.getDate() == dailySales[j].orderDate.getDate()){
+                                dailySales[j].subTotal += temp[i].subTotal;
                                 break;
-                            }
-                            if(j == ordersArray.length-1){
-                                ordersArray.push({
-                                    productID: temp[i].productID,
-                                    productName: temp[i].productName,
-                                    orderQuantity: temp[i].orderQuantity,
-                                    productPrice: temp[i].productPrice,
+                            } 
+                            if(j == dailySales.length-1){
+                                dailySales.push({
+                                    orderDate: temp[i].orderDate,
                                     subTotal: temp[i].subTotal
                                 })
                                 break;
                             }
+                            console.log("dailySales");
+                            console.log(dailySales);
                         }
                     }
                 }
-                console.log("ordersArray");
-                console.log(ordersArray);
-                res(ordersArray);
+                res(dailySales);
+                // for(i = 0; i < listObjects.length; i++){
+                //     for(j = 0; j < listObjects[i].orders.length; j++){
+                //         temp.push({
+                //             productID: listObjects[i].orders[j].productID,
+                //             productName: listObjects[i].orders[j].productName,
+                //             orderQuantity: listObjects[i].orders[j].orderQuantity,
+                //             productPrice: listObjects[i].orders[j].productPrice,
+                //             subTotal: listObjects[i].orders[j].subTotal
+                //         })
+                //     }
+                // }
+
+                // for(i = 0; i < temp.length; i++){
+                //     if(i == 0){
+                //         ordersArray.push({
+                //             productID: temp[i].productID,
+                //             productName: temp[i].productName,
+                //             orderQuantity: temp[i].orderQuantity,
+                //             productPrice: temp[i].productPrice,
+                //             subTotal: temp[i].subTotal
+                //         })
+                //     }
+                //     else {
+                //         for(j = 0; j < ordersArray.length; j++){
+                //             if(temp[i].productName == ordersArray[j].productName){
+                //                 ordersArray[j].orderQuantity += temp[i].orderQuantity;
+                //                 ordersArray[j].subTotal += temp[i].subTotal;
+                //                 break;
+                //             }
+                //             if(j == ordersArray.length-1){
+                //                 ordersArray.push({
+                //                     productID: temp[i].productID,
+                //                     productName: temp[i].productName,
+                //                     orderQuantity: temp[i].orderQuantity,
+                //                     productPrice: temp[i].productPrice,
+                //                     subTotal: temp[i].subTotal
+                //                 })
+                //                 break;
+                //             }
+                //         }
+                //     }
+                // }
+                
+                // console.log("ordersArray");
+                // console.log(ordersArray);
+                // res(ordersArray);
             }
         })
     }

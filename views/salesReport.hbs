@@ -55,13 +55,35 @@
                         </div>
                         <table class="table text-center table-bordered">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
+                            {{#if moreThanOneDay}}
+                                <thead class="border-bottom" style="background-color: #c64327 !important; color: #ffffff !important;">
+                                <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Daily Sales</th>
+                                </tr>
+                                </thead>
+                                <tbody class="border-bottom">
+                                    {{#each products}}
+                                    <tr>
+                                        <td class="text-left pl-4">{{formatDate orderDate}}</td>
+                                        <td style="text-align: right;">₱{{subTotal}}</td>
+                                    </tr>
+                                    {{/each}}
+                                    <thead style="border-top: 2px solid #e3e6f0; background-color: #f47639 !important; color: #ffffff !important;">
+                                        <tr>
+                                            <th scope="col" style="border-right: 2px solid #e3e6f0;">Total</th>
+                                            <th colspan="3" class="font-weight-bold" style="text-align: right;">₱ {{totalAmount}}</th>
+                                        </tr>    
+                                    </thead>
+                                </tbody>
+                            {{else}}
                             <thead class="border-bottom" style="background-color: #c64327 !important; color: #ffffff !important;">
-                              <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Subtotal</th>
-                              </tr>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Subtotal</th>
+                                </tr>
                             </thead>
                             <tbody class="border-bottom">
                                 {{#each products}}
@@ -79,6 +101,7 @@
                                     </tr>    
                                 </thead>
                             </tbody>
+                            {{/if}}
                         </table>
                     </div>
                 </div>

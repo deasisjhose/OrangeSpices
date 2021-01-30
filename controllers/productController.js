@@ -265,7 +265,7 @@ exports.getBakedSushi = (req, res) => {
 
 // Edit product
 exports.editProduct = (req, res) => {
-  const { id, prodName, prodPrice } =req.body; 
+  const { id, prodName, prodPrice } = req.body; 
 
   if(prodPrice <= 0){
     req.flash('error_msg', 'Could not enter negative value!');
