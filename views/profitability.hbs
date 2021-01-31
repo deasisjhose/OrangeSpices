@@ -55,20 +55,20 @@
                     <div><button type="submit" class="btn btn-primary btn-sm add-btn ml-3 generate">Generate</button></div>
                 </div>
             </nav>
-            <div class="container-fluid" style="margin-left: 225px;width: 82%;">
-                <div style="display: flex; justify-content: center;">
-                    <div class="card shadow is-card" style="margin-bottom: 25px;">
+            <div class="container-fluid" style="margin-left: 225px; width: 82%;">
+                <div class="col-12">
+                    <div class="card shadow mb-3">
                         <div class="card-header py-3 text-center mb-2">
                             <p class="ts0 m-0 font-weight-bold">Orange &amp; Spices</p>
                             <p class="ts1 m-0 font-weight-bold">Income Statement</p>
-                            <p class="ts2 m-0 font-weight-bold" id="reportTitle">For the Month Ended January 31, 2020</p>
-                            <p class="text-muted m-0" id="datetime"></p>
+                            <p class="ts2 m-0 font-weight-bold" id="reportTitle">For the Month Ended January 31, 2021</p>
+                            <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
                         </div>
                         <table class="table text-center table-borderless profit">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
                             <tr>
                                 <th class="text-left">Sales</th>
-                                <td class="text-right" id="sales">₱ {{sales}}</td>
+                                <td class="text-right" id="sales">₱120,000</td>
                             </tr>
                             <tr>
                                 <th class="text-left">Cost of Sales</th>
@@ -76,17 +76,28 @@
                             </tr>
                             <tr>
                                 <th class="text-left highlight">Gross Profit</th>
-                                <td class="text-right highlight font-weight-bold">₱ {{sales}}</td>
+                                <td class="text-right highlight font-weight-bold">₱ </td>
                             </tr>
                             <tr>
-                                <th class="text-left" colspan="2">Expenses</th>
+                                <th class="text-left" colspan="2"> List of Expenses:</th>
                             </tr>
                             <tbody>
-                                {{>expenseReport}}
+                                <tr>
+                                    <th class="text-left">Gas 11kg</th>
+                                    <td class="text-right" value="{{expenseAmount}}">₱3,000</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left">Electricity</th>
+                                    <td class="text-right" value="{{expenseAmount}}">₱10,000</td>
+                                </tr>
+                                <tr>
+                                    <th class="text-left">Salary</th>
+                                    <td class="text-right" value="{{expenseAmount}}">₱64,000</td>
+                                </tr>
                             </tbody>
                             <tr>
                                 <th class="text-left highlight">Total Expenses</th>
-                                <td class="text-right highlight font-weight-bold" id="totalExp">(₱ {{totalExpenses}})</td>
+                                <td class="text-right highlight font-weight-bold" id="totalExp">(₱ 77,000)</td>
                             </tr>  
                             <tr>
                                 <td class="white"></td>
@@ -94,7 +105,7 @@
                             </tr>                         
                             <tr>
                                 <th class="text-left highlight">Net Income</th>
-                                <td class="text-right highlight font-weight-bold">₱ {{netIncome}}</td>
+                                <td class="text-right highlight font-weight-bold">₱</td>
                             </tr>
                         </table>
                     </div>
@@ -109,7 +120,7 @@
     </div><a class="border rounded d-inline scroll-to-top" href="/profitability#page-top"><i class="fas fa-angle-up"></i></a></div>
 </body>
 
-<script>
+{{!-- <script>
  var dt = new Date();
     y = dt.getFullYear();
     m = dt.getMonth() + 1;
@@ -154,4 +165,4 @@
             document.getElementById("reportTitle").innerHTML = "For the Month Ended " + monthName + " " + day + ", " + year;
         })
     });
-</script>
+</script> --}}

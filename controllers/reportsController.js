@@ -229,7 +229,9 @@ exports.salesReport = (req, res) => {
                     }
                     else {
                         for(j = 0; j < dailySales.length; j++){
-                            if(temp[i].orderDate.getMonth()+1 == dailySales[j].orderDate.getMonth()+1 && temp[i].orderDate.getDate() == dailySales[j].orderDate.getDate()){
+                            if(temp[i].orderDate.getMonth()+1 == dailySales[j].orderDate.getMonth()+1 && 
+                            temp[i].orderDate.getDate() == dailySales[j].orderDate.getDate() && 
+                            temp[i].orderDate.getFullYear() == dailySales[j].orderDate.getFullYear()){
                                 dailySales[j].subTotal += temp[i].subTotal;
                                 break;
                             } 

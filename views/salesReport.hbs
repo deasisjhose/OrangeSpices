@@ -50,7 +50,7 @@
                                     <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Daily Sales Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
                                     <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
                                 {{else}}
-                                    <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
+                                    <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report for {{formatDate startDate}}</p>
                                     <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
                                 {{/if}}
                             {{else}}
@@ -101,8 +101,8 @@
                                 {{/each}}
                                 <thead style="border-top: 2px solid #e3e6f0; background-color: #f47639 !important; color: #ffffff !important;">
                                     <tr>
-                                        <th scope="col" style="border-right: 2px solid #e3e6f0; font-size: 20px;">Total</th>
-                                        <th colspan="3" class="font-weight-bold" style="text-align: right; font-size: 20px;">₱ {{totalAmount}}</th>
+                                        <th scope="col" style="border-right: 2px solid #e3e6f0; font-size: 18px;">Total</th>
+                                        <th colspan="3" class="font-weight-bold" style="text-align: right; font-size: 18px;">₱ {{totalAmount}}</th>
                                     </tr>    
                                 </thead>
                             </tbody>
