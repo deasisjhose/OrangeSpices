@@ -8,26 +8,31 @@ exports.getAllExpense = (req, res) => {
       console.log("Getting all expenses erorr");
       console.log(err);
     } else {
-      var i, j, temp = [], tempMonth, expenseArray = [];
-
+      var i, j, temp = [], tempMonth = [], expenseArray = [];
+      console.log("EXPENSE");
+      console.log(expense);
       for(i = 0; i < expense.length; i++){
-          for(j = 0; j < expense[i].expenseName.length; j++){
-              temp.push({
-                expenseDate: expense[i].expenseDate[j],
-                expenseName: expense[i].expenseName[j],
-                expenseType: expense[i].expenseType[j],
-                description: expense[i].description[j],
-                expenseAmount: expense[i].expenseAmount[j]
-              })
-              tempMonth = expense[expense.length-1].expenseDate[expense[i].expenseName.length-1];
-          }
-          expenseArray.push({
-              _id: expense[i]._id,
-              expenseMonth: tempMonth,
-              expenseDetails: temp
+        for(j = 0; j < expense[i].expenseName.length; j++){
+          temp.push({
+            expenseDate: expense[i].expenseDate[j],
+            expenseName: expense[i].expenseName[j],
+            expenseType: expense[i].expenseType[j],
+            description: expense[i].description[j],
+            expenseAmount: expense[i].expenseAmount[j]
           })
-          temp = [];
+          tempMonth[i] = expense[i].expenseDate[j];
+          console.log("tempMonth");
+          console.log(tempMonth);
+        }
+        
+        expenseArray.push({
+          _id: expense[i]._id,
+          expenseMonth: tempMonth[i],
+          expenseDetails: temp
+        })
+        temp = [];
       }
+      console.log(expenseArray);
       res(expenseArray);
     }
   });

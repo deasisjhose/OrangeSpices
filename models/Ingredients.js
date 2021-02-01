@@ -21,7 +21,7 @@ exports.search = function(ingredient, next) {
     Ingredient.find(ingredient).populate('unitID').exec((err, ingredients) => next(err, ingredients));
 };
 
-// Get all ingredients
+// Get all ingredients (for ingredients display)
 exports.getAll = (param, next) => {
     Ingredient.find({}).populate('unitID').exec((err, ingredients) => next(err, ingredients));
 };
@@ -35,7 +35,10 @@ exports.getOne = function(query, next) {
 
 // Get Ingredient by ID
 exports.getByID = function(id, next) {
-    Ingredient.findById(id).populate('unitID').exec((err, ingredients) => next(err, ingredients));
+    Ingredient.findById(id, function(err, ingredient) {
+        next(err, ingredient);
+    });
+    //Ingredient.findById(id).populate('unitID').exec((err, ingredients) => next(err, ingredients));
 };
 
 // Update total ingredients

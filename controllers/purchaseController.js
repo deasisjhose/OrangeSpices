@@ -183,6 +183,7 @@ exports.addPurchase = (req, res) => {
                                                     res.redirect('/supplies');
                                                 } else {
                                                     console.log("Purchase added!");
+                                                    req.flash('sucess_msg', 'Purchase added!');
                                                     res.status(200).send();
                                                 }
                                             })

@@ -54,7 +54,6 @@ exports.getProductID = (req, res) => {
 
 // Adding product
 exports.addProduct = (req, res) => {
-  //const { prodName, category, prodPrice, productID, ingredientID, quantityNeeded, unitID } = req.body;
   const errors = validationResult(req);
     if (errors.isEmpty()) {
       var i;
@@ -67,13 +66,13 @@ exports.addProduct = (req, res) => {
       var qtyList = req.body.qtyList;
       var unitList = req.body.unitList; 
 
-      var ingredientList = {
+      var product = {
         prodName: prodName,
         prodPrice: prodPrice,
         category: category
       }
 
-      productModel.add(ingredientList, function(err, result) {
+      productModel.add(product, function(err, result) {
         if (err) {
           console.log(err);
           req.flash('error_msg', 'Could not add product list.');
@@ -86,7 +85,7 @@ exports.addProduct = (req, res) => {
               quantityNeeded: qtyList[i]
             }
 
-            ingredientModel.add(ingredients, function(err, result){
+            prodIngModel.add(ingredients, function(err, result){
               if (err) {
                 console.log(err);
               } else {
@@ -95,6 +94,7 @@ exports.addProduct = (req, res) => {
             })
           }
         console.log("Product saved!");
+        req.flash('success_msg', 'Product added!');
         res.status(200).send();
         }
       })
@@ -135,6 +135,54 @@ exports.searchProduct = (req, res) => {
     console.log("Error searching product!");
     res.status(400).send("Error searching product!");
   }
+};
+
+// Edit product
+exports.editProduct = (req, res) => {
+  const { id, prodName, prodPrice } = req.body; 
+
+  if(prodPrice <= 0){
+    req.flash('error_msg', 'Could not enter negative value!');
+    res.redirect('/products/edit/'+id);
+  } else {
+    var edit = {
+      $set: { 
+        prodName: prodName,
+        prodPrice: prodPrice
+      } 
+    };
+  
+    productModel.edit(req.body.id, edit,(err, result) => {
+      if (err) {
+        console.log("Error cannot edit product!");
+        console.log(err);
+      } else {
+        console.log("Product edited!");
+        console.log(result);
+        req.flash('success_msg', 'Product edited!');
+        res.redirect('/products');
+      }
+    });
+  }
+};
+
+// Delete product
+exports.delete = (req, res) => {
+  var id = req.body.id;
+  console.log("product id to be removed");
+  console.log(id);
+  
+  productModel.remove(id, (err, result) => {
+    if (err) {
+      console.log(err);
+      throw err; 
+    } 
+    else {
+      console.log(result);
+      req.flash('success_msg', 'Product removed!');
+      res.status(200).send();
+    }
+  }); 
 };
 
 // Get ala carte products
@@ -282,52 +330,4 @@ exports.getBakedSushi = (req, res) => {
     req.flash('error_msg', messages.join(' ')); 
     res.redirect('/POS');
   }
-};
-
-// Edit product
-exports.editProduct = (req, res) => {
-  const { id, prodName, prodPrice } = req.body; 
-
-  if(prodPrice <= 0){
-    req.flash('error_msg', 'Could not enter negative value!');
-    res.redirect('/products/edit/'+id);
-  } else {
-    var edit = {
-      $set: { 
-        prodName: prodName,
-        prodPrice: prodPrice
-      } 
-    };
-  
-    productModel.edit(req.body.id, edit,(err, result) => {
-      if (err) {
-        console.log("Error cannot edit product!");
-        console.log(err);
-      } else {
-        console.log("Product edited!");
-        console.log(result);
-        req.flash('success_msg', 'Product edited!');
-        res.redirect('/products');
-      }
-    });
-  }
-};
-
-// Delete product
-exports.delete = (req, res) => {
-  var id = req.body.id;
-  console.log("id sa controller");
-  console.log(id);
-  
-  productModel.remove(id, (err, result) => {
-    if (err) {
-      console.log(err);
-      throw err; 
-    } 
-    else {
-      console.log(result);
-      req.flash('success_msg', 'Product removed!');
-      res.status(200).send();
-    }
-  }); 
 };

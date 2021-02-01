@@ -99,7 +99,6 @@ $(document).ready(function() {
                 },
                 error: () => callback(),
                 success: function() {
-                    alert("Purchase successfully added!");
                     window.location.href = "/procurement";
                 }
             });

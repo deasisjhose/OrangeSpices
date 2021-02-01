@@ -11,8 +11,6 @@ $(document).ready(function(){
 
   $('#selectIng option').each(function() {
     if(this.selected){
-      console.log("sana may laman");
-      console.log($(this).attr('data-id'));
       $.ajax({
         url: '/unit/name',
         method: 'POST',
@@ -23,7 +21,6 @@ $(document).ready(function(){
           alert("Error selecting ingredient");
         },
         success: function(unit){
-          console.log(unit);
           $('#unit').val(unit.unitName)
         }
       });
@@ -33,8 +30,6 @@ $(document).ready(function(){
   $('#selectIng').change(function() {
     $('#selectIng option').each(function() {
       if(this.selected){
-        console.log("sana may laman");
-        console.log($(this).attr('data-id'));
         $.ajax({
           url: '/unit/name',
           method: 'POST',
@@ -54,12 +49,14 @@ $(document).ready(function(){
   })
 
   $('#addIngredient').click(function(){  
-    console.log("adding...");
     var selectIng = document.getElementById("selectIng");
     var selectedValue = selectIng.options[selectIng.selectedIndex].value;
     var selectedVal = selectIng.options[selectIng.selectedIndex].getAttribute("data-id");
     var qty = document.getElementById("quantity").value;
     var unit = document.getElementById("unit").value;
+    var unitID = document.getElementById("unit").getAttribute("data-id");
+    console.log("unitID");
+    console.log(unitID);
 
     if(qty == ""){
       alert("Please fill out all fields!");
@@ -118,9 +115,8 @@ $(document).ready(function(){
         },
         success: function(){
           window.location.href="/products"; 
-      }
+        }
       });
-      alert("Product successfully saved!");
     }
   });
 }); 
