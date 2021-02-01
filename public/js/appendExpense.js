@@ -115,7 +115,6 @@ $(document).ready(function() {
                 },
                 error: () => callback(),
                 success: function() {
-                    alert("Expenses successfully saved!");
                     window.location.href = "/expense";
                 }
             });

@@ -16,9 +16,10 @@ $(document).ready(function() {
                     ingredientName: ingredient,
                     unitID: unitID
                 },
-                error: () => callback(),
+                error: function(){
+                    alert("Error adding ingredient!");
+                },
                 success: function() {
-                    alert("Ingredient successfully saved!");
                     window.location.href = "/ingredients";
                 }
             });

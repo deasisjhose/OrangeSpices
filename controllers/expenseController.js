@@ -21,8 +21,6 @@ exports.getAllExpense = (req, res) => {
             expenseAmount: expense[i].expenseAmount[j]
           })
           tempMonth[i] = expense[i].expenseDate[j];
-          console.log("tempMonth");
-          console.log(tempMonth);
         }
         
         expenseArray.push({
@@ -67,6 +65,7 @@ exports.addExpense = (req, res) => {
           } else {
             console.log("Expenses added!");
             console.log(result);
+            req.flash('success_msg', 'Expense added!');
             res.status(200).send();
           }
         })

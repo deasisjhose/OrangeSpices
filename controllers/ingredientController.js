@@ -80,6 +80,7 @@ exports.addIngredient = (req, res) => {
           }
           else {
             console.log("Ingredient added!");
+            req.flash('success_msg', 'Ingredient added!');
             res.status(200).send();
           }
         })
@@ -112,17 +113,13 @@ exports.updateStock = (req, res) => {
   const errors = validationResult(req);
   const { physicalCount, id } = req.body;
 
-  console.log("physical count");
-  console.log(physicalCount);
-  console.log("ingredient id");
-  console.log(id);
   if(errors.isEmpty()){
     if(physicalCount != ""){
       ingredientModel.getByID(id, (err, result) => {
         var stock = result.totalQuantity;
         if(physicalCount == stock){
-            req.flash('success_msg', 'System count and physical count are the same.');
-            res.redirect('/ingredients');               
+          req.flash('success_msg', 'System count and physical count are the same.');
+          res.redirect('/ingredients');               
         }
         else {
           var discrepancy = {

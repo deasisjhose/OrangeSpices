@@ -67,7 +67,6 @@ $(document).ready(function(){
           alert("Cannot add supplies!");
         },
         success: function(){
-          alert("Supply successfully saved!");
           window.location.href="/supplies"; 
         }
       });
