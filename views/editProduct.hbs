@@ -40,18 +40,49 @@
                             <input name="id" type="hidden" value="{{product._id}}">
                             <div class="col-4">
                                 <label for="prodName" style="font-weight: bold;">Name</label>
-                                <input type="text" class="form-control" value="{{product.prodName}}" name="prodName" id="product">
+                                <input type="text" class="form-control" value="{{product.prodName}}" name="prodName">
                                 <p id="prodNameError" class="error"></p>
                             </div>
                             <div class="col-4">
                                 <label for="category" style="font-weight: bold;">Category</label>
-                                <input type="text" disabled="disabled" class="form-control" value="{{product.category}}" name="prodCategory" id="category">
+                                <input type="text" disabled="disabled" class="form-control" value="{{product.category}}">
                                 <p id="prodCategoryError" class="error"></p>
                             </div>
                             <div class="col-4">
                                 <label for="prodPrice" style="font-weight: bold;">Price</label>
-                                <input type="number" class="form-control" value="{{product.prodPrice}}" name="prodPrice" id="prodPrice">
+                                <input type="number" class="form-control" value="{{product.prodPrice}}" name="prodPrice">
                                 <p id="prodPriceError" class="error"></p>
+                            </div>
+                            <div class="col-12">
+                                <p style="font-weight: bold;">List of Ingredients</p>
+                                <div class="table-responsive">  
+                                    <table class="table table-bordered" id="dynamic_field">  
+                                        <tr>
+                                            <th style="text-align: center; font-size: 13px;">Ingredient</th>
+                                            <th style="text-align: center; font-size: 13px;">Quantity</th>
+                                            <th style="text-align: center; font-size: 13px;">Unit</th>
+                                        </tr>
+                                        {{#each product.ingredientList}}
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group" style="height: 40px; margin-bottom: 0rem !important;">
+                                                        <input type="text" disabled="disabled" value="{{ingredientName}}" class="form-control" style="width:220px; height: 40px; margin-right: 20px; margin-left: 20px;">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group" style="margin-bottom: 0rem !important;">
+                                                        <input type="text" disabled="disabled" value="{{quantityNeeded}}" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group" style="margin-bottom: 0rem !important;">
+                                                        <input type="text"  disabled="disabled" value="{{unitName}}" class="form-control" style="width:120px; height: 40px; margin-right: 20px; margin-left: 20px;">
+                                                    </div>
+                                                </td> 
+                                            </tr>
+                                        {{/each}}
+                                    </table>  
+                                </div>  
                             </div>
                         </form>
                             {{!-- <div class="col-12">

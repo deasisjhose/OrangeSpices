@@ -30,15 +30,14 @@ exports.getAll = (next) => {
   });
 };
 
-// Get product ingredietns by id
-exports.getIngredients = function(id, next) {
-  ProductIngredient.findById({ productID: id }, function(err, prodIng) {
-    next(err, prodIng);
-  });
-};
-
+// Get product ingredient
 exports.getIngredients = function(id, next) {
   ProductIngredient.find({productID: id}, function (err, prodIng) {
     next(err, prodIng);
   });
+};
+
+// Get product ingredient (for productController edit)
+exports.getIngredientsList = function(id, next) {
+  ProductIngredient.find({productID: id}).populate({path: 'ingredientID', populate: {path: 'unitID'}}).exec((err, ingredients) => next(err, ingredients));
 };

@@ -71,6 +71,7 @@ exports.getAllPurchase = (req, res) => {
                     })
                     temp = [];
                 }
+                console.log(purchaseArray);
                 res(purchaseArray);
             }
         })

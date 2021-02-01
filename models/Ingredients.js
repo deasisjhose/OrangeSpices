@@ -35,9 +35,7 @@ exports.getOne = function(query, next) {
 
 // Get Ingredient by ID
 exports.getByID = function(id, next) {
-    Ingredient.findById(id, function(err, ingredient) {
-        next(err, ingredient);
-    });
+    Ingredient.findById(id).populate('unitID').exec((err, ingredients) => next(err, ingredients));
 };
 
 // Update total ingredients

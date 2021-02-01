@@ -1,5 +1,7 @@
 const productModel = require('../models/Product');
-const ingredientModel = require('../models/productIngredients');
+const ingredientModel = require('../models/Ingredients');
+const prodIngModel = require('../models/productIngredients');
+const unitModel = require('../models/Unit');
 const { validationResult } = require('express-validator');
 
 //Getting all products
@@ -20,13 +22,32 @@ exports.getAllProducts = (param, callback) =>{
 // Get product by ID
 exports.getProductID = (req, res) => {
   var id = req.params.id;
-  productModel.getByID(id, (err, result) => {
+
+  prodIngModel.getIngredientsList(id, function(err, ingredients){
     if (err) {
       throw err;
     } else {
-      var productObject = result.toObject();
-      console.log(productObject);
-      res(productObject);
+      var i;
+      var product = [], temp = [];
+
+      for(i = 0; i < ingredients.length; i++){
+        temp.push({
+          ingredientName: ingredients[i].ingredientID.ingredientName,
+          quantityNeeded: ingredients[i].quantityNeeded,
+          unitName: ingredients[i].ingredientID.unitID.unitName
+        })
+      }
+
+      productModel.getByID(id, function(err, result){
+        product = ({
+          prodName: result.prodName,
+          category: result.category,
+          prodPrice: result.prodPrice,
+          ingredientList: temp
+        })
+        console.log(product);
+        res(product);
+      })
     }
   });
 }
