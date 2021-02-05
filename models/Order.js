@@ -32,6 +32,12 @@ exports.getAll = (param, next) => {
   });
 };
 
+// Get all orders (inventory report)
+exports.getAllOrders = (ingredients, next) => {
+  Order.find().populate('orderListID').exec((err, orders) => next(err, orders));
+  //Order.find(ingredients).populate({path: 'productID', populate: {path: 'orderListID'}}).exec((err, orders) => next(err, orders));
+};
+
 // Get order by ID
 exports.getByID = function(id, next) {
   Order.findById(id, function(err, orders) {

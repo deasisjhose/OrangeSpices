@@ -36,7 +36,8 @@ exports.getIngredients = function(id, next) {
   });
 };
 
-// Get product ingredient (for productController edit)
+// Get product ingredient (for productController edit and inventory report)
 exports.getIngredientsList = function(id, next) {
   ProductIngredient.find({productID: id}).populate({path: 'ingredientID', populate: {path: 'unitID'}}).exec((err, ingredients) => next(err, ingredients));
 };
+

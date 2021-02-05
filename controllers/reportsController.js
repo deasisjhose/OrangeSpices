@@ -1,7 +1,9 @@
 const productModel = require('../models/Product');
+const prodIngModel = require('../models/productIngredients');
 const orderModel = require('../models/Order');
 const expenseModel = require('../models/Expense');
 const orderListModel = require('../models/OrderList');
+const ingredientModel = require('../models/Ingredients');
 const purchaseModel = require('../models/PurchaseSupplies');
 const { validationResult } = require('express-validator');
 
@@ -248,55 +250,94 @@ exports.salesReport = (req, res) => {
                     }
                 }
                 res(dailySales);
-                // for(i = 0; i < listObjects.length; i++){
-                //     for(j = 0; j < listObjects[i].orders.length; j++){
-                //         temp.push({
-                //             productID: listObjects[i].orders[j].productID,
-                //             productName: listObjects[i].orders[j].productName,
-                //             orderQuantity: listObjects[i].orders[j].orderQuantity,
-                //             productPrice: listObjects[i].orders[j].productPrice,
-                //             subTotal: listObjects[i].orders[j].subTotal
-                //         })
-                //     }
-                // }
-
-                // for(i = 0; i < temp.length; i++){
-                //     if(i == 0){
-                //         ordersArray.push({
-                //             productID: temp[i].productID,
-                //             productName: temp[i].productName,
-                //             orderQuantity: temp[i].orderQuantity,
-                //             productPrice: temp[i].productPrice,
-                //             subTotal: temp[i].subTotal
-                //         })
-                //     }
-                //     else {
-                //         for(j = 0; j < ordersArray.length; j++){
-                //             if(temp[i].productName == ordersArray[j].productName){
-                //                 ordersArray[j].orderQuantity += temp[i].orderQuantity;
-                //                 ordersArray[j].subTotal += temp[i].subTotal;
-                //                 break;
-                //             }
-                //             if(j == ordersArray.length-1){
-                //                 ordersArray.push({
-                //                     productID: temp[i].productID,
-                //                     productName: temp[i].productName,
-                //                     orderQuantity: temp[i].orderQuantity,
-                //                     productPrice: temp[i].productPrice,
-                //                     subTotal: temp[i].subTotal
-                //                 })
-                //                 break;
-                //             }
-                //         }
-                //     }
-                // }
-                
-                // console.log("ordersArray");
-                // console.log(ordersArray);
-                // res(ordersArray);
             }
         })
     }
+};
+
+// Inventory report
+exports.inventoryReport = (req, res) => {
+    var sDate = req.query.fromDate;
+    var eDate = req.query.toDate;
+    var startDate = new Date(new Date().setHours(00,00,00))
+    var endDate = new Date(new Date().setHours(23,59,59));
+    var i, j;
+    var orderQuantity, temp = [], ingredients = [], inventoryReport =[];
+
+    if(sDate == undefined && eDate == undefined){
+        orderModel.getAllOrders(req, function(err, orders){
+            for(i = 0; i < orders.length; i++){
+                if(orders[i].orderListID.orderDate >= startDate && orders[i].orderListID.orderDate <= endDate){ // getting orders within the day
+                    orderQuantity = orders[i].orderQuantity;
+                    console.log("orderQuantity1");
+                    console.log(orderQuantity);
+                    prodIngModel.getIngredientsList(orders[i].productID, function(err, ingredient){    // getting ingredients of per product
+
+                        console.log("orderQuantity2");
+                        console.log(orderQuantity);
+                        for(j = 0; j < ingredient.length; j++){
+                            
+                            // temp.push({
+                            //     productName: productName,
+                            //     ingredientName: ingredient[j].ingredientID.ingredientName,
+                            //     startingInventory: ingredient[j].quantityNeeded * orderQuantity + ingredients[j].ingredientID.totalQuantity,
+                            //     usedInventory: ingredient[j].quantityNeeded * orderQuantity,
+                            //     endingInventory: ingredient[j].ingredientID.totalQuantity
+                            // })
+                            temp.push({
+                                ingredientID: ingredient[j].ingredientID._id,
+                                ingredientName: ingredient[j].ingredientID.ingredientName,
+                                usedInventory: ingredient[j].quantityNeeded * orderQuantity,
+                            })
+                            // console.log("temp");
+                            // console.log(temp);
+                        }
+
+                        // grouping ingredients
+                        for(i = 0; i < temp.length; i++){
+                            if(i == 0){
+                                ingredients.push({
+                                    ingredientID: temp[i].ingredientID,
+                                    ingredientName: temp[i].ingredientName,
+                                    usedInventory: temp[i].usedInventory
+                                })
+                            }
+                            else {
+                                for(j = 0; j < ingredients.length; j++){
+                                    if(temp[j].ingredientID._id == ingredients[j].ingredientID){
+                                        ingredients[j].usedInventory += temp[j].usedInventory;
+                                        break;
+                                    } 
+                                    if(j == ingredients.length-1){
+                                        ingredients.push({
+                                            ingredientID: temp[i].ingredientID,
+                                            ingredientName: temp[i].ingredientName,
+                                            quantityNeeded: temp[i].quantityNeeded,
+                                            usedInventory: temp[i].usedInventory
+                                        })
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+
+                        // for(i = 0; i < ingredients.length; i++){
+                        //     inventoryReport.push({
+                        //         ingredientName: ingredients[i].ingredientName,
+                        //         quantityNeeded: ingredients[i].quantityNeeded,
+                        //         startingInventory: ingredients[i].usedInventory + ingredients[j].ingredientID.totalQuantity,
+                        //         usedInventory: ingredients[i].usedInventory,
+                        //         endingInventory: ingredient[j].ingredientID.totalQuantity
+                        //     })
+                        // }
+                    })
+                }
+            }
+            // res(inventoryReport);
+        })
+    }
+
+    
 };
 
 // Purchase report
@@ -336,7 +377,6 @@ exports.purchaseReport = (req, res) => {
 
                 for(i = 0; i < temp.length; i++){
                     if(i == 0){
-                        console.log('1');
                         purchaseArray.push({
                             supplyID: temp[i].supplyID,
                             supplyName: temp[i].supplyName,
@@ -348,13 +388,11 @@ exports.purchaseReport = (req, res) => {
                     else {
                         for(j = 0; j < purchaseArray.length; j++){
                             if(temp[i].supplyName == purchaseArray[j].supplyName){
-                                console.log('2');
                                 purchaseArray[j].quantity += temp[i].quantity;
                                 purchaseArray[j].subTotal += temp[i].subTotal;
                                 break;
                             }
                             if(j == purchaseArray.length-1){
-                                console.log('3');
                                 purchaseArray.push({
                                     supplyID: temp[i].supplyID,
                                     supplyName: temp[i].supplyName,

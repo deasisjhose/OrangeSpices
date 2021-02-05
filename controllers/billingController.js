@@ -18,7 +18,8 @@ exports.checkIngredients = (req, res) => {
                 console.log(err);
             } else {
                 var total;
-
+                console.log("prodIng");
+                console.log(prodIng);
                 for(i = 0; i < prodIng.length; i++){
                     total = qty * prodIng[i].quantityNeeded;
                     console.log("items to reduce");
@@ -84,41 +85,43 @@ exports.checkout = (req, res) => {
                             else {
                                 console.log("Ingredient stock reduced!");
                                 console.log(result);
-                                
-                                orderListModel.add(orderList, function(err, result) {
-                                    if (err) {
-                                        console.log("Could not add orderList.");
-                                        console.log(err);
-                                    } else {
-                                        for(k = 0; k < idList.length; k++){
-                                            var order = {
-                                                productID: idList[k],
-                                                orderListID: result._id, 
-                                                productName: prodList[k],
-                                                orderQuantity: qtyList[k],
-                                                productPrice: priceList[k],
-                                                subTotal: subList[k]
-                                            }
-
-                                            orderModel.add(order, function(err, result){
-                                                if (err) {
-                                                    console.log("Could not add order.");
-                                                    console.log(err);
-                                                } else {
-                                                    console.log(result);
-                                                    res.status(200).send();
-                                                }
-                                            })
-                                        }
-                                        console.log("Order saved!");
-                                    }
-                                })
                             }
                         })
                     }
                 }
             })
         }
+
+        orderListModel.add(orderList, function(err, result) {
+            if (err) {
+                console.log("Could not add orderList.");
+                console.log(err);
+            } else {
+                console.log("orderlist added in billing controller");
+                console.log(result);
+                for(k = 0; k < idList.length; k++){
+                    var order = {
+                        productID: idList[k],
+                        orderListID: result._id, 
+                        productName: prodList[k],
+                        orderQuantity: qtyList[k],
+                        productPrice: priceList[k],
+                        subTotal: subList[k]
+                    }
+
+                    orderModel.add(order, function(err, result){
+                        if (err) {
+                            console.log("Could not add order.");
+                            console.log(err);
+                        } else {
+                            console.log(result);
+                            res.status(200).send();
+                        }
+                    })
+                }
+                console.log("Order saved!");
+            }
+        })
     } else {
         const messages = errors.array().map((item) => item.msg);
         req.flash('error_msg', messages.join(' '));

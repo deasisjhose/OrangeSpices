@@ -11,7 +11,7 @@ const OrderList = mongoose.model('orderList', orderListSchema);
 exports.add = function(obj, next) {
   const orderList = new OrderList(obj);
   orderList.save(function(err, add) {
-      next(err, add);
+    next(err, add);
   });
 };
 
@@ -23,8 +23,15 @@ exports.getByID = function(id, next) {
 };
 
 // Get all orderList
-exports.getAllList = (next) => {
-  OrderList.find({}, (err, orderList) => {
+exports.getAllList = (param, next) => {
+  OrderList.find({}, function(err, orderList){
+    next(err, orderList);
+  });
+};
+
+// Get product ingredients (inventory report)
+exports.getAllList = (param, next) => {
+  OrderList.find({}, function(err, orderList){
     next(err, orderList);
   });
 };
