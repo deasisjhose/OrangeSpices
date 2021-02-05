@@ -29,13 +29,6 @@ exports.getAllList = (param, next) => {
   });
 };
 
-// Get product ingredients (inventory report)
-exports.getAllList = (param, next) => {
-  OrderList.find({}, function(err, orderList){
-    next(err, orderList);
-  });
-};
-
 // Get all orderList
 exports.getOrderHistory = (param, next) => {
   OrderList.aggregate(

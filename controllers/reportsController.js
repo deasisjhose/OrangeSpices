@@ -95,7 +95,6 @@ exports.salesReport = (req, res) => {
                             productPrice: listObjects[i].orders[j].productPrice,
                             subTotal: listObjects[i].orders[j].subTotal
                         })
-
                     }
                 }
 
@@ -256,88 +255,118 @@ exports.salesReport = (req, res) => {
 };
 
 // Inventory report
-exports.inventoryReport = (req, res) => {
+exports.inventoryReport = function(req, res){
     var sDate = req.query.fromDate;
     var eDate = req.query.toDate;
     var startDate = new Date(new Date().setHours(00,00,00))
     var endDate = new Date(new Date().setHours(23,59,59));
-    var i, j;
-    var orderQuantity, temp = [], ingredients = [], inventoryReport =[];
+    var i, j, orderQty;
+    var ordersTemp = [], temp = [], usedInventory = [], inventoryReport = [];
 
     if(sDate == undefined && eDate == undefined){
-        orderModel.getAllOrders(req, function(err, orders){
+        orderModel.getAllOrders(req, (err, orders) => {
             for(i = 0; i < orders.length; i++){
                 if(orders[i].orderListID.orderDate >= startDate && orders[i].orderListID.orderDate <= endDate){ // getting orders within the day
-                    orderQuantity = orders[i].orderQuantity;
-                    console.log("orderQuantity1");
-                    console.log(orderQuantity);
-                    prodIngModel.getIngredientsList(orders[i].productID, function(err, ingredient){    // getting ingredients of per product
-
-                        console.log("orderQuantity2");
-                        console.log(orderQuantity);
-                        for(j = 0; j < ingredient.length; j++){
-                            
-                            // temp.push({
-                            //     productName: productName,
-                            //     ingredientName: ingredient[j].ingredientID.ingredientName,
-                            //     startingInventory: ingredient[j].quantityNeeded * orderQuantity + ingredients[j].ingredientID.totalQuantity,
-                            //     usedInventory: ingredient[j].quantityNeeded * orderQuantity,
-                            //     endingInventory: ingredient[j].ingredientID.totalQuantity
-                            // })
+                    orderQty = orders[i].orderQuantity;
+                    console.log("orderQty");
+                    console.log(orderQty);
+                    prodIngModel.getIngredientsList(orders[i].productID, (err, ingredients) => {
+                        console.log("i");
+                        console.log(i);
+                        for(j = 0; j < ingredients.length; j++){
                             temp.push({
-                                ingredientID: ingredient[j].ingredientID._id,
-                                ingredientName: ingredient[j].ingredientID.ingredientName,
-                                usedInventory: ingredient[j].quantityNeeded * orderQuantity,
+                                ingredientID: ingredients[j].ingredientID._id,
+                                ingredientName: ingredients[j].ingredientID.ingredientName,
+                                quantityNeeded: ingredients[j].quantityNeeded,
+                                unitName: ingredients[j].ingredientID.unitID.unitName,
+                                usedInventory: ingredients[j].quantityNeeded * orderQty
                             })
-                            // console.log("temp");
-                            // console.log(temp);
+                            console.log("temp1");
+                            console.log(temp);
                         }
-
-                        // grouping ingredients
-                        for(i = 0; i < temp.length; i++){
-                            if(i == 0){
-                                ingredients.push({
-                                    ingredientID: temp[i].ingredientID,
-                                    ingredientName: temp[i].ingredientName,
-                                    usedInventory: temp[i].usedInventory
-                                })
-                            }
-                            else {
-                                for(j = 0; j < ingredients.length; j++){
-                                    if(temp[j].ingredientID._id == ingredients[j].ingredientID){
-                                        ingredients[j].usedInventory += temp[j].usedInventory;
-                                        break;
-                                    } 
-                                    if(j == ingredients.length-1){
-                                        ingredients.push({
-                                            ingredientID: temp[i].ingredientID,
-                                            ingredientName: temp[i].ingredientName,
-                                            quantityNeeded: temp[i].quantityNeeded,
-                                            usedInventory: temp[i].usedInventory
-                                        })
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-
-                        // for(i = 0; i < ingredients.length; i++){
-                        //     inventoryReport.push({
-                        //         ingredientName: ingredients[i].ingredientName,
-                        //         quantityNeeded: ingredients[i].quantityNeeded,
-                        //         startingInventory: ingredients[i].usedInventory + ingredients[j].ingredientID.totalQuantity,
-                        //         usedInventory: ingredients[i].usedInventory,
-                        //         endingInventory: ingredient[j].ingredientID.totalQuantity
-                        //     })
-                        // }
                     })
+                    // console.log("temp2");
+                    // console.log(temp);
+                    ordersTemp.push({
+                        productID: orders[i].productID,
+                        productName: orders[i].productName,
+                        orderQuantity: orders[i].orderQuantity,
+                        ingredientList: temp
+                    }),
+                    
+                    temp = [];
                 }
             }
+            // console.log("ordersTemp");
+            // console.log(ordersTemp);
+
+            // for(i = 0; i < ordersTemp.length; i++){
+            //     console.log("i1");
+            //     console.log(i);
+            //     orderQty = ordersTemp[i].orderQuantity;
+            //     prodIngModel.getProductIngredientsList(ordersTemp[i].productID, orderQty, function(err, ingredient){ 
+            //         console.log("i2");
+            //         console.log(i);
+            //         console.log("ordersTemp[i].productID");
+            //         console.log(ordersTemp[i].productID);
+            //     })
+            // }
+            
+
+            // do {
+            //     console.log("j1");
+            //     console.log(j);
+            //     prodID = ordersTemp[j].productID
+            //     orderQty = ordersTemp[j].orderQuantity;
+            //     // console.log("ordersTemp[j].productID");
+            //     // console.log(ordersTemp[j].productID);
+                
+                
+            //     j++;
+            // } while(j < ordersTemp.length);
+            
+
+            //     // grouping ingredients
+            //     for(i = 0; i < temp.length; i++){
+            //         if(i == 0){
+            //             ingredients.push({
+            //                 ingredientID: temp[i].ingredientID,
+            //                 ingredientName: temp[i].ingredientName,
+            //                 usedInventory: temp[i].usedInventory
+            //             })
+            //         }
+            //         else {
+            //             for(j = 0; j < ingredients.length; j++){
+            //                 if(temp[j].ingredientID._id == ingredients[j].ingredientID){
+            //                     ingredients[j].usedInventory += temp[j].usedInventory;
+            //                     break;
+            //                 } 
+            //                 if(j == ingredients.length-1){
+            //                     ingredients.push({
+            //                         ingredientID: temp[i].ingredientID,
+            //                         ingredientName: temp[i].ingredientName,
+            //                         quantityNeeded: temp[i].quantityNeeded,
+            //                         usedInventory: temp[i].usedInventory
+            //                     })
+            //                     break;
+            //                 }
+            //             }
+            //         }
+            //     }
+
+                // for(i = 0; i < ingredients.length; i++){
+                //     inventoryReport.push({
+                //         ingredientName: ingredients[i].ingredientName,
+                //         quantityNeeded: ingredients[i].quantityNeeded,
+                //         startingInventory: ingredients[i].usedInventory + ingredients[j].ingredientID.totalQuantity,
+                //         usedInventory: ingredients[i].usedInventory,
+                //         endingInventory: ingredient[j].ingredientID.totalQuantity
+                //     })
+                // }
+            //})
             // res(inventoryReport);
         })
     }
-
-    
 };
 
 // Purchase report

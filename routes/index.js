@@ -468,7 +468,7 @@ router.get('/sales_report', loggedIn, (req, res) => {
 // Get inventory report page
 router.get('/inventory_report', loggedIn, (req, res) => {
   console.log("Read inventory report successful!");
-  reportsController.inventoryReport(req, inventory => {
+  //reportsController.inventoryReport(req, inventory => {
     //userController.getID(req.session.user, user => {
       if(req.session.username == "admin"){
         res.render('inventoryReport', { 
@@ -484,7 +484,7 @@ router.get('/inventory_report', loggedIn, (req, res) => {
         })
       }
     //})
-  })
+  //})
 });
 
 // Get sales report page

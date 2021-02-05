@@ -31,13 +31,12 @@ exports.getAll = (next) => {
 
 // Get product ingredient
 exports.getIngredients = function(id, next) {
-  ProductIngredient.find({productID: id}, function (err, prodIng) {
+  ProductIngredient.find({productID: id}, function (err, prodIng){
     next(err, prodIng);
   });
 };
 
 // Get product ingredient (for productController edit and inventory report)
-exports.getIngredientsList = function(id, next) {
+exports.getIngredientsList = (id, next) => {
   ProductIngredient.find({productID: id}).populate({path: 'ingredientID', populate: {path: 'unitID'}}).exec((err, ingredients) => next(err, ingredients));
 };
-
