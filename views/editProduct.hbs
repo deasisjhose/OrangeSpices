@@ -31,13 +31,14 @@
                     <div class="buttons">
                         <button type="submit" class="btn btn-primary btn-sm save-btn">Save</button>
                         <a href="/products"><button type="button" class="btn btn-primary btn-sm can-btn">Cancel</button></a>
-                    </div>            
+                    </div>    
+                       
                 </nav>
                 <div class="container-fluid" style="margin-left: 225px;width: 82%;">
                     {{>messages}}
                     <div class="card shadow mb-3">  
                         <div class="form-container" style="padding: 20px;">
-                            <input name="id" type="hidden" value="{{product._id}}">
+                            <input name="prodID" type="hidden" value="{{product.productID}}">
                             <div class="col-4">
                                 <label for="prodName" style="font-weight: bold;">Name</label>
                                 <input type="text" class="form-control" value="{{product.prodName}}" name="prodName">
@@ -53,6 +54,7 @@
                                 <input type="number" class="form-control" value="{{product.prodPrice}}" name="prodPrice">
                                 <p id="prodPriceError" class="error"></p>
                             </div>
+                </form> 
                             <div class="col-12">
                                 <p style="font-weight: bold;">List of Ingredients</p>
                                 <div class="table-responsive">  
@@ -84,7 +86,7 @@
                                     </table>  
                                 </div>  
                             </div>
-                        </form>
+                        
                             {{!-- <div class="col-12">
                                 <p style="font-weight: bold;">List of Ingredients</p>
                                 <div class="table-responsive">  

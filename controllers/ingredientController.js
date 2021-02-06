@@ -65,7 +65,6 @@ exports.addIngredient = (req, res) => {
       if (result) {
 				req.flash('error_msg', 'Already have that ingredient. Try again.');
         res.redirect('/ingredients/add');
-        res.status(400).send();
       } else {
         var ingredient = {
           ingredientName: ingredientName,

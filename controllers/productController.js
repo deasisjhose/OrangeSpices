@@ -40,12 +40,12 @@ exports.getProductID = (req, res) => {
 
       productModel.getByID(id, function(err, result){
         product = ({
+          productID: result._id,
           prodName: result.prodName,
           category: result.category,
           prodPrice: result.prodPrice,
           ingredientList: temp
         })
-        console.log(product);
         res(product);
       })
     }
@@ -137,20 +137,26 @@ exports.searchProduct = (req, res) => {
 
 // Edit product
 exports.editProduct = (req, res) => {
-  const { id, prodName, prodPrice } = req.body; 
+  const { prodID, prodName, prodPrice } = req.body; 
+  console.log("req.body.prodID");
+  console.log(req.body.prodID);
+  console.log("prodName");
+  console.log(prodName);
+  console.log("prodPrice");
+  console.log(prodPrice);
 
   if(prodPrice <= 0){
     req.flash('error_msg', 'Could not enter negative value!');
-    res.redirect('/products/edit/'+id);
+    res.redirect('/products/edit/'+prodID);
   } else {
     var edit = {
       $set: { 
         prodName: prodName,
         prodPrice: prodPrice
-      } 
+      }
     };
   
-    productModel.edit(req.body.id, edit,(err, result) => {
+    productModel.edit(prodID, edit,(err, result) => {
       if (err) {
         console.log("Error cannot edit product!");
         console.log(err);
@@ -167,20 +173,21 @@ exports.editProduct = (req, res) => {
 // Delete product
 exports.delete = (req, res) => {
   var id = req.body.id;
-  console.log("product id to be removed");
-  console.log(id);
   
-  productModel.remove(id, (err, result) => {
-    if (err) {
-      console.log(err);
-      throw err; 
-    } 
-    else {
-      console.log(result);
-      req.flash('success_msg', 'Product removed!');
-      res.status(200).send();
-    }
-  }); 
+  prodIngModel.remove(id, (err, prodIng) => {
+    console.log(prodIng);
+    productModel.remove(id, (err, product) => {
+      if (err) {
+        console.log(err);
+        throw err; 
+      } 
+      else {
+        console.log(product);
+        req.flash('success_msg', 'Product removed!');
+        res.status(200).send();
+      }
+    }); 
+  })
 };
 
 // Get ala carte products
