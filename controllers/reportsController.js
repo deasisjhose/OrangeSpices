@@ -259,12 +259,13 @@ exports.salesReport = (req, res) => {
 
 // Inventory report
 exports.inventoryReport = function(req, res){
-    var sDate = req.query.fromDate;
-    var eDate = req.query.toDate;
-    var startDate = new Date(new Date().setHours(00,00,00))
-    var endDate = new Date(new Date().setHours(23,59,59));
+    var sDate = req.query.ordfromDate;
+    var eDate = req.query.ordToDate;
     
     if(sDate == undefined && eDate == undefined){
+        var startDate = new Date(new Date().setHours(00,00,00));
+        var endDate = new Date(new Date().setHours(23,59,59));
+
         orderListModel.getProductIngredientsList(req, (error, ingredients) => {
             var ordersObjects = ingredients.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
             var i, j, temp = [], ingredients = [], inventoryReport = [];
@@ -278,10 +279,115 @@ exports.inventoryReport = function(req, res){
                     unitName: ordersObjects[i].units.unitName
                 })
             }
-            console.log("temp");
-            console.log(temp);
 
-            // grouping ingredients
+            for(i = 0; i < temp.length; i++){
+                if(i == 0){;
+                    inventoryReport.push({
+                        ingredientID: temp[i].ingredientID,
+                        ingredientName: temp[i].ingredientName,
+                        startingInventory: temp[i].usedInventory + temp[i].endingInventory,
+                        usedInventory: temp[i].usedInventory,
+                        endingInventory: temp[i].endingInventory,
+                        unitName: temp[i].unitName
+                    })
+                }
+                else {
+                    for(j = 0; j < inventoryReport.length; j++){
+                        if(inventoryReport[j].ingredientName == temp[i].ingredientName){
+                            inventoryReport[j].usedInventory += temp[i].usedInventory;
+                            inventoryReport[j].startingInventory += temp[i].usedInventory;
+                            break;
+                        } 
+                        if(j == inventoryReport.length-1){
+                            inventoryReport.push({
+                                ingredientID: temp[i].ingredientID,
+                                ingredientName: temp[i].ingredientName,
+                                startingInventory: temp[i].usedInventory + temp[i].endingInventory,
+                                usedInventory: temp[i].usedInventory,
+                                endingInventory: temp[i].endingInventory,
+                                unitName: temp[i].unitName
+                            })
+                            break;
+                        }
+                    }
+                }
+            }
+            console.log("inventoryReport");
+            console.log(inventoryReport);
+            res(inventoryReport);
+        })
+    } else if(sDate == eDate){
+        var startDate = new Date(sDate);
+        var endDate = new Date(eDate).setHours(23,59,59);
+
+        orderListModel.getProductIngredientsList(req, (error, ingredients) => {
+            var ordersObjects = ingredients.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
+            var i, j, temp = [], ingredients = [], inventoryReport = [];
+
+            for(i = 0; i < ordersObjects.length; i++){
+                temp.push({
+                    ingredientID: ordersObjects[i].prodIng.ingredientID,
+                    ingredientName: ordersObjects[i].ingredients.ingredientName,
+                    usedInventory: ordersObjects[i].orders.orderQuantity * ordersObjects[i].prodIng.quantityNeeded,
+                    endingInventory: ordersObjects[i].ingredients.totalQuantity,
+                    unitName: ordersObjects[i].units.unitName
+                })
+            }
+
+            for(i = 0; i < temp.length; i++){
+                if(i == 0){;
+                    inventoryReport.push({
+                        ingredientID: temp[i].ingredientID,
+                        ingredientName: temp[i].ingredientName,
+                        startingInventory: temp[i].usedInventory + temp[i].endingInventory,
+                        usedInventory: temp[i].usedInventory,
+                        endingInventory: temp[i].endingInventory,
+                        unitName: temp[i].unitName
+                    })
+                }
+                else {
+                    for(j = 0; j < inventoryReport.length; j++){
+                        if(inventoryReport[j].ingredientName == temp[i].ingredientName){
+                            inventoryReport[j].usedInventory += temp[i].usedInventory;
+                            inventoryReport[j].startingInventory += temp[i].usedInventory;
+                            break;
+                        } 
+                        if(j == inventoryReport.length-1){
+                            inventoryReport.push({
+                                ingredientID: temp[i].ingredientID,
+                                ingredientName: temp[i].ingredientName,
+                                startingInventory: temp[i].usedInventory + temp[i].endingInventory,
+                                usedInventory: temp[i].usedInventory,
+                                endingInventory: temp[i].endingInventory,
+                                unitName: temp[i].unitName
+                            })
+                            break;
+                        }
+                    }
+                }
+            }
+            console.log("inventoryReport");
+            console.log(inventoryReport);
+            res(inventoryReport);
+        })
+    } else {
+        var startDate = new Date(sDate);
+        var endDate = new Date(eDate);
+
+        orderListModel.getProductIngredientsList(req, (error, ingredients) => {
+            var ordersObjects = ingredients.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
+            var i, j, temp = [], ingredients = [], inventoryReport = [];
+
+            for(i = 0; i < ordersObjects.length; i++){
+                temp.push({
+                    ingredientID: ordersObjects[i].prodIng.ingredientID,
+                    ingredientName: ordersObjects[i].ingredients.ingredientName,
+                    usedInventory: ordersObjects[i].orders.orderQuantity * ordersObjects[i].prodIng.quantityNeeded,
+                    endingInventory: ordersObjects[i].ingredients.totalQuantity,
+                    unitName: ordersObjects[i].units.unitName
+                })
+            }
+            
             for(i = 0; i < temp.length; i++){
                 if(i == 0){;
                     inventoryReport.push({

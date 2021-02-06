@@ -509,11 +509,46 @@ router.get('/inventory_report', loggedIn, (req, res) => {
   console.log("Read inventory report successful!");
   reportsController.inventoryReport(req, inventory => {
     userController.getID(req.session.user, user => {
+      if(req.session.username == "admin"){
+        res.render('inventoryReport', { 
+          isAdmin: true,
+          timestamp: new Date(),
+          filterDate: false,
+          inventory: inventory
+        })
+      }
+      else {
+        res.render('inventoryReport', { 
+          isAdmin: false,
+          //inventory: inventory
+        })
+      }
+    })
+  })
+});
+
+// Get inventory report page
+router.get('/inventory_report/filter', loggedIn, (req, res) => {
+  console.log("Read inventory report filter successful!");
+  reportsController.inventoryReport(req, inventory => {
+    userController.getID(req.session.user, user => {
+      var startDate = req.query.ordfromDate;
+      var endDate = req.query.ordToDate;
+
+      if(startDate != endDate){
+        moreThanOneDay = true;
+      } else {
+        moreThanOneDay = false;
+      }
 
       if(req.session.username == "admin"){
         res.render('inventoryReport', { 
           isAdmin: true,
           timestamp: new Date(),
+          moreThanOneDay: moreThanOneDay,
+          startDate: startDate,
+          endDate: endDate,
+          filterDate: true,
           inventory: inventory
         })
       }
