@@ -15,16 +15,15 @@ exports.sendEmail = (req, res) => {
         service: 'Gmail',
         auth: {
             user: 'orangeandspices.system@gmail.com',
-            pass: 'p4$sw0rD'
+            pass: 'orange&spices'
         }
     });
 
     var content = 
     '<p>Hi, '+ supplierName + '!</p><p>This is the owner of Orange & Spices. We would like to order the following: </p><br>'
-    + '<div><table style="width: 60%; margin-bottom: 1rem; text-align: center!important; font-size: 12px !important;"><thead><tr><th>Item</th><th>No. of Items</th><th>Quantity</th><th>Unit</th></tr></thead><tbody>';
+    + '<div><table style="width: 60%; margin-bottom: 1rem; text-align: center!important; font-size: 12px !important;"><thead><tr><th>Item</th><th>No. of Items</th></tr></thead><tbody>';
     orders.forEach((orders) => {
-        content += '<tr><td>' + orders.selectedValue +'</td><td>' + orders.numItems + '</td><td>' + orders.qty
-        + '</td><td>' + orders.unitID + '</td></tr>'
+        content += '<tr><td>' + orders.selectedValue +'</td><td>' + orders.numItems + '</td>'
     });
     content += '</tbody></table></div>';
     
@@ -35,10 +34,13 @@ exports.sendEmail = (req, res) => {
         html: content
     };
     smtpTransport.sendMail(mailOptions, function(error) {
-        if (error) console.log(error);
+        if (error){
+            console.log(error);
+            res.status(400).send();
+        }
         smtpTransport.close();
+        res.status(200).send();
     });
-    res.status(200).send();
 };
 
 // Getting all purchase

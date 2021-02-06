@@ -24,7 +24,7 @@ exports.add = function(obj, next) {
 
 // Delete product ingredients
 exports.remove = function(query, next) {
-  ProductIngredient.findByIdAndRemove({productID: query}, function(err, prodIng){
+  ProductIngredient.deleteMany({productID: query}, function(err, prodIng){
     next(err, prodIng);
   });
 };

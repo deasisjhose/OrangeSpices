@@ -175,7 +175,6 @@ exports.delete = (req, res) => {
   var id = req.body.id;
   
   prodIngModel.remove(id, (err, prodIng) => {
-    console.log(prodIng);
     productModel.remove(id, (err, product) => {
       if (err) {
         console.log(err);
