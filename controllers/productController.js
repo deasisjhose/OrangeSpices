@@ -12,7 +12,7 @@ exports.getAllProducts = (param, callback) =>{
     const productsObjects = [];
       
     products.forEach(function(doc) {
-        productsObjects.push(doc.toObject());
+      productsObjects.push(doc.toObject());
     });
       
     callback(productsObjects);

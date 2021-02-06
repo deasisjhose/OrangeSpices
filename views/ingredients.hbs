@@ -44,13 +44,6 @@
                     </form>
                     <div class="add">
                         <a href="/ingredients/add"><button type="button" class="btn btn-primary btn-sm add-btn">+ Add</button></a>
-                        <div class="dropdown low-stock">
-                            <button type="button" class="btn btn-primary btn-sm low-btn dropdown-toggle" type="button" data-toggle="dropdown">Select Low Stock Detection</button>
-                            <div class="dropdown-menu down">
-                                <a class="dropdown-item">10%</a>
-                                <a class="dropdown-item">20%</a>
-                            </div>
-                        </div>
                     </div>
                 </nav>
             <div class="container-fluid" style="margin-left: 225px;width: 82%;">
@@ -63,6 +56,7 @@
                                 <th scope="col">Ingredient Name</th>
                                 <th scope="col">Items</th>
                                 <th scope="col">Unit</th>
+                                <th scope="col">Select Low Stock Detection</th>
                                 <th scope="col" colspan="2">Update Inventory</th>
                               </tr>
                             </thead>
@@ -72,6 +66,15 @@
                                     <td>{{ingredientName}}</td>
                                     <td>{{totalQuantity}}</td>
                                     <td>{{unitID.unitName}}</td>
+                                    <td>
+                                        <div class="dropdown low-stock">
+                                            <select type="button" class="form-control">
+                                                <option value="10" class="ingredient">10%</option>
+                                                <option value="10" class="ingredient">20%</option>
+                                                <option value="10" class="ingredient">30%</option>
+                                            </select>
+                                        </div>
+                                    </td>
                                     <td style="width: 70px !important;">
                                         <form action="/ingredient/update" method="POST">
                                         <input name="id" type="hidden" value="{{this._id}}">

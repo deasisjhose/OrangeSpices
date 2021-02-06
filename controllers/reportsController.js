@@ -1,5 +1,4 @@
 const productModel = require('../models/Product');
-const prodIngModel = require('../models/productIngredients');
 const orderModel = require('../models/Order');
 const expenseModel = require('../models/Expense');
 const orderListModel = require('../models/OrderList');
@@ -85,7 +84,8 @@ exports.salesReport = (req, res) => {
                 var i, j;
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= start && e.orderDate <= end); // filter documents within the day
-
+                console.log("listObjects sales report");
+                console.log(listObjects)
                 for(i = 0; i < listObjects.length; i++){
                     for(j = 0; j < listObjects[i].orders.length; j++){
                         temp.push({
@@ -97,6 +97,8 @@ exports.salesReport = (req, res) => {
                         })
                     }
                 }
+                console.log("temp sales rep");
+                console.log(temp);
 
                 for(i = 0; i < temp.length; i++){
                     if(i == 0){
@@ -110,6 +112,8 @@ exports.salesReport = (req, res) => {
                     }
                     else {
                         for(j = 0; j < ordersArray.length; j++){
+                            console.log("j");
+                            console.log(j);
                             if(temp[i].productName == ordersArray[j].productName){
                                 ordersArray[j].orderQuantity += temp[i].orderQuantity;
                                 ordersArray[j].subTotal += temp[i].subTotal;
@@ -155,7 +159,6 @@ exports.salesReport = (req, res) => {
                             productPrice: listObjects[i].orders[j].productPrice,
                             subTotal: listObjects[i].orders[j].subTotal
                         })
-
                     }
                 }
 
@@ -204,7 +207,7 @@ exports.salesReport = (req, res) => {
                 console.log(err);
             } else {
                 var i, j;
-                var temp = [], ordersArray = [], dailySales = [];
+                var temp = [], dailySales = [];
                 var listObjects = orders.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents according to date range
 
                 console.log("listObjects");
@@ -260,111 +263,60 @@ exports.inventoryReport = function(req, res){
     var eDate = req.query.toDate;
     var startDate = new Date(new Date().setHours(00,00,00))
     var endDate = new Date(new Date().setHours(23,59,59));
-    var i, j, orderQty;
-    var ordersTemp = [], temp = [], usedInventory = [], inventoryReport = [];
-
+    
     if(sDate == undefined && eDate == undefined){
-        orderModel.getAllOrders(req, (err, orders) => {
-            for(i = 0; i < orders.length; i++){
-                if(orders[i].orderListID.orderDate >= startDate && orders[i].orderListID.orderDate <= endDate){ // getting orders within the day
-                    orderQty = orders[i].orderQuantity;
-                    console.log("orderQty");
-                    console.log(orderQty);
-                    prodIngModel.getIngredientsList(orders[i].productID, (err, ingredients) => {
-                        console.log("i");
-                        console.log(i);
-                        for(j = 0; j < ingredients.length; j++){
-                            temp.push({
-                                ingredientID: ingredients[j].ingredientID._id,
-                                ingredientName: ingredients[j].ingredientID.ingredientName,
-                                quantityNeeded: ingredients[j].quantityNeeded,
-                                unitName: ingredients[j].ingredientID.unitID.unitName,
-                                usedInventory: ingredients[j].quantityNeeded * orderQty
-                            })
-                            console.log("temp1");
-                            console.log(temp);
-                        }
+        orderListModel.getProductIngredientsList(req, (error, ingredients) => {
+            var ordersObjects = ingredients.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
+            var i, j, temp = [], ingredients = [], inventoryReport = [];
+
+            for(i = 0; i < ordersObjects.length; i++){
+                temp.push({
+                    ingredientID: ordersObjects[i].prodIng.ingredientID,
+                    ingredientName: ordersObjects[i].ingredients.ingredientName,
+                    usedInventory: ordersObjects[i].orders.orderQuantity * ordersObjects[i].prodIng.quantityNeeded,
+                    endingInventory: ordersObjects[i].ingredients.totalQuantity,
+                    unitName: ordersObjects[i].units.unitName
+                })
+            }
+            console.log("temp");
+            console.log(temp);
+
+            // grouping ingredients
+            for(i = 0; i < temp.length; i++){
+                if(i == 0){;
+                    inventoryReport.push({
+                        ingredientID: temp[i].ingredientID,
+                        ingredientName: temp[i].ingredientName,
+                        startingInventory: temp[i].usedInventory + temp[i].endingInventory,
+                        usedInventory: temp[i].usedInventory,
+                        endingInventory: temp[i].endingInventory,
+                        unitName: temp[i].unitName
                     })
-                    // console.log("temp2");
-                    // console.log(temp);
-                    ordersTemp.push({
-                        productID: orders[i].productID,
-                        productName: orders[i].productName,
-                        orderQuantity: orders[i].orderQuantity,
-                        ingredientList: temp
-                    }),
-                    
-                    temp = [];
+                }
+                else {
+                    for(j = 0; j < inventoryReport.length; j++){
+                        if(inventoryReport[j].ingredientName == temp[i].ingredientName){
+                            inventoryReport[j].usedInventory += temp[i].usedInventory;
+                            inventoryReport[j].startingInventory += temp[i].usedInventory;
+                            break;
+                        } 
+                        if(j == inventoryReport.length-1){
+                            inventoryReport.push({
+                                ingredientID: temp[i].ingredientID,
+                                ingredientName: temp[i].ingredientName,
+                                startingInventory: temp[i].usedInventory + temp[i].endingInventory,
+                                usedInventory: temp[i].usedInventory,
+                                endingInventory: temp[i].endingInventory,
+                                unitName: temp[i].unitName
+                            })
+                            break;
+                        }
+                    }
                 }
             }
-            // console.log("ordersTemp");
-            // console.log(ordersTemp);
-
-            // for(i = 0; i < ordersTemp.length; i++){
-            //     console.log("i1");
-            //     console.log(i);
-            //     orderQty = ordersTemp[i].orderQuantity;
-            //     prodIngModel.getProductIngredientsList(ordersTemp[i].productID, orderQty, function(err, ingredient){ 
-            //         console.log("i2");
-            //         console.log(i);
-            //         console.log("ordersTemp[i].productID");
-            //         console.log(ordersTemp[i].productID);
-            //     })
-            // }
-            
-
-            // do {
-            //     console.log("j1");
-            //     console.log(j);
-            //     prodID = ordersTemp[j].productID
-            //     orderQty = ordersTemp[j].orderQuantity;
-            //     // console.log("ordersTemp[j].productID");
-            //     // console.log(ordersTemp[j].productID);
-                
-                
-            //     j++;
-            // } while(j < ordersTemp.length);
-            
-
-            //     // grouping ingredients
-            //     for(i = 0; i < temp.length; i++){
-            //         if(i == 0){
-            //             ingredients.push({
-            //                 ingredientID: temp[i].ingredientID,
-            //                 ingredientName: temp[i].ingredientName,
-            //                 usedInventory: temp[i].usedInventory
-            //             })
-            //         }
-            //         else {
-            //             for(j = 0; j < ingredients.length; j++){
-            //                 if(temp[j].ingredientID._id == ingredients[j].ingredientID){
-            //                     ingredients[j].usedInventory += temp[j].usedInventory;
-            //                     break;
-            //                 } 
-            //                 if(j == ingredients.length-1){
-            //                     ingredients.push({
-            //                         ingredientID: temp[i].ingredientID,
-            //                         ingredientName: temp[i].ingredientName,
-            //                         quantityNeeded: temp[i].quantityNeeded,
-            //                         usedInventory: temp[i].usedInventory
-            //                     })
-            //                     break;
-            //                 }
-            //             }
-            //         }
-            //     }
-
-                // for(i = 0; i < ingredients.length; i++){
-                //     inventoryReport.push({
-                //         ingredientName: ingredients[i].ingredientName,
-                //         quantityNeeded: ingredients[i].quantityNeeded,
-                //         startingInventory: ingredients[i].usedInventory + ingredients[j].ingredientID.totalQuantity,
-                //         usedInventory: ingredients[i].usedInventory,
-                //         endingInventory: ingredient[j].ingredientID.totalQuantity
-                //     })
-                // }
-            //})
-            // res(inventoryReport);
+            console.log("inventoryReport");
+            console.log(inventoryReport);
+            res(inventoryReport);
         })
     }
 };

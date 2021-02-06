@@ -440,7 +440,6 @@ router.get('/sales_report', loggedIn, (req, res) => {
   console.log("Read sales report successful!");
   reportsController.salesReport(req, sales => {
     userController.getID(req.session.user, user => {
-      var today = new Date();
       var i, totalAmount = 0;
 
       for(i = 0; i < sales.length; i++){
@@ -452,7 +451,6 @@ router.get('/sales_report', loggedIn, (req, res) => {
           isAdmin: true,
           products: sales,
           totalAmount: totalAmount,
-          today: today,
           timestamp: new Date()
         })
       }
@@ -463,28 +461,6 @@ router.get('/sales_report', loggedIn, (req, res) => {
       }
     })
   })
-});
-
-// Get inventory report page
-router.get('/inventory_report', loggedIn, (req, res) => {
-  console.log("Read inventory report successful!");
-  //reportsController.inventoryReport(req, inventory => {
-    //userController.getID(req.session.user, user => {
-      if(req.session.username == "admin"){
-        res.render('inventoryReport', { 
-          isAdmin: true,
-          timestamp: new Date()
-          //expenseName: expense
-        })
-      }
-      else {
-        res.render('inventoryReport', { 
-          isAdmin: false,
-          //expenseName: expense
-        })
-      }
-    //})
-  //})
 });
 
 // Get sales report page
@@ -522,6 +498,29 @@ router.get('/sales_report/filter', loggedIn, (req, res) => {
       else {
         res.render('salesReport', { 
           isAdmin: false
+        })
+      }
+    })
+  })
+});
+
+// Get inventory report page
+router.get('/inventory_report', loggedIn, (req, res) => {
+  console.log("Read inventory report successful!");
+  reportsController.inventoryReport(req, inventory => {
+    userController.getID(req.session.user, user => {
+
+      if(req.session.username == "admin"){
+        res.render('inventoryReport', { 
+          isAdmin: true,
+          timestamp: new Date(),
+          inventory: inventory
+        })
+      }
+      else {
+        res.render('inventoryReport', { 
+          isAdmin: false,
+          //inventory: inventory
         })
       }
     })

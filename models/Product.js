@@ -170,7 +170,6 @@ exports.getTotalSales = (param, next) => {
         prodPrice: { "$first": "$orders.productPrice"},
       }
     },
-
     { '$group': 
       {
         _id: null,
@@ -182,7 +181,6 @@ exports.getTotalSales = (param, next) => {
         }
       }
     },
-
     {
       '$project':
       {

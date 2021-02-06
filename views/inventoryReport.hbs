@@ -44,7 +44,7 @@
                 <div class="col-12">
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
-                            <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Inventory Report</p>
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Inventory Report for today {{formatDate timestamp}}</p>
                             <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
                         </div>
                         <table class="table text-center table-bordered">
@@ -52,18 +52,22 @@
                             <thead class="border-bottom" style="background-color: #c64327 !important; color: #ffffff !important;">
                                 <tr>
                                   <th scope="col">Ingredient</th>
+                                  <th scope="col">Unit</th>
                                   <th scope="col">Starting Inventory</th>
                                   <th scope="col">Used Inventory</th>
                                   <th scope="col">Ending Inventory</th>
                                 </tr>
                               </thead>
                               <tbody class="border-bottom">
+                                {{#each inventory}}
                                 <tr>
-                                  <td>Butter</td>
-                                  <td>1400</td>
-                                  <td>350</td>
-                                  <td>1050</td>
+                                    <td>{{ingredientName}}</td>
+                                    <td>{{unitName}}</td>
+                                    <td>{{startingInventory}}</td>
+                                    <td>{{usedInventory}}</td>
+                                    <td>{{endingInventory}}</td>
                                 </tr>
+                                {{/each}}
                               </tbody>
                         </table>
                     </div>
