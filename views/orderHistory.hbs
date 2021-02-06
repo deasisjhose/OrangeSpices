@@ -78,14 +78,14 @@
                                 <tr>
                                     <td class="text-left pl-4" style="border-right: 2px solid #e3e6f0;">{{productName}}<br></td>
                                     <td>{{orderQuantity}}</td>
-                                    <td>₱ {{productPrice}}</td>
-                                    <td style="text-align: right;">₱ {{subTotal}}</td>                                   
+                                    <td>₱ {{addZeroes productPrice}}</td>
+                                    <td style="text-align: right;">₱ {{addZeroes subTotal}}</td>                                   
                                 </tr>
                                 {{/each}}
                                 <thead style="border-top: 2px solid #e3e6f0; background-color:#f47639 !important; color: #ffffff !important;">
                                     <tr>
                                         <th scope="col" style="border-right: 2px solid #e3e6f0;">Total</th>
-                                        <th colspan="3" class="font-weight-bold" style="text-align: right;">₱ {{totalAmount}}</th>
+                                        <th colspan="3" class="font-weight-bold" style="text-align: right;">₱ {{addZeroes totalAmount}}</th>
                                     </tr>    
                                 </thead>
                             </tbody>

@@ -53,7 +53,7 @@
                                                 <td class="text-left">{{expenseName}}</td>
                                                 <td>{{expenseType}}</td>
                                                 <td class="text-left">{{description}}</td>
-                                                <td class="text-right">₱{{expenseAmount}}</td>
+                                                <td class="text-right">₱{{addZeroes expenseAmount}}</td>
                                             </tr>
                                         {{/each}}
                                     </tbody>

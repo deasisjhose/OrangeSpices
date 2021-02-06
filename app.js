@@ -56,6 +56,13 @@ app.engine('hbs', exphbs.create({
       var month = date.toLocaleString('default', { month: 'long' })
       return (month + ' ' + date.getFullYear());
     },
+    addZeroes: function(num){
+      // Convert input string to a number and store as a variable.
+      var value = parseFloat(num).toFixed(2);      
+      var formattedString= value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      return formattedString;
+    }
   },
   defaultLayout: 'main',
   layoutsDir: path.join(__dirname, '/views/layouts'), 

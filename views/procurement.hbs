@@ -62,8 +62,8 @@
                                                 <td class="text-left" style="padding-left: 20px;">{{supplyName}}</td>
                                                 <td>{{formattingDate expiryDate}}</td>
                                                 <td>{{purchaseQty}}</td>
-                                                <td class="text-right" style="padding-right: 20px;">₱{{price}}</td>
-                                                <td class="text-right" style="padding-right: 40px;">₱{{subTotal}}</td>
+                                                <td class="text-right" style="padding-right: 20px;">₱{{addZeroes price}}</td>
+                                                <td class="text-right" style="padding-right: 40px;">₱{{addZeroes subTotal}}</td>
                                             </tr>
                                         {{/each}}
                                     </tbody>

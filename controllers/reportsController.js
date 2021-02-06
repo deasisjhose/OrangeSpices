@@ -84,8 +84,7 @@ exports.salesReport = (req, res) => {
                 var i, j;
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= start && e.orderDate <= end); // filter documents within the day
-                console.log("listObjects sales report");
-                console.log(listObjects)
+                
                 for(i = 0; i < listObjects.length; i++){
                     for(j = 0; j < listObjects[i].orders.length; j++){
                         temp.push({
@@ -112,10 +111,9 @@ exports.salesReport = (req, res) => {
                     }
                     else {
                         for(j = 0; j < ordersArray.length; j++){
-                            console.log("j");
-                            console.log(j);
                             if(temp[i].productName == ordersArray[j].productName){
                                 ordersArray[j].orderQuantity += temp[i].orderQuantity;
+                                console.log()
                                 ordersArray[j].subTotal += temp[i].subTotal;
                                 break;
                             }
