@@ -83,6 +83,24 @@ exports.getProductIngredientsList = (param, next) => {
         'as': 'units'
       },
     },
-    { '$unwind':'$units'}
+    { '$unwind':'$units'},
+    // { '$lookup': 
+    //   {
+    //     'from': 'supplies',
+    //     'localField': 'ingredients._id',
+    //     'foreignField': 'ingredientID',
+    //     'as': 'supply'
+    //   },
+    // },
+    // { '$unwind':'$supply'},
+    // { '$lookup': 
+    //   {
+    //     'from': 'purchases',
+    //     'localField': 'supply._id',
+    //     'foreignField': 'supplyID',
+    //     'as': 'purchases'
+    //   },
+    // },
+    // { '$unwind':'$purchases'},
   ]).exec((err, prodIng) => next(err, prodIng));
 };

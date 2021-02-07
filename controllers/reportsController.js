@@ -264,10 +264,13 @@ exports.inventoryReport = function(req, res){
         var startDate = new Date(new Date().setHours(00,00,00));
         var endDate = new Date(new Date().setHours(23,59,59));
 
-        orderListModel.getProductIngredientsList(req, (error, ingredients) => {
+        orderListModel.getProductIngredientsList(req, (err, ingredients) => {
+            console.log("ingredients");
+            console.log(ingredients);
             var ordersObjects = ingredients.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
             var i, j, temp = [], ingredients = [], inventoryReport = [];
-
+            console.log("ordersObjects");
+            console.log(ordersObjects);
             for(i = 0; i < ordersObjects.length; i++){
                 temp.push({
                     ingredientID: ordersObjects[i].prodIng.ingredientID,

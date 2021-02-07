@@ -147,29 +147,45 @@ $(document).ready(function () {
             document.getElementById('qty').style.borderColor = "#c64327";
             return false;
         }
-
-
-
-
     }); 
 
     $("button.checkout").click(function(){
-         $.ajax({
-             url: '/checkout',
-             method: 'POST',
-             data: {
-                 id: idList,
-                 productName: productName,
-                 orderQuantity: qtyList,
-                 productPrice: priceList,
-                 subTotal: subList,
-                 totalAmount: totalAmount
-             },
-             error: () => callback(),
-             success: function(){
-                 alert("Order successfully saved!");
-             }
-         });
+        var checkBox = document.getElementById("discount");   
+        if (checkBox.checked == true){     
+            $.ajax({
+                url: '/checkout',
+                method: 'POST',
+                data: {
+                    id: idList,
+                    productName: productName,
+                    orderQuantity: qtyList,
+                    productPrice: priceList,
+                    subTotal: subList,
+                    totalAmount: discounted
+                },
+                error: () => callback(),
+                success: function(){
+                    alert("Order successfully saved!");
+                }
+            });
+        } else {
+            $.ajax({
+                url: '/checkout',
+                method: 'POST',
+                data: {
+                    id: idList,
+                    productName: productName,
+                    orderQuantity: qtyList,
+                    productPrice: priceList,
+                    subTotal: subList,
+                    totalAmount: totalAmount
+                },
+                error: () => callback(),
+                success: function(){
+                    alert("Order successfully saved!");
+                }
+            });
+        }
          window.location.replace("/POS");
      })
 }); 
