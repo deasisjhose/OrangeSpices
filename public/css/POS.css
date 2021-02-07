@@ -35,6 +35,11 @@
     border-top: none;
 }
 
+#pay {
+    display: none;
+    border-top: none;
+}
+
 .category{
     text-align: left !important;
     width: 460px !important;
@@ -190,7 +195,7 @@ footer{
 }
 
 
-.checkout{
+.checkout, .next{
     font-size: 18px !important;
     text-align: right !important;
     background-color: #ffffff;

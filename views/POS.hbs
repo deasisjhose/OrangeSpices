@@ -278,7 +278,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" id="bao">
                     <div class="card shadow mb-3">
                         <div class="card-header py-3">
                             <p class="text-primary m-0 font-weight-bold">Billing and Order</p>
@@ -301,15 +301,53 @@
                                 <tfoot>
                                     <tr>
                                       <td colspan="2" class="bigto total leftdiz">Total</td>
-                                      <td colspan="2" class="bigto total text-right pr-2" id="amt">₱ 0.00</td>
-                                      <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="4"><label class="container">Add discount (20%)<input type="checkbox"><span class="checkmark"></span></label></td>
-                                        <td></td>
+                                      <td colspan="2" class="bigto total text-right pr-2 amt">₱ 0.00</td>
                                     </tr>
                                     <tr>
                                         <td colspan="2"><button class="cancel font-weight-bold left-diz" onclick="confirmCancel()">Cancel</button></td>
+                                        <td colspan="2"><button class="next font-weight-bold text-right pr-2" onclick="openPay(event, 'pay')">Next</button></td>
+                                    </tr>
+                                </tfoot>
+                              </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6" id="pay">
+                    <div class="card shadow mb-3">
+                        <div class="card-header py-3">
+                            <p class="text-primary m-0 font-weight-bold">Payment Details</p>
+                        </div>
+                        <div class="card-body">
+                            {{>messages}}
+                            <table class="table table-hover text-center table-sm mb-0">
+                               
+                                    <tr class="font-weight-bold"><p class="text-primary m-0 font-weight-bold" style="text-align: center; font-size: 15px">Amount Due</p></tr>
+                                    <tr class ="font-weight-bold"><p class="text-primary m-0 font-weight-bold amt" style="text-align: center; font-size: 15px">₱ 0.00</p></tr>
+                                
+                                    <tr>
+                                        <br>                            
+                                    </tr>
+                                    
+                                    <tr>
+                                        <label for="amountRendered" style="font-weight: bold;">Cash</label>
+                                        <input type="number" class="form-control" style="width: 60% !important" placeholder="Enter amount rendered" onchange="computechange()" name="amountRendered" id="cash" maxlength="45">
+                                    </tr>
+                                    <tr>
+                                        <br>
+                                    </tr>
+                                    <tr>
+                                        <label for="amountRendered" style="font-weight: bold;">Expected change</label>
+                                        <input type="number" disabled="disabled" class="form-control" style="width: 60% !important" placeholder="Live data change" name="amountRendered" id="change" maxlength="45" >
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"><label class="container">Add discount (20%)<input type="checkbox" id="discount" onclick="checkDiscount()"><span class="checkmark"></span></label></td>
+                                    </tr>
+                                    <tr>
+                                        <br>
+                                    </tr>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2"><button class="cancel font-weight-bold left-diz" onclick="openBill(event, 'bao')">Back</button></td>
                                         <td colspan="2"><button class="checkout font-weight-bold text-right pr-2">Checkout</button></td>
                                         <td></td>
                                     </tr>

@@ -1,3 +1,6 @@
+var totalAmount = 0; 
+var discounted = 0;
+
 function openDiv(event, ingredient) {
     var i, menu, button;
     menu = document.getElementsByClassName("divmenu");
@@ -12,6 +15,60 @@ function openDiv(event, ingredient) {
 
     document.getElementById(ingredient).style.display = "block";
     event.currentTarget.className += " active";
+}
+
+function openPay(event, payment) {
+    document.getElementById("bao").style.display = "none";
+    document.getElementById(payment).style.display = "block";
+    // event.currentTarget.className += " active";
+}
+
+function openBill(event, bill) {
+    document.getElementById("pay").style.display = "none";
+    document.getElementById(bill).style.display = "block";
+    // event.currentTarget.className += " active";
+}
+
+function addDiscount(total){
+    return total = total * 0.8;
+}
+
+function checkDiscount() {   
+    // Get the checkbox   
+    // totalAmount = document.getElementsByClassName("amt").text;  
+    var checkBox = document.getElementById("discount");   
+    if (checkBox.checked == true){     
+        console.log("pasok discount hehe");
+        console.log(totalAmount);
+        discounted= addDiscount(totalAmount);
+        var value = parseFloat(discounted).toFixed(2);      
+        var formattedString= value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        $('.amt').html("₱" + formattedString);
+    } 
+    else{
+        var value = parseFloat(totalAmount).toFixed(2);      
+        var formattedString= value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        $('.amt').html("₱" + formattedString);
+    }
+} 
+
+function computechange(){
+    var cash = document.getElementById("cash").value;
+    var checkBox = document.getElementById("discount");   
+    
+    if (checkBox.checked == true){     
+        var change = cash - discounted;
+        var value = parseFloat(change).toFixed(2);      
+        var formattedString= value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        document.getElementById("change").placeholder = formattedString;
+    } 
+    else{
+        var change = cash - totalAmount;
+        var value = parseFloat(change).toFixed(2);      
+        var formattedString= value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        document.getElementById("change").placeholder = formattedString;
+    }
+    
 }
 
 function confirmCancel() {
@@ -30,7 +87,6 @@ function saveOrder(id, qty, price) {
 $(document).ready(function () { 
     var idList = [], productName = [], priceList = [], qtyList = [], subList = [];
     var id, prodName, qty, sub;
-    var totalAmount = 0;
 
     $("button.prod-btn").click(function(){
         id = $(this).attr('data-id');
@@ -73,14 +129,15 @@ $(document).ready(function () {
                     markup = "<tr><td class='leftdiz'>" + prodName  
                         + "</td>" + "<td class='text-right' style='padding-right: 42px;'>" + qty + "</td>" 
                         + "<td class='text-right' style='padding-right: 55px;'>₱ " + price + "</td>" 
-                        + "<td class='text-right pr-2'>₱ " + sub + "</td>" 
-                        + "<td><img src='public/img/x-mark.png' width='13' height='13'></td></tr>"; 
+                        + "<td class='text-right pr-2'>₱ " + sub + "</td></tr>"; 
                     tableBody = $("table tbody"); 
                     tableBody.append(markup); 
                     totalAmount += price * qty;
-                    
-                    $('#amt').html("₱" + totalAmount);
+                    var value = parseFloat(totalAmount).toFixed(2);      
+                    var formattedString= value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    $('.amt').html("₱" + formattedString);
                     $("#myModal").modal('hide');
+                
                 }
             });
             
@@ -90,25 +147,29 @@ $(document).ready(function () {
             document.getElementById('qty').style.borderColor = "#c64327";
             return false;
         }
+
+
+
+
     }); 
 
     $("button.checkout").click(function(){
-        $.ajax({
-            url: '/checkout',
-            method: 'POST',
-            data: {
-                id: idList,
-                productName: productName,
-                orderQuantity: qtyList,
-                productPrice: priceList,
-                subTotal: subList,
-                totalAmount: totalAmount
-            },
-            error: () => callback(),
-            success: function(){
-                alert("Order successfully saved!");
-            }
-        });
-        window.location.replace("/POS");
-    })
+         $.ajax({
+             url: '/checkout',
+             method: 'POST',
+             data: {
+                 id: idList,
+                 productName: productName,
+                 orderQuantity: qtyList,
+                 productPrice: priceList,
+                 subTotal: subList,
+                 totalAmount: totalAmount
+             },
+             error: () => callback(),
+             success: function(){
+                 alert("Order successfully saved!");
+             }
+         });
+         window.location.replace("/POS");
+     })
 }); 
