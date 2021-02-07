@@ -2,7 +2,7 @@
     <tr>
         <td class="leftdiz">{{productID.prodName}}</td>
         <td class="text-right" >{{orderQuantity}}</td>
-        <td class="text-right" >₱{{productID.prodPrice}}</td>
-        <td class="text-right pr-2">₱{{subTotal}}</td>
+        <td class="text-right" >₱{{addZeroes productID.prodPrice}}</td>
+        <td class="text-right pr-2">₱{{addZeroes subTotal}}</td>
     </tr>
 {{/each}}

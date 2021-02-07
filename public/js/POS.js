@@ -129,7 +129,8 @@ $(document).ready(function () {
                     markup = "<tr><td class='leftdiz'>" + prodName  
                         + "</td>" + "<td class='text-right' style='padding-right: 42px;'>" + qty + "</td>" 
                         + "<td class='text-right' style='padding-right: 55px;'>₱ " + price + "</td>" 
-                        + "<td class='text-right pr-2'>₱ " + sub + "</td></tr>"; 
+                        + "<td class='text-right pr-2'>₱ " + sub + "</td>" 
+                        + "<td><img src='public/img/x-mark.png' width='13' height='13'></td></tr>"; 
                     tableBody = $("table tbody"); 
                     tableBody.append(markup); 
                     totalAmount += price * qty;
