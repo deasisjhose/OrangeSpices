@@ -28,7 +28,7 @@ exports.checkIngredients = (req, res) => {
                     ingredientModel.getByID(prodIng[i].ingredientID, function(err, ingredient){
                         if(ingredient.totalQuantity < total){
                             console.log("Not enough ingredients in controller");
-                            res.status(400).send();
+                            res.status(422).send();
                         }
                         else {
                             console.log("ingredients enough in controller.");

@@ -114,6 +114,7 @@ $(document).ready(function () {
                     orderQuantity: qty
                 },
                 error: function(){
+                    console.log("pasok?");
                     alert("Not enough ingredients! Try again!");
                     $("#myModal").modal('hide');
                 },
@@ -125,11 +126,16 @@ $(document).ready(function () {
                     qtyList.push(qty);
                     subList.push(sub);
 
+                    var priceNew = parseFloat(price).toFixed(2);      
+                    var formattedPrice= priceNew.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    var subNew = parseFloat(sub).toFixed(2);
+                    var formattedSub = subNew.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
                     saveOrder(prodName, qty, price);
                     markup = "<tr><td class='leftdiz'>" + prodName  
                         + "</td>" + "<td class='text-right' style='padding-right: 42px;'>" + qty + "</td>" 
-                        + "<td class='text-right' style='padding-right: 55px;'>₱ " + price + "</td>" 
-                        + "<td class='text-right pr-2'>₱ " + sub + "</td>" 
+                        + "<td class='text-right' style='padding-right: 55px;'>₱ " + formattedPrice + "</td>" 
+                        + "<td class='text-right pr-2'>₱ " + formattedSub + "</td>" 
                         + "<td><img src='public/img/x-mark.png' width='13' height='13'></td></tr>"; 
                     tableBody = $("table tbody"); 
                     tableBody.append(markup); 
