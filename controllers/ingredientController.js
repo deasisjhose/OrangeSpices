@@ -55,21 +55,24 @@ exports.addIngredient = (req, res) => {
   {
     var ingredientName = req.body.ingredientName;
     var unitID = req.body.unitID;
+    var minStock = req.body.minStock;
 
-    console.log('ingredientName in ingredient controller');
-    console.log(ingredientName);
-    console.log('unit in ingredient controller');
-    console.log(unitID);
+    console.log('minStock in ingredient controller');
+    console.log(minStock);
  
     ingredientModel.getOne({ ingredientName: {$regex: ingredientName, $options:'i'}}, (err, result) => {
       if (result) {
+        console.log("error");
+        console.log(err);
 				req.flash('error_msg', 'Already have that ingredient. Try again.');
-        res.redirect('/ingredients/add');
+        res.status(422).send();
       } else {
         var ingredient = {
           ingredientName: ingredientName,
           unitID: unitID,
+          minStock: minStock
         }
+        console.log("abot ba here");
 
         ingredientModel.add(ingredient, function(err, result){
           if(err){

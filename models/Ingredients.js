@@ -3,6 +3,7 @@ const mongoose = require('./connection');
 const ingredientSchema = new mongoose.Schema({
     ingredientName: { type: String, required: true, min: 5 },
     totalQuantity: { type: Number, required: false, default: 0 },
+    minStock: { type: Number, required: true },
     unitID: { type: mongoose.Schema.Types.ObjectId, ref: 'unit', required: true }
 });
 
