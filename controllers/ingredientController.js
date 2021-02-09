@@ -21,6 +21,7 @@ exports.getAllIngredients = (param, callback) =>{
 exports.searchIngredient = (req, res) => {
   var query = req.query.searchProd;
   const errors = validationResult(req);
+  
   if (errors.isEmpty()) {
     ingredientModel.search({ ingredientName: { $regex: query, $options:'i' }}, (err, result) => {
       if (err) {
@@ -37,14 +38,18 @@ exports.searchIngredient = (req, res) => {
           res(ingredientsObjects);
         } 
         else { 
-          console.log("No ingreditnes found!");
-          res.status(400).send("No ingredients found!");
+          console.log("No ingredients found!");
+          req.flash('error_msg', 'No ingredients found!');
+          //res.status(400).send("No ingredients found!");
+          res.redirect('/ingredients');
         }
       }
     });
   } else {
     console.log("Error searching ingredient!");
-    res.status(400).send("Error searching ingredient!");
+    req.flash('error_msg', 'Error searching ingredient!');
+    //res.status(400).send("Error searching ingredient!");
+    res.redirect('/ingredients');
   }
 };
 

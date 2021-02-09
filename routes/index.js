@@ -227,7 +227,7 @@ router.get('/ingredients/search', loggedIn, (req, res) => {
       if(req.session.username == "admin"){
         res.render('ingredients', { 
           isAdmin: true,
-          ingName: ingredients,
+          ingredient: ingredients,
         })
       }
       else {
