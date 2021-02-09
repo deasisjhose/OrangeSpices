@@ -157,42 +157,57 @@ $(document).ready(function () {
     }); 
 
     $("button.checkout").click(function(){
-        var checkBox = document.getElementById("discount");   
-        if (checkBox.checked == true){     
-            $.ajax({
-                url: '/checkout',
-                method: 'POST',
-                data: {
-                    id: idList,
-                    productName: productName,
-                    orderQuantity: qtyList,
-                    productPrice: priceList,
-                    subTotal: subList,
-                    totalAmount: discounted
-                },
-                error: () => callback(),
-                success: function(){
-                    alert("Order successfully saved!");
-                }
-            });
+        var checkBox = document.getElementById("discount");
+        var cash = document.getElementById("cash").value ;
+        var change ;
+        
+        if(checkBox.checked == true){
+            change = cash - discounted ;
         } else {
-            $.ajax({
-                url: '/checkout',
-                method: 'POST',
-                data: {
-                    id: idList,
-                    productName: productName,
-                    orderQuantity: qtyList,
-                    productPrice: priceList,
-                    subTotal: subList,
-                    totalAmount: totalAmount
-                },
-                error: () => callback(),
-                success: function(){
-                    alert("Order successfully saved!");
-                }
-            });
+            change = cash - totalAmount ; 
         }
-         window.location.replace("/POS");
+        
+        if(change >= 0){            
+            if (checkBox.checked == true){     
+                $.ajax({
+                    url: '/checkout',
+                    method: 'POST',
+                    data: {
+                        id: idList,
+                        productName: productName,
+                        orderQuantity: qtyList,
+                        productPrice: priceList,
+                        subTotal: subList,
+                        totalAmount: discounted
+                    },
+                    error: () => callback(),
+                    success: function(){
+                        alert("Order successfully saved!");
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: '/checkout',
+                    method: 'POST',
+                    data: {
+                        id: idList,
+                        productName: productName,
+                        orderQuantity: qtyList,
+                        productPrice: priceList,
+                        subTotal: subList,
+                        totalAmount: totalAmount
+                    },
+                    error: () => callback(),
+                    success: function(){
+                        alert("Order successfully saved!");
+                    }
+                });
+            } window.location.replace("/POS"); 
+        } else{
+            alert("insufficient payment") ; 
+            document.getElementById('cash').style.borderColor = "#c64327";
+            return false ; 
+        }
+         
      })
 }); 
