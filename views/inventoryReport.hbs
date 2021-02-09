@@ -100,6 +100,7 @@
 {{!--  Print Inventory Format --}}
 <title>Inventory Report</title>
 <style>
+    
     @media print {
         #wrapper {
             display: none !important;
@@ -139,13 +140,13 @@
                         </div>
                         <table class="table text-center table-bordered">
                             <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
-                            <thead class="border-bottom" style="background-color: #c64327 !important; color: #ffffff !important;">
+                            <thead class="border-bottom" style="color-adjust: exact !important; -webkit-print-color-adjust: exact !important; color: #ffffff !important;">
                                 <tr>
-                                  <th scope="col">Ingredient</th>
-                                  <th scope="col">Unit</th>
-                                  <th scope="col">Starting Inventory</th>
-                                  <th scope="col">Used Inventory</th>
-                                  <th scope="col">Ending Inventory</th>
+                                  <th style="background-color:#c64327 !important;" scope="col">Ingredient</th>
+                                  <th style="background-color:#c64327 !important;" scope="col">Unit</th>
+                                  <th style="background-color:#c64327 !important;" scope="col">Starting Inventory</th>
+                                  <th style="background-color:#c64327 !important;" scope="col">Used Inventory</th>
+                                  <th style="background-color:#c64327 !important;" scope="col">Ending Inventory</th>
                                 </tr>
                               </thead>
                               <tbody class="border-bottom">
