@@ -43,8 +43,8 @@
                         <table class="table table-hover text-center">
                             <thead style="font-size: 13px;">
                               <tr>
-                                <th scope="col" style="width: 450px;">Product Name</th>
-                                <th scope="col" style="width: 280px;">Category</th>
+                                <th scope="col" class="text-left" style="padding-left: 40px; width: 450px;">Product Name</th>
+                                <th scope="col" style="text-align: left; width: 280px;">Category</th>
                                 <th scope="col" style="width: 140px;">Price</th>
                               </tr>
                             </thead>
@@ -53,7 +53,7 @@
                                 {{#each product}}
                                     <tr style="font-size: 13px;" data-id="{{_id}}">
                                         <td class="text-left" style="padding-left: 40px;">{{prodName}}</td>
-                                        <td>{{category}}</td>
+                                        <td class="text-left">{{category}}</td>
                                         <td class="text-right" style="padding-right: 60px;">₱{{addZeroes prodPrice}}</td>
                                         <td style="width: 70px !important;"><a href="/products/edit/{{this._id}}"><button type="submit" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Edit</button></a></td>
                                         <td><button type="submit" onclick="confirmDelete(this)" name="delete" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Delete</button></td>

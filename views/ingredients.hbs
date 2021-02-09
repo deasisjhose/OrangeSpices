@@ -47,26 +47,26 @@
                         <table class="table table-hover text-center">
                             <thead style="font-size: 13px;">
                               <tr>
-                                <th scope="col">Ingredient Name</th>
-                                <th scope="col">Items</th>
-                                <th scope="col">Unit</th>
-                                <th scope="col">Min. Stock Requirement</th>
+                                <th scope="col" class="text-left" style="width: 200px;">Ingredient Name</th>
+                                <th scope="col" class="text-right" style="width: 100px">Items</th>
+                                <th scope="col" class="text-left" style="padding-left: 35px; width: 95px;">Unit</th>
+                                <th scope="col" class="text-right minStock" style="width: 100px;">Min. Stock</th>
                                 <th scope="col" colspan="2">Update Inventory</th>
                               </tr>
                             </thead>
                             <tbody>
                             {{#each ingredient}}
                                 <tr style="font-size: 13px;">
-                                    <td>{{ingredientName}}</td>
-                                    <td>{{totalQuantity}}</td>
-                                    <td>{{unitID.unitName}}</td>
-                                    <td>{{minStock}}</td>
+                                    <td class="text-left">{{ingredientName}}</td>
+                                    <td class="text-right">{{totalQuantity}}</td>
+                                    <td class="text-left" style="padding-left: 35px;">{{unitID.unitName}}</td>
+                                    <td class="text-right minStock">{{minStock}}</td>
                                     <td style="width: 70px !important;">
                                         <form action="/ingredient/update" method="POST">
                                         <input name="id" type="hidden" value="{{this._id}}">
                                         <input class="compare-inv" placeholder="Enter physical stock" type="number" name="physicalCount" min="0">
                                     </td>
-                                    <td style="width: 70px !important;"><button type="submit" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Update</button></td>
+                                    <td style="width: 60px !important;"><button type="submit" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Update</button></td>
                                     </form>
                                 </tr>
                             {{/each}}
@@ -83,3 +83,9 @@
         </footer>
     </div><a class="border rounded d-inline scroll-to-top" href="/ingredients#page-top"><i class="fas fa-angle-up"></i></a></div>
 </body>
+
+<style>
+    .minStock {
+        width: 12, 5% !important;
+    }
+</style>
