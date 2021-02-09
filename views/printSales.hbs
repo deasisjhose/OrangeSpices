@@ -4,6 +4,7 @@
   font-family: 'Arial', sans-serif !important;
 }
 </style>
+
 <body id="page-top">
     <div id="wrapper">
         <div class="d-flex flex-column" id="content-wrapper">
@@ -24,7 +25,7 @@
                                     <p class="text-muted m-0" id="datetime" style="text-align:center; font-size: 14px !important;">Date Generated: {{timestamp}}</p>
                                 {{/if}}
                             {{else}}
-                                <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report for today {{formatDate timestamp}}</p>
+                                <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Sales Report for {{formatDate timestamp}}</p>
                                 <p class="text-muted m-0" id="datetime" style="text-align:center; font-size: 14px !important;">Date Generated: {{timestamp}}</p>
                             {{/if}}
                         </div>
@@ -41,13 +42,13 @@
                                     {{#each products}}
                                     <tr>
                                         <td class="text-left pl-4" style="font-size: 12px;">{{formatDate orderDate}}</td>
-                                        <td style="text-align: right; font-size: 12px;">₱{{subTotal}}</td>
+                                        <td style="text-align: right; font-size: 12px;">₱{{addZeroes subTotal}}</td>
                                     </tr>
                                     {{/each}}
                                     <thead style="border-top: 2px solid #e3e6f0; background-color: #f47639 !important; color: #ffffff !important;">
                                         <tr>
                                             <th scope="col" style="border-right: 2px solid #e3e6f0; font-size: 12px;">Total</th>
-                                            <th colspan="3" class="font-weight-bold" style="text-align: right; font-size: 12px;">₱ {{totalAmount}}</th>
+                                            <th colspan="3" class="font-weight-bold" style="text-align: right; font-size: 12px;">₱ {{addZeroes totalAmount}}</th>
                                         </tr>    
                                     </thead>
                                 </tbody>
@@ -65,14 +66,14 @@
                                 <tr>
                                     <td class="text-left pl-4" style="font-size: 12px;">{{productName}}</td>
                                     <td style="font-size: 12px;">{{orderQuantity}}</td>
-                                    <td style="font-size: 12px;">₱{{productPrice}}</td>
-                                    <td style="text-align: right; font-size: 12px;">₱{{subTotal}}</td>
+                                    <td style="text-align: right; font-size: 12px;">₱{{addZeroes productPrice}}</td>
+                                    <td style="text-align: right; font-size: 12px;">₱{{addZeroes subTotal}}</td>
                                 </tr>
                                 {{/each}}
                                 <thead style="border-top: 2px solid #e3e6f0; background-color: #f47639 !important; color: #ffffff !important;">
                                     <tr>
                                         <th scope="col" style="border-right: 2px solid #e3e6f0; font-size: 12px;">Total</th>
-                                        <th colspan="3" class="font-weight-bold" style="text-align: right; font-size: 12px;">₱ {{totalAmount}}</th>
+                                        <th colspan="3" class="font-weight-bold" style="text-align: right; font-size: 12px;">₱ {{addZeroes totalAmount}}</th>
                                     </tr>    
                                 </thead>
                             </tbody>
@@ -82,31 +83,5 @@
                 </div>
             </div>
         </div>
-       
     </div><a class="border rounded d-inline scroll-to-top" href="sales_report#page-top"><i class="fas fa-angle-up"></i></a></div>
 </body>
-
-<script>
-    //date range
-    $(document).ready(function () { 
-        $(".generate").click(function () {
-            var fromDate = document.getElementById("fromDate").value;
-            var toDate = document.getElementById("toDate").value;
-            console.log(fromDate);
-            console.log(toDate);
-            document.getElementById("reportTitle").innerHTML = "Sales Report from " + fromDate + " to " + toDate;
-
-            //date generated
-            var dt = new Date();
-            y = dt.getFullYear();
-            m = dt.getMonth() + 1;
-            d = dt.getDate();
-
-            if(m >= "9")
-                document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + "0" + m + "-" + d + " " + dt.toLocaleTimeString();
-            else
-                document.getElementById("datetime").innerHTML = "Date Generated: " + y + "-" + m + "-" + d + " " + dt.toLocaleTimeString();
-        })
-    });
-</script>
-

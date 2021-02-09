@@ -1,6 +1,6 @@
 <title>Inventory Report</title>
 
-<body id="page-top">
+<body id="inventoryReport">
     <div id="wrapper">
         <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0 shadow">
             <div class="container-fluid d-flex flex-column p-0">
@@ -39,6 +39,7 @@
                         <div class="mr-3 ml-4 col-xs-4 font-weight-bold"><label for="ordToDate" class="col-form-label">To</label></div>
                         <div class="col-xs-3 date-report"><input type="date" class="form-control" name="ordToDate" id="toDate"></div>
                         <div><button type="submit" class="btn btn-primary btn-sm add-btn ml-3 generate">Generate</button></div>
+                        <div><button type="button" onclick="window.print()" class="btn btn-primary btn-sm add-btn ml-1">Print</button></div>
                     </form>
                 </div>
             </nav>
@@ -91,8 +92,84 @@
                 <div class="text-center my-auto copyright"><span>Copyright © Orange &amp; Spices 2020</span></div>
             </div>
         </footer>
-    </div><a class="border rounded d-inline scroll-to-top" href="/inventory_report#page-top"><i class="fas fa-angle-up"></i></a></div>
+    </div>
+    {{!-- <a class="border rounded d-inline scroll-to-top" href="/inventory_report#page-top"><i class="fas fa-angle-up"></i></a> --}}
+    </div>
 </body>
+
+{{!--  Print Inventory Format --}}
+<title>Inventory Report</title>
+<style>
+    @media print {
+        #wrapper {
+            display: none !important;
+        }
+        #printInventory {
+            display: inline !important;
+        }
+    }
+
+    #printInventory {
+        font-family: 'Arial', sans-serif !important;
+    }
+</style>
+
+<div id="printInventory" style="display:none;">
+    <div id="wrapper2">
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+            <div class="container-fluid">
+                <div class="col-12" style="margin-left: 20; width: 2550px;">
+                    {{!-- <div class="card shadow mb-3"> --}}
+                        <div class="card-header py-3">
+                            <div class="sidebar-brand-icon" style="text-align:center"><img src="public/img/logo.png" width="75"></i></div>
+                            <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center; font-size: 23px !important;">ORANGE &amp SPICES</p>
+                            {{#if filterDate}}
+                                {{#if moreThanOneDay}}
+                                    <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Inventory Report from {{formatDate startDate}} to {{formatDate endDate}}</p>
+                                    <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
+                                {{else}}
+                                    <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Inventory Report for {{formatDate startDate}}</p>
+                                    <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
+                                {{/if}}
+                            {{else}}
+                                <p class="text-primary m-0 font-weight-bold" id="reportTitle" style="text-align:center">Inventory Report for today {{formatDate timestamp}}</p>
+                                <p class="text-muted m-0" id="datetime" style="text-align:center">Date Generated: {{timestamp}}</p>
+                            {{/if}}
+                        </div>
+                        <table class="table text-center table-bordered">
+                            <caption class="text-center font-weight-bold">*END OF REPORT*</caption>
+                            <thead class="border-bottom" style="background-color: #c64327 !important; color: #ffffff !important;">
+                                <tr>
+                                  <th scope="col">Ingredient</th>
+                                  <th scope="col">Unit</th>
+                                  <th scope="col">Starting Inventory</th>
+                                  <th scope="col">Used Inventory</th>
+                                  <th scope="col">Ending Inventory</th>
+                                </tr>
+                              </thead>
+                              <tbody class="border-bottom">
+                                {{#each inventory}}
+                                <tr>
+                                    <td style="text-align: left;">{{ingredientName}}</td>
+                                    <td style="text-align: left;">{{unitName}}</td>
+                                    <td>{{startingInventory}}</td>
+                                    <td>{{usedInventory}}</td>
+                                    <td>{{endingInventory}}</td>
+                                </tr>
+                                {{/each}}
+                              </tbody>
+                        </table>
+                    {{!-- </div> --}}
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <footer class="bg-white sticky-footer" style="text-align: center;">
+        <span>Copyright © Orange &amp; Spices 2020</span>
+    </footer>  
+</div>
 
 <script>
     //date range

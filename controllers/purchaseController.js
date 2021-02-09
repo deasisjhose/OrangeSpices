@@ -185,8 +185,6 @@ exports.addPurchase = (req, res) => {
                                                     res.redirect('/supplies');
                                                 } else {
                                                     console.log("Purchase added!");
-                                                    req.flash('sucess_msg', 'Purchase added!');
-                                                    res.status(200).send();
                                                 }
                                             })
                                         }
@@ -196,7 +194,9 @@ exports.addPurchase = (req, res) => {
                         }
                     })
                 }
-            })
+                req.flash('sucess_msg', 'Purchase added!');
+                res.status(200).send();
+            })   
         }
     } else {
         const messages = errors.array().map((item) => item.msg);
