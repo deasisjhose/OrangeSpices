@@ -68,8 +68,8 @@
                                 {{#each purchase}}
                                     <tr>
                                         <td style="text-align: left;">{{supplyName}}</td>
-                                        <td>{{quantity}}</td>
-                                        <td>₱{{addZeroes productPrice}}</td>
+                                        <td style="text-align: right;">{{quantity}}</td>
+                                        <td style="text-align: right;">₱{{addZeroes productPrice}}</td>
                                         <td style="text-align: right;">₱{{addZeroes subTotal}}</td>
                                     </tr>
                                 {{/each}}

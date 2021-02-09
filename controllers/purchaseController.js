@@ -36,7 +36,7 @@ exports.sendEmail = (req, res) => {
     smtpTransport.sendMail(mailOptions, function(error) {
         if (error){
             console.log(error);
-            res.status(400).send();
+            res.status(422).send();
         }
         smtpTransport.close();
         res.status(200).send();

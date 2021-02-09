@@ -85,9 +85,9 @@ $(document).ready(function(){
           alert("Please fill out the items table.");
         },
         success: function(){
-          window.location.href="/procurement"; 
           alert("Email successfully sent!");
-      }
+          window.location.href="/procurement";   
+        }
       });
     }
   });
