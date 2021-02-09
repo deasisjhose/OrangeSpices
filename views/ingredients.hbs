@@ -50,17 +50,19 @@
                                 <th scope="col" class="text-left" style="width: 200px;">Ingredient Name</th>
                                 <th scope="col" class="text-right" style="width: 100px">Items</th>
                                 <th scope="col" class="text-left" style="padding-left: 35px; width: 95px;">Unit</th>
-                                <th scope="col" class="text-right minStock" style="width: 100px;">Min. Stock</th>
+                                <th scope="col" class="text-right min" style="width: 100px;">Min. Stock</th>
                                 <th scope="col" colspan="2">Update Inventory</th>
                               </tr>
                             </thead>
                             <tbody>
                             {{#each ingredient}}
-                                <tr style="font-size: 13px;">
+                            <input class="tq" type="hidden" value="{{totalQuantity}}">
+                            <input class="minStock" type="hidden" value="{{minStock}}">
+                                <tr class="highlighttt" style="font-size: 13px;">
                                     <td class="text-left">{{ingredientName}}</td>
-                                    <td class="text-right">{{totalQuantity}}</td>
+                                    <td class="text-right" value="{{totalQuantity}}">{{totalQuantity}}</td>
                                     <td class="text-left" style="padding-left: 35px;">{{unitID.unitName}}</td>
-                                    <td class="text-right minStock">{{minStock}}</td>
+                                    <td class="text-right" value="{{minStock}}">{{minStock}}</td>
                                     <td style="width: 70px !important;">
                                         <form action="/ingredient/update" method="POST">
                                         <input name="id" type="hidden" value="{{this._id}}">
@@ -85,7 +87,30 @@
 </body>
 
 <style>
-    .minStock {
+    .min {
         width: 12, 5% !important;
     }
 </style>
+<script>
+    window.onload = function() { 
+        var i;
+        var stock = document.getElementsByClassName("minStock");
+        var stockVal = document.getElementsByClassName("minStock");
+        var current = document.getElementsByClassName("tq"); 
+        var currentVal = document.getElementsByClassName("tq");
+        var curRow = document.getElementsByClassName("highlighttt");
+
+        for (i = 0; i < stock.length; i++) {
+            console.log(i);
+            console.log("minstock " + stockVal[i].value);
+            console.log("curstock " + currentVal[i].value);  
+            console.log(parseInt(stockVal[i].value) + " > " + parseInt(currentVal[i].value));          
+            if(parseInt(stockVal[i].value) > parseInt(currentVal[i].value)){
+                curRow[i].classList.add("bg-danger", "text-white");
+                
+                console.log("replacing...");
+            }
+        }
+    }
+</script>
+{{!-- <script src="/public/js/ingredient.js"></script> --}}
