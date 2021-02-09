@@ -173,7 +173,6 @@ router.get('/supplies', loggedIn, (req, res) => {
       else {
         res.render('supplies', { 
           isAdmin: false, 
-          supply: supplies,
         })
       }
     })
@@ -193,8 +192,7 @@ router.get('/supplies/add', loggedIn, (req, res) => {
       }
       else {
         res.render('addSupply', { 
-          isAdmin: false, 
-          ingName: ingredients,
+          isAdmin: false
         })
       }
     })
@@ -215,7 +213,6 @@ router.get('/ingredients', loggedIn, (req, res) => {
       else {
         res.render('ingredients', { 
           isAdmin: false,
-          ingredient: ingredients,
         })
       }
     })    
@@ -230,7 +227,7 @@ router.get('/ingredients/search', loggedIn, (req, res) => {
       if(req.session.username == "admin"){
         res.render('ingredients', { 
           isAdmin: true,
-          ingredient: ingredients,
+          ingName: ingredients,
         })
       }
       else {
@@ -255,8 +252,7 @@ router.get('/ingredients/add', loggedIn, (req, res) => {
       }
       else {
         res.render('addIngredient', { 
-          isAdmin: false,
-          unit: units,
+          isAdmin: false
         })
       }
     })
