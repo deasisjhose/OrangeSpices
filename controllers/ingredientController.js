@@ -107,6 +107,8 @@ exports.getIngredientName = (param, callback) => {
   ingredientModel.getAll(param, (err, ingredients) => {
     if (err) throw err;
       
+    ingredients.sort((a,b) => (a.ingredientName > b.ingredientName) ? 1 : ((b.ingredientName > a.ingredientName) ? -1 : 0));
+    
     const ingredientsObjects = [];
       
     ingredients.forEach(function(doc) {

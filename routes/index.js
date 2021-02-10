@@ -139,7 +139,6 @@ router.get('/products/search', loggedIn, (req, res) => {
 router.get('/products/edit/:id', loggedIn, (req, res) => {
   console.log("Read edit product successful!");
   productController.getProductID(req, product => {
-    console.log(product);
     userController.getID(req.session.user, (user) => {
       if(req.session.username == "admin"){
         res.render('editProduct', { 

@@ -32,6 +32,8 @@ exports.getProductID = (req, res) => {
       var i;
       var product = [], temp = [];
 
+      ingredients.sort((a,b) => (a.ingredientName > b.ingredientName) ? 1 : ((b.ingredientName > a.ingredientName) ? -1 : 0));
+
       for(i = 0; i < ingredients.length; i++){
         temp.push({
           ingredientName: ingredients[i].ingredientID.ingredientName,

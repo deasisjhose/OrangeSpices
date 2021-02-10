@@ -65,6 +65,8 @@ exports.getSupplyName = (param, callback) => {
   supplyModel.getName({brandName: true}, (err, supplies) => {
     if (err) throw err;
       
+    supplies.sort((a,b) => (a.brandName > b.brandName) ? 1 : ((b.brandName > a.brandName) ? -1 : 0));
+    
     const supplyObjects = [];
       
     supplies.forEach(function(doc) {
