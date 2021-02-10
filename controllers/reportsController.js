@@ -85,6 +85,10 @@ exports.salesReport = (req, res) => {
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= start && e.orderDate <= end); // filter documents within the day
                 
+                
+                console.log("listObjects");
+                console.log(listObjects);
+                
                 for(i = 0; i < listObjects.length; i++){
                     for(j = 0; j < listObjects[i].orders.length; j++){
                         temp.push({
@@ -130,6 +134,7 @@ exports.salesReport = (req, res) => {
                         }
                     }
                 }
+                ordersArray.sort((a,b) => (a.productName > b.productName) ? 1 : ((b.productName > a.productName) ? -1 : 0));
                 console.log("ordersArray");
                 console.log(ordersArray);
                 res(ordersArray);
@@ -147,6 +152,7 @@ exports.salesReport = (req, res) => {
                 var i, j, k;
                 var temp = [], ordersArray = [];
                 var listObjects = orders.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
+                listObjects.sort((a,b) => (a.orders.productName > b.orders.productName) ? 1 : ((b.orders.productName > a.orders.productName) ? -1 : 0));
 
                 for(i = 0; i < listObjects.length; i++){
                     for(j = 0; j < listObjects[i].orders.length; j++){
@@ -190,6 +196,7 @@ exports.salesReport = (req, res) => {
                         }
                     }
                 }
+                ordersArray.sort((a,b) => (a.productName > b.productName) ? 1 : ((b.productName > a.productName) ? -1 : 0));
                 console.log("ordersArray");
                 console.log(ordersArray);
                 res(ordersArray);
@@ -268,6 +275,8 @@ exports.inventoryReport = function(req, res){
             console.log("ingredients");
             console.log(ingredients);
             var ordersObjects = ingredients.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
+            ordersObjects.sort((a,b) => (a.ingredients.ingredientName > b.ingredients.ingredientName) ? 1 : ((b.ingredients.ingredientName > a.ingredients.ingredientName) ? -1 : 0));
+
             var i, j, temp = [], ingredients = [], inventoryReport = [];
             console.log("ordersObjects");
             console.log(ordersObjects);
@@ -323,6 +332,8 @@ exports.inventoryReport = function(req, res){
 
         orderListModel.getProductIngredientsList(req, (error, ingredients) => {
             var ordersObjects = ingredients.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
+            ordersObjects.sort((a,b) => (a.ingredients.ingredientName > b.ingredients.ingredientName) ? 1 : ((b.ingredients.ingredientName > a.ingredients.ingredientName) ? -1 : 0));
+
             var i, j, temp = [], ingredients = [], inventoryReport = [];
 
             for(i = 0; i < ordersObjects.length; i++){
@@ -377,6 +388,8 @@ exports.inventoryReport = function(req, res){
 
         orderListModel.getProductIngredientsList(req, (error, ingredients) => {
             var ordersObjects = ingredients.filter(e => e.orderDate >= startDate && e.orderDate <= endDate); // filter documents within the day
+            ordersObjects.sort((a,b) => (a.ingredients.ingredientName > b.ingredients.ingredientName) ? 1 : ((b.ingredients.ingredientName > a.ingredients.ingredientName) ? -1 : 0));
+
             var i, j, temp = [], ingredients = [], inventoryReport = [];
 
             for(i = 0; i < ordersObjects.length; i++){
@@ -530,7 +543,6 @@ exports.purchaseReport = (req, res) => {
 
                 for(i = 0; i < temp.length; i++){
                     if(i == 0){
-                        console.log('1');
                         purchaseArray.push({
                             supplyID: temp[i].supplyID,
                             supplyName: temp[i].supplyName,
@@ -542,13 +554,11 @@ exports.purchaseReport = (req, res) => {
                     else {
                         for(j = 0; j < purchaseArray.length; j++){
                             if(temp[i].supplyName == purchaseArray[j].supplyName){
-                                console.log('2');
                                 purchaseArray[j].quantity += temp[i].quantity;
                                 purchaseArray[j].subTotal += temp[i].subTotal;
                                 break;
                             }
                             if(j == purchaseArray.length-1){
-                                console.log('3');
                                 purchaseArray.push({
                                     supplyID: temp[i].supplyID,
                                     supplyName: temp[i].supplyName,
