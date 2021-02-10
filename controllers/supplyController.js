@@ -6,6 +6,8 @@ exports.getAllSupplies = (param, callback) => {
   supplyModel.getAll(param, (err, supplies) => {
     if (err) throw err;
       
+    supplies.sort((a,b) => (a.brandName > b.brandName) ? 1 : ((b.brandName > a.brandName) ? -1 : 0));
+
     const suppliessObjects = [];
       
     supplies.forEach(function(doc) {

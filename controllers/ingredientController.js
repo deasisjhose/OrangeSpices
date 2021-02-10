@@ -6,7 +6,9 @@ const { validationResult } = require('express-validator');
 exports.getAllIngredients = (param, callback) =>{
   ingredientModel.getAll(param, (err, ingredients) => {
     if (err) throw err;
-      
+
+    ingredients.sort((a,b) => (a.ingredientName > b.ingredientName) ? 1 : ((b.ingredientName > a.ingredientName) ? -1 : 0));
+
     var ingredientsObjects = [];
       
     ingredients.forEach(function(doc) {

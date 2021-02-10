@@ -8,6 +8,8 @@ const { validationResult } = require('express-validator');
 exports.getAllProducts = (param, callback) =>{
     productModel.getAll(param, (err, products) => {
     if (err) throw err;
+
+    products.sort((a,b) => (a.prodName > b.prodName) ? 1 : ((b.prodName > a.prodName) ? -1 : 0));
       
     const productsObjects = [];
       

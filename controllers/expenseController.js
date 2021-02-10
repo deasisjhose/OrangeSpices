@@ -9,6 +9,10 @@ exports.getAllExpense = (req, res) => {
       console.log(err);
     } else {
       var i, j, temp = [], tempMonth = [], expenseArray = [];
+
+      expense.sort((a,b) => (a._id.month > b._id.month) ? -1 : ((b._id.month > a._id.month) ? 1 : 0));
+      expense.sort((a,b) => (a._id.year > b._id.year) ? -1 : ((b._id.year > a._id.year) ? 1 : 0));
+
       console.log("EXPENSE");
       console.log(expense);
       for(i = 0; i < expense.length; i++){
