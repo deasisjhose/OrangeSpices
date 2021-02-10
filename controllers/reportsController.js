@@ -506,6 +506,7 @@ exports.purchaseReport = (req, res) => {
                         }
                     }
                 }
+                purchaseArray.sort((a,b) => (a.supplyName > b.supplyName) ? 1 : ((b.supplyName > a.supplyName) ? -1 : 0));
                 console.log("purchaseArray");
                 console.log(purchaseArray);
                 res(purchaseArray);
@@ -571,6 +572,7 @@ exports.purchaseReport = (req, res) => {
                         }
                     }
                 }
+                purchaseArray.sort((a,b) => (a.supplyName > b.supplyName) ? 1 : ((b.supplyName > a.supplyName) ? -1 : 0));
                 console.log("purchaseArray");
                 console.log(purchaseArray);
                 res(purchaseArray);
