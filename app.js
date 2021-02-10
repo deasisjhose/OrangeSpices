@@ -62,6 +62,13 @@ app.engine('hbs', exphbs.create({
       var formattedString= value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
       return formattedString;
+    },
+    addCommas: function(num){
+      // Convert input string to a number and store as a variable.
+      var value = parseFloat(num);      
+      var formattedString= value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+      return formattedString;
     }
   },
   defaultLayout: 'main',

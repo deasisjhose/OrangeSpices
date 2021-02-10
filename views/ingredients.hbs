@@ -60,15 +60,15 @@
                             <input class="minStock" type="hidden" value="{{minStock}}">
                                 <tr class="highlighttt" style="font-size: 13px;">
                                     <td class="text-left">{{ingredientName}}</td>
-                                    <td class="text-right" value="{{totalQuantity}}">{{totalQuantity}}</td>
+                                    <td class="text-right" value="{{totalQuantity}}">{{addCommas totalQuantity}}</td>
                                     <td class="text-left" style="padding-left: 35px;">{{unitID.unitName}}</td>
-                                    <td class="text-right" value="{{minStock}}">{{minStock}}</td>
-                                    <td style="width: 70px !important;">
+                                    <td class="text-right" value="{{minStock}}">{{addCommas minStock}}</td>
+                                    <td style="width: 70px !important; padding-right:0px">
                                         <form action="/ingredient/update" method="POST">
                                         <input name="id" type="hidden" value="{{this._id}}">
                                         <input class="compare-inv" placeholder="Enter physical stock" type="number" name="physicalCount" min="0">
                                     </td>
-                                    <td style="width: 60px !important;"><button type="submit" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Update</button></td>
+                                    <td style="width: 60px !important; padding-left: 0px; padding-right:10px"><button type="submit" class="btn btn-sm btn-primary" style="height: 28px !important; font-size: 10px;">Update</button></td>
                                     </form>
                                 </tr>
                             {{/each}}
