@@ -90,6 +90,10 @@
     .min {
         width: 12, 5% !important;
     }
+
+    .lowIto{
+        color:#c64327;
+    }
 </style>
 <script>
     window.onload = function() { 
@@ -106,11 +110,10 @@
             console.log("curstock " + currentVal[i].value);  
             console.log(parseInt(stockVal[i].value) + " > " + parseInt(currentVal[i].value));          
             if(parseInt(stockVal[i].value) > parseInt(currentVal[i].value)){
-                curRow[i].classList.add("bg-danger", "text-white");
+                curRow[i].classList.add("lowIto", "font-weight-bold");
                 
                 console.log("replacing...");
             }
         }
     }
 </script>
-{{!-- <script src="/public/js/ingredient.js"></script> --}}
