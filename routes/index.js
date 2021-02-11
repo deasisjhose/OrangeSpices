@@ -412,6 +412,14 @@ router.get('/order_history/filter', loggedIn, (req, res) => {
     userController.getID(req.session.user, user => {
       var startDate = req.query.ordfromDate;
       var endDate = req.query.ordToDate;
+      var moreThanOneDay;
+
+      if(startDate != endDate){
+        moreThanOneDay = true;
+      } else {
+        moreThanOneDay = false;
+      }
+
       if(req.session.username == "admin"){
         res.render('orderHistory', { 
           isAdmin: true,
@@ -419,7 +427,8 @@ router.get('/order_history/filter', loggedIn, (req, res) => {
           filterDate: true,
           startDate: startDate,
           endDate: endDate,
-          timestamp: new Date()
+          timestamp: new Date(),
+          moreThanOneDay: moreThanOneDay
         })
       }
       else {

@@ -199,6 +199,8 @@ exports.getAlaCarte = (req, res) => {
   if (errors.isEmpty())
   {
     productModel.getAC({prodName: true}, (err, products) => {
+      products.sort((a,b) => (a.prodName > b.prodName) ? 1 : ((b.prodName > a.prodName) ? -1 : 0));
+
       const productsObjects = [];
 
       products.forEach(function(doc) {
@@ -220,6 +222,8 @@ exports.getBeefRiceMeal = (req, res) => {
   if (errors.isEmpty())
   {
     productModel.getBRM({prodName: true}, (err, products) => {
+      products.sort((a,b) => (a.prodName > b.prodName) ? 1 : ((b.prodName > a.prodName) ? -1 : 0));
+
       const productsObjects = [];
 
       products.forEach(function(doc) {
@@ -241,6 +245,8 @@ exports.getPorkRiceMeal = (req, res) => {
   if (errors.isEmpty())
   {
     productModel.getPRM({prodName: true}, (err, products) => {
+      products.sort((a,b) => (a.prodName > b.prodName) ? 1 : ((b.prodName > a.prodName) ? -1 : 0));
+      
       const productsObjects = [];
 
       products.forEach(function(doc) {
@@ -262,6 +268,8 @@ exports.getChickenRiceMeal = (req, res) => {
   if (errors.isEmpty())
   {
     productModel.getCRM({prodName: true}, (err, products) => {
+      products.sort((a,b) => (a.prodName > b.prodName) ? 1 : ((b.prodName > a.prodName) ? -1 : 0));
+
       const productsObjects = [];
 
       products.forEach(function(doc) {
@@ -283,6 +291,8 @@ exports.getAllDayBreakfast = (req, res) => {
   if (errors.isEmpty())
   {
     productModel.getADB({prodName: true}, (err, products) => {
+      products.sort((a,b) => (a.prodName > b.prodName) ? 1 : ((b.prodName > a.prodName) ? -1 : 0));
+      
       const productsObjects = [];
 
       products.forEach(function(doc) {
@@ -304,6 +314,8 @@ exports.getBakedSpaghetti = (req, res) => {
   if (errors.isEmpty())
   {
     productModel.getBSPAG({prodName: true}, (err, products) => {
+      products.sort((a,b) => (a.prodName > b.prodName) ? 1 : ((b.prodName > a.prodName) ? -1 : 0));
+      
       const productsObjects = [];
 
       products.forEach(function(doc) {
@@ -325,6 +337,8 @@ exports.getBakedSushi = (req, res) => {
   if (errors.isEmpty())
   {
     productModel.getBSUSH({prodName: true}, (err, products) => {
+      products.sort((a,b) => (a.prodName > b.prodName) ? 1 : ((b.prodName > a.prodName) ? -1 : 0));
+      
       const productsObjects = [];
 
       products.forEach(function(doc) {
